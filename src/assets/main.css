@@ -6,6 +6,9 @@
   padding: 2rem;
 
   font-weight: normal;
+
+  position: absolute;
+  top: 20px;
 }
 
 a,
