@@ -24,15 +24,23 @@ export default {
 }
 </script>
 <template>
-  <div :class="divClass">
-    <a href="#/login">登录</a> | <a href="#/non-existent-path">Broken Link</a>
+  <div :class="divClass" class="divClass">
+    <a class="loginA" href="#/login">登录</a> | <a class="notfoundA" href="#/non-existent-path">Broken Link</a>
   </div>
   <br>
   <component :is="currentView" />
 </template>
-
 <style>
-.navigation {
-
+.divClass{
+  height: 50px;
 }
+.loginA{
+  color: black;
+  font-size: 20px;
+}
+.notfoundA{
+  color: black;
+  font-size: 20px;
+}
+
 </style>
