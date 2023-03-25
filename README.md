@@ -1,7 +1,7 @@
-<<<<<<< HEAD
+
 # Internship-Management-System-VUE
 研究生实习管理系统前端
-=======
+
 # InternshipManagementSystem
 
 This template should help get you started developing with Vue 3 in Vite.
@@ -48,4 +48,4 @@ npm run build
 ```sh
 npm run lint
 ```
->>>>>>> 45904ee (完成登录界面，封装axios)
+
