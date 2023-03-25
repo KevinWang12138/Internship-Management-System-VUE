@@ -19,6 +19,15 @@
             autocomplete="off"
         />
       </el-form-item>
+      <el-form-item label="用户类型" prop="role">
+        <el-select
+            v-model="ruleForm.role"
+            placeholder="请选择您的角色"
+        >
+          <el-option label="学生" value=1 />
+          <el-option label="教师" value=2 />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" class="loginButton" @click="submitForm(ruleFormRef)"
         >登录</el-button
@@ -30,8 +39,11 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, toRefs} from "vue";
+import {defineComponent, reactive, toRefs, ref} from "vue";
 import {LoginData} from "@/type/login";
+import type { FormInstance, FormRules } from 'element-plus'
+import {login} from "@/request/api";
+import {useRouter} from "vue-router"
 
 export default defineComponent({
   setup(){
@@ -44,8 +56,39 @@ export default defineComponent({
       password: [
         { required: true, message: '请输入密码', trigger: 'blur' },
       ],
+      role :[
+        { required: true }
+      ]
     }
-    return {...toRefs(data),rules};
+    //登录
+    const router = useRouter()
+    const ruleFormRef = ref<FormInstance>()
+    const submitForm = (formEl: FormInstance | undefined) => {
+      if (!formEl) return
+      //对表单的内容进行验证
+      formEl.validate((valid) => {
+        if (valid) {
+          login(data.ruleForm).then(res=>{
+            console.log(res)
+            //记录token
+
+            //跳转页面 首页 todo
+
+          })
+          console.log('submit!')
+        } else {
+          console.log('error submit!')
+          return false
+        }
+      })
+
+    }
+    //重置
+    const resetForm = () => {
+      data.ruleForm.phone=""
+      data.ruleForm.password=""
+    }
+    return {...toRefs(data),rules,ruleFormRef,submitForm,resetForm};
   }
 })
 </script>
