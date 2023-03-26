@@ -69,11 +69,11 @@ export default defineComponent({
       formEl.validate((valid) => {
         if (valid) {
           login(data.ruleForm).then(res=>{
-            console.log(res)
+            console.log(res.status)
             //记录token
-
+            localStorage.setItem("token",res.data)
             //跳转页面 首页 todo
-
+            router.push("/")
           })
           console.log('submit!')
         } else {
