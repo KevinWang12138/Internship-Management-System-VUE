@@ -13,14 +13,17 @@
           <el-menu
               default-active="2"
               class="el-menu-vertical-demo"
+              router
           >
-            <el-menu-item index="2">
+            <el-menu-item :index="item.path" v-for="item in list" :key=item.path>
               <el-icon><icon-menu /></el-icon>
-              <span>实习日历</span>
+              <span>{{ item.meta.title }}</span>
             </el-menu-item>
           </el-menu>
         </el-aside>
-        <el-main>Main</el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -28,9 +31,15 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
+import {useRouter} from "vue-router";
 
 export default defineComponent({
   name:"HomeView",
+  setup(){
+    const router = useRouter()
+    const list = router.getRoutes().filter(v=>v.meta.isShow)
+    return {list}
+  },
   components:{
 
   },

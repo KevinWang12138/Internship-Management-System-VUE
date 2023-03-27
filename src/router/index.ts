@@ -8,7 +8,18 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-        component: HomeView
+      component: HomeView,
+      children: [
+        {
+          path: "calendar",
+          name: "calendar",
+          meta:{
+            isShow: true,
+            title: "实习日历"
+          },
+          component: () => import('../views/CalendarView.vue'),
+        }
+      ]
     },
     {
       path: '/login',
