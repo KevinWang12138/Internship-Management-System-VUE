@@ -10,3 +10,14 @@ export function login(data:loginData){
         data
     })
 }
+
+interface getBasicCalendarInfoData{
+    phone:string
+}
+export function getBasicCalendarInfo(data:getBasicCalendarInfoData){
+    return service({
+        url:"/basic_info/get",
+        method:"get",
+        data
+    })
+}
