@@ -12,12 +12,12 @@ export function login(data:loginData){
 }
 
 interface getBasicCalendarInfoData{
-    phone:string
+    student_id:string
 }
 export function getBasicCalendarInfo(data:getBasicCalendarInfoData){
     return service({
         url:"/basic_info/get",
-        method:"get",
+        method:"post",
         data
     })
 }
