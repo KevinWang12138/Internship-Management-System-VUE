@@ -20,7 +20,7 @@ import {defineComponent, reactive} from "vue";
 import {getBasicCalendarInfo} from "@/request/api";
 
 export default defineComponent({
-  name:"GoodsView",
+  name:"CalendarView",
   setup(){
     const resDate = reactive([
       {date: '', content: ''},

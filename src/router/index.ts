@@ -18,6 +18,15 @@ const router = createRouter({
             title: "实习日历"
           },
           component: () => import('../views/CalendarView.vue'),
+        },
+        {
+          path: "createIntern",
+          name: "createIntern",
+          meta:{
+            isShow: true,
+            title: "新建实习"
+          },
+          component: () => import('../views/CreateInternView.vue'),
         }
       ]
     },
