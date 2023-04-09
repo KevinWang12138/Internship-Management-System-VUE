@@ -12,7 +12,7 @@ export function login(data:loginData){
 }
 
 interface getBasicCalendarInfoData{
-    student_id:string
+    student_id:string|undefined
 }
 export function getBasicCalendarInfo(data:getBasicCalendarInfoData){
     return service({

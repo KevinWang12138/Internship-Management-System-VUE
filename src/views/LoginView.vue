@@ -69,10 +69,10 @@ export default defineComponent({
       formEl.validate((valid) => {
         if (valid) {
           login(data.ruleForm).then(res=>{
-            console.log(res.status)
             //记录token
             localStorage.setItem("token",res.data)
-            //跳转页面 首页 todo
+            localStorage.setItem("phone",data.ruleForm.phone)
+            //跳转页面 首页
             router.push("/")
           })
           console.log('submit!')

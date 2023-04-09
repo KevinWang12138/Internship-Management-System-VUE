@@ -26,11 +26,10 @@ export default defineComponent({
       {date: '', content: ''},
     ]);
     //访问后端得到日历信息
-    //todo 修改手机号为获取数据，而不是写死
     //从后端获得日历信息，key是date，content由两部分组成，实习单位：工作日
     //todo 补充休息日
     //todo 额外获取额外信息，补充请假等信息
-    getBasicCalendarInfo({student_id:'18302429555'}).then(res=>{
+    getBasicCalendarInfo({student_id:localStorage.getItem("phone")?.toString()}).then(res=>{
       //res返回
       console.log(res)
       const companyNames=res.data.company_names
