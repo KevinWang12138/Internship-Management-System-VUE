@@ -21,3 +21,10 @@ export function getBasicCalendarInfo(data:getBasicCalendarInfoData){
         data
     })
 }
+
+export function getCompanyList(){
+    return service({
+        url:"/company/list",
+        method:"get"
+    })
+}

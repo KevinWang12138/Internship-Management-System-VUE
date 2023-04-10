@@ -3,8 +3,8 @@
     <el-form-item label="实习公司">
       <el-col :span="5">
         <el-select v-model="form.region" placeholder="点击选择实习公司">
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
+          <el-option v-for="(value, index) in companyInfo" :key="index" :label="value.name" :value="value.name">
+          </el-option>
         </el-select>
       </el-col>
       <el-col :span="5" class="text-center">
@@ -69,6 +69,7 @@
 
 <script lang="ts">
   import {defineComponent, reactive} from "vue";
+  import {getCompanyList} from "@/request/api";
   const form = reactive({
     name: '',
     region: '',
@@ -88,8 +89,19 @@
   export default defineComponent({
     name:"CreateInternView",
     setup(){
-
-      return {form, onSubmit}
+      const companyInfo = reactive([
+        {id: '', name: ''},
+      ]);
+      getCompanyList().then(res=>{
+        console.log(res)
+        companyInfo.pop()
+        for(let index=0;index<res.data.length;index++){
+          companyInfo.push({id:res.data[index].id,name:res.data[index].name})
+        }
+        companyInfo.push({id:res.data.length,name:"其他"})
+      })
+      console.log(companyInfo)
+      return {form, onSubmit,companyInfo}
     },
     components:{
 
