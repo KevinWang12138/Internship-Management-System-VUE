@@ -2,7 +2,7 @@
   <el-form :model="form" label-width="120px">
     <el-form-item label="实习公司">
       <el-col :span="5">
-        <el-select v-model="form.region" placeholder="点击选择实习公司">
+        <el-select v-model="form.region" placeholder="点击选择实习公司" @change="getOptionValue($event)">
           <el-option v-for="(value, index) in companyInfo" :key="index" :label="value.name" :value="value.name">
           </el-option>
         </el-select>
@@ -83,8 +83,14 @@
     desc: '',
   })
 
+  let companyName = ""
   const onSubmit = () => {
     console.log('submit!')
+  }
+
+  const getOptionValue = (val: any) => {
+    companyName = val
+    console.log(companyName)
   }
   export default defineComponent({
     name:"CreateInternView",
@@ -101,7 +107,7 @@
         companyInfo.push({id:res.data.length,name:"其他"})
       })
       console.log(companyInfo)
-      return {form, onSubmit,companyInfo}
+      return {form, onSubmit,companyInfo, getOptionValue}
     },
     components:{
 
