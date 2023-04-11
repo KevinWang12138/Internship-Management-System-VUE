@@ -41,6 +41,7 @@
             v-model="form.time1"
             placeholder="请选择上班时间"
             style="width: 100%"
+            @change="getTimeA($event)"
         />
       </el-col>
       <el-col :span="2" class="text-center">
@@ -51,6 +52,7 @@
             v-model="form.time2"
             placeholder="请选择下班时间"
             style="width: 100%"
+            @change="getTimeB($event)"
         />
       </el-col>
     </el-form-item>
@@ -83,14 +85,24 @@
     desc: '',
   })
 
-  let companyName = ""
   const onSubmit = () => {
     console.log('submit!')
   }
 
+  //以下是选中的项目的值
+  let companyName = ""//选中的公司名
+  let timeA=""//上班时间
+  let timeB=""//下班时间
   const getOptionValue = (val: any) => {
     companyName = val
-    console.log(companyName)
+  }
+
+  const getTimeA = (val: Date) => {
+    timeA = val.getHours().toString()+":"+val.getMinutes().toString()+":"+val.getSeconds().toString()
+  }
+
+  const getTimeB = (val: Date) => {
+    timeB = val.getHours().toString()+":"+val.getMinutes().toString()+":"+val.getSeconds().toString()
   }
   export default defineComponent({
     name:"CreateInternView",
@@ -107,7 +119,7 @@
         companyInfo.push({id:res.data.length,name:"其他"})
       })
       console.log(companyInfo)
-      return {form, onSubmit,companyInfo, getOptionValue}
+      return {form, onSubmit,companyInfo, getOptionValue, getTimeA, getTimeB}
     },
     components:{
 
