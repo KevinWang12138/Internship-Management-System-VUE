@@ -153,7 +153,7 @@
         for(let index=0;index<res.data.length;index++){
           companyInfo.push({id:res.data[index].id,name:res.data[index].name})
         }
-        companyInfo.push({id:res.data.length,name:"其他"})
+        companyInfo.push({id:'0',name:"其他"})
       })
       console.log(companyInfo)
       return {form, onSubmit,companyInfo, getOptionValue, getTimeA, getTimeB,getDateA ,getDateB,getType}
