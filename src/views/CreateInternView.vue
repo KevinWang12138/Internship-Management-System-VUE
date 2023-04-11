@@ -59,7 +59,7 @@
       </el-col>
     </el-form-item>
     <el-form-item label="是否全日制">
-      <el-switch v-model="form.delivery" />
+      <el-switch v-model="form.delivery"  @change="getType($event)"/>
     </el-form-item>
     <el-form-item label="补充信息说明">
       <el-input v-model="form.desc" type="textarea" />
@@ -97,16 +97,15 @@
   let dateB=""//结束实习日期
   let timeA=""//上班时间
   let timeB=""//下班时间
+  let type = 0//工作类型
   const getOptionValue = (val: any) => {
     companyName = val
   }
   const  getDateA = (val:Date) =>{
     dateA=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+val.getDate()
-    console.log(dateA)
   }
   const  getDateB = (val:Date) =>{
     dateB=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+val.getDate()
-    console.log(dateB)
   }
   const getTimeA = (val: Date) => {
     timeA = val.getHours().toString()+":"+val.getMinutes().toString()+":"+val.getSeconds().toString()
@@ -114,6 +113,14 @@
 
   const getTimeB = (val: Date) => {
     timeB = val.getHours().toString()+":"+val.getMinutes().toString()+":"+val.getSeconds().toString()
+  }
+
+  const getType = (val: boolean)=>{
+    if(val){
+      type=1//全日制工作
+    }else{
+      type=2//非全日制工作
+    }
   }
   export default defineComponent({
     name:"CreateInternView",
@@ -130,7 +137,7 @@
         companyInfo.push({id:res.data.length,name:"其他"})
       })
       console.log(companyInfo)
-      return {form, onSubmit,companyInfo, getOptionValue, getTimeA, getTimeB,getDateA ,getDateB}
+      return {form, onSubmit,companyInfo, getOptionValue, getTimeA, getTimeB,getDateA ,getDateB,getType}
     },
     components:{
 
