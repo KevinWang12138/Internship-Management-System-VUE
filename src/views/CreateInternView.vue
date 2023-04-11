@@ -21,6 +21,7 @@
             type="date"
             placeholder="请选择开始日期"
             style="width: 100%"
+            @change="getDateA($event)"
         />
       </el-col>
       <el-col :span="2" class="text-center">
@@ -32,6 +33,7 @@
             type="date"
             placeholder="请选择结束日期"
             style="width: 100%"
+            @change="getDateB($event)"
         />
       </el-col>
     </el-form-item>
@@ -91,12 +93,21 @@
 
   //以下是选中的项目的值
   let companyName = ""//选中的公司名
+  let dateA=""//开始实习日期
+  let dateB=""//结束实习日期
   let timeA=""//上班时间
   let timeB=""//下班时间
   const getOptionValue = (val: any) => {
     companyName = val
   }
-
+  const  getDateA = (val:Date) =>{
+    dateA=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+val.getDate()
+    console.log(dateA)
+  }
+  const  getDateB = (val:Date) =>{
+    dateB=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+val.getDate()
+    console.log(dateB)
+  }
   const getTimeA = (val: Date) => {
     timeA = val.getHours().toString()+":"+val.getMinutes().toString()+":"+val.getSeconds().toString()
   }
@@ -119,7 +130,7 @@
         companyInfo.push({id:res.data.length,name:"其他"})
       })
       console.log(companyInfo)
-      return {form, onSubmit,companyInfo, getOptionValue, getTimeA, getTimeB}
+      return {form, onSubmit,companyInfo, getOptionValue, getTimeA, getTimeB,getDateA ,getDateB}
     },
     components:{
 
