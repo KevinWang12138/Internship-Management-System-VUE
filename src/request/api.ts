@@ -28,3 +28,20 @@ export function getCompanyList(){
         method:"get"
     })
 }
+
+interface setBasicCalendarInfoData{
+    company_id:string|undefined,
+    company_name:string,
+    start_date:string,
+    end_date:string,
+    start_work_time:string,
+    end_work_time:string,
+    type:number,
+}
+export function setBasicCalendarInfo(data:setBasicCalendarInfoData){
+    return service({
+        url:"/basic_info/set",
+        method:"post",
+        data
+    })
+}

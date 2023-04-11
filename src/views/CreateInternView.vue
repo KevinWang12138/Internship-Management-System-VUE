@@ -3,7 +3,7 @@
     <el-form-item label="实习公司">
       <el-col :span="5">
         <el-select v-model="form.region" placeholder="点击选择实习公司" @change="getOptionValue($event)">
-          <el-option v-for="(value, index) in companyInfo" :key="index" :label="value.name" :value="value.name">
+          <el-option v-for="(value, index) in companyInfo" :key="index" :label="value.name" :value="value.id">
           </el-option>
         </el-select>
       </el-col>
@@ -73,7 +73,7 @@
 
 <script lang="ts">
   import {defineComponent, reactive} from "vue";
-  import {getCompanyList} from "@/request/api";
+  import {getCompanyList, setBasicCalendarInfo} from "@/request/api";
   const form = reactive({
     name: '',
     region: '',
@@ -89,23 +89,42 @@
 
   const onSubmit = () => {
     console.log('submit!')
+    //提交实习信息给后端
+    setBasicCalendarInfo({
+      company_id:companyId,
+      company_name:newCompanyName,
+      start_date:dateA,
+      end_date:dateB,
+      start_work_time:timeA,
+      end_work_time:timeB,
+      type:type,
+    })
   }
 
   //以下是选中的项目的值
-  let companyName = ""//选中的公司名
+  let companyId = ""//选中的公司id
+  let newCompanyName = ""//选中的公司名
   let dateA=""//开始实习日期
   let dateB=""//结束实习日期
   let timeA=""//上班时间
   let timeB=""//下班时间
   let type = 0//工作类型
   const getOptionValue = (val: any) => {
-    companyName = val
+    companyId = val
   }
   const  getDateA = (val:Date) =>{
-    dateA=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+val.getDate()
+    if(val.getMonth()+1>=10){
+      dateA=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+val.getDate()
+    }else{
+      dateA=val.getFullYear()+"-"+0+(val.getMonth()+1)+"-"+val.getDate()
+    }
   }
   const  getDateB = (val:Date) =>{
-    dateB=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+val.getDate()
+    if(val.getMonth()+1>=10){
+      dateB=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+val.getDate()
+    }else{
+      dateB=val.getFullYear()+"-"+0+(val.getMonth()+1)+"-"+val.getDate()
+    }
   }
   const getTimeA = (val: Date) => {
     timeA = val.getHours().toString()+":"+val.getMinutes().toString()+":"+val.getSeconds().toString()
