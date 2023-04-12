@@ -2,7 +2,7 @@ import axios from 'axios'
 //创建axios实例
 const service = axios.create({
     baseURL:"http://localhost:8080",//todo 后续改成服务器ip/nginx反向代理
-    timeout:5000,
+    timeout:10000,
     headers:{
         "Content-Type":"application/json;charset=utf-8"
     }
