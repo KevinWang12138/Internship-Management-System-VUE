@@ -66,15 +66,17 @@
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">提交</el-button>
-      <el-button>清空</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts">
-  import {defineComponent, reactive} from "vue";
+  import {defineComponent, reactive, ref} from "vue";
   import {getCompanyList, setBasicCalendarInfo} from "@/request/api";
-  const form = reactive({
+  import { ElMessage, ElMessageBox, type FormInstance } from 'element-plus'
+  import router from "@/router";
+
+  let form = reactive({
     name: '',
     region: '',
     date1: '',
@@ -86,9 +88,7 @@
     resource: '',
     desc: '',
   })
-
   const onSubmit = () => {
-    console.log('submit!')
     //提交实习信息给后端
     setBasicCalendarInfo({
       company_id:companyId,
@@ -99,6 +99,13 @@
       end_work_time:timeB,
       type:type,
       more_info:form.desc
+    }).then(res=>{
+      console.log(res.errNo)
+      if(res.errNo==0){
+        ElMessage("提交成功")
+      }else{
+        ElMessage(res.errMsg)
+      }
     })
   }
 
@@ -150,6 +157,7 @@
       type=2//非全日制工作
     }
   }
+
   export default defineComponent({
     name:"CreateInternView",
     setup(){
@@ -157,14 +165,12 @@
         {id: '', name: ''},
       ]);
       getCompanyList().then(res=>{
-        console.log(res)
         companyInfo.pop()
         for(let index=0;index<res.data.length;index++){
           companyInfo.push({id:res.data[index].id,name:res.data[index].name})
         }
         companyInfo.push({id:'0',name:"其他"})
       })
-      console.log(companyInfo)
       return {form, onSubmit,companyInfo, getOptionValue, getTimeA, getTimeB,getDateA ,getDateB,getType}
     },
     components:{
