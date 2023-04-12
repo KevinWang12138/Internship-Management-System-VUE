@@ -98,6 +98,7 @@
       start_work_time:timeA,
       end_work_time:timeB,
       type:type,
+      more_info:form.desc
     })
   }
 

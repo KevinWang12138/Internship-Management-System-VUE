@@ -37,6 +37,7 @@ interface setBasicCalendarInfoData{
     start_work_time:string,
     end_work_time:string,
     type:number,
+    more_info:string
 }
 export function setBasicCalendarInfo(data:setBasicCalendarInfoData){
     return service({
