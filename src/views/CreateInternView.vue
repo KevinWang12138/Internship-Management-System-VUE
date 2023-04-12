@@ -114,17 +114,25 @@
     companyId = val
   }
   const  getDateA = (val:Date) =>{
+    let day = val.getDate().toString()
+    if(day.length==1){
+      day = "0" + day
+    }
     if(val.getMonth()+1>=10){
-      dateA=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+val.getDate()
+      dateA=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+day
     }else{
-      dateA=val.getFullYear()+"-"+0+(val.getMonth()+1)+"-"+val.getDate()
+      dateA=val.getFullYear()+"-"+0+(val.getMonth()+1)+"-"+day
     }
   }
   const  getDateB = (val:Date) =>{
+    let day = val.getDate().toString()
+    if(day.length==1){
+      day = "0" + day
+    }
     if(val.getMonth()+1>=10){
-      dateB=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+val.getDate()
+      dateB=val.getFullYear()+"-"+(val.getMonth()+1)+"-"+day
     }else{
-      dateB=val.getFullYear()+"-"+0+(val.getMonth()+1)+"-"+val.getDate()
+      dateB=val.getFullYear()+"-"+0+(val.getMonth()+1)+"-"+day
     }
   }
   const getTimeA = (val: Date) => {
