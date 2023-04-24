@@ -63,7 +63,6 @@ export default defineComponent({
             d+=myDate.getDate()
           }
           resDate.push({date: d,content: info})
-          console.log(d)
           myDate.setDate(myDate.getDate()+1)
         }
       }

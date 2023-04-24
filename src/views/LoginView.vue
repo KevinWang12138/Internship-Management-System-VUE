@@ -75,7 +75,6 @@ export default defineComponent({
             //跳转页面 首页
             router.push("/")
           })
-          console.log('submit!')
         } else {
           console.log('error submit!')
           return false
