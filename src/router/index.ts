@@ -16,6 +16,7 @@ const router = createRouter({
           name: "calendar",
           meta:{
             isShow: true,
+            father: 'home',
             title: "实习日历"
           },
           component: () => import('../views/CalendarView.vue'),
@@ -25,6 +26,7 @@ const router = createRouter({
           name: "createIntern",
           meta:{
             isShow: true,
+            father: 'home',
             title: "新建实习"
           },
           component: () => import('../views/CreateInternView.vue'),
@@ -44,15 +46,6 @@ const router = createRouter({
       name: 'teacher',
       component: TeacherView,
       children: [
-        {
-          path: "calendar",
-          name: "calendar",
-          meta:{
-            isShow: true,
-            title: "实习日历"
-          },
-          component: () => import('../views/CalendarView.vue'),
-        }
       ]
     }
   ]

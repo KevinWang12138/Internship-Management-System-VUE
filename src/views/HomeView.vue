@@ -37,7 +37,7 @@ export default defineComponent({
   name:"HomeView",
   setup(){
     const router = useRouter()
-    const list = router.getRoutes().filter(v=>v.meta.isShow)
+    const list = router.getRoutes().filter(v=>v.meta.father=='home').filter(v=>v.meta.isShow)
     return {list}
   },
   components:{
