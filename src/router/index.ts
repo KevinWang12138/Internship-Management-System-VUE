@@ -55,6 +55,16 @@ const router = createRouter({
             title: "审批申请"
           },
           component: () => import('../views/CheckApplication.vue'),
+        },
+        {
+          path: "checkCalendar",
+          name: "checkCalendar",
+          meta:{
+            isShow: true,
+            father: 'teacher',
+            title: "查看学生日历"
+          },
+          component: () => import('../views/CheckCalendarView.vue'),
         }
       ]
     }
