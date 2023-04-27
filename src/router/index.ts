@@ -46,6 +46,16 @@ const router = createRouter({
       name: 'teacher',
       component: TeacherView,
       children: [
+        {
+          path: "checkApplication",
+          name: "checkApplication",
+          meta:{
+            isShow: true,
+            father: 'teacher',
+            title: "审批申请"
+          },
+          component: () => import('../views/CheckApplication.vue'),
+        }
       ]
     }
   ]
