@@ -12,13 +12,30 @@ export function login(data:loginData){
 }
 
 interface getBasicCalendarInfoData{
-    student_id:string|undefined
+    student_id:string
 }
 export function getBasicCalendarInfo(data:getBasicCalendarInfoData){
     return service({
         url:"/basic_info/get",
         method:"post",
         data
+    })
+}
+
+export function getBasicCalendarInfoById(data:getBasicCalendarInfoData){
+    return service({
+        url:"/teacher/basic_info/get",
+        method:"get",
+        params: {
+            student_id: data
+        }
+    })
+}
+
+export function getChildrenList(){
+    return service({
+        url:"/teacher/student_list",
+        method:"get"
     })
 }
 

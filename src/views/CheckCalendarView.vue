@@ -1,11 +1,7 @@
 <template>
-  <el-select v-model="value" class="m-2" placeholder="选择学生" size="large">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
+  <el-select @change="getStudentCalenderInfo('1')" v-model="value" class="m-2" placeholder="选择学生" size="large">
+    <el-option v-for="(value, index) in students" :key="index" :label="value.name" :value="value.id">
+    </el-option>
   </el-select>
   <el-calendar>
     <template #dateCell="{data}">
@@ -25,68 +21,43 @@
 
 <script lang="ts">
 import {defineComponent, reactive, ref} from "vue";
-import {getBasicCalendarInfo} from "@/request/api";
+import {getBasicCalendarInfoById, getChildrenList} from "@/request/api";
+
+function getStudentCalenderInfo(studentId: any) {
+  console.log(111)
+  getBasicCalendarInfoById(studentId).then(res=>{
+    console.log(res.data)
+  })
+}
+
+const resDate = reactive([
+  {date: '', content: ''},
+]);
+
+const dealMyDate =reactive( (v: string) => {
+  let res = '';
+  for (let index = 0; index < resDate.length; index++) {
+    if (resDate[index].date == v) {
+      res = resDate[index].content;
+      break;
+    }
+  }
+  return res;
+})
 export default defineComponent({
   name:"CheckApplicationView",
   setup(){
-    const resDate = reactive([
-      {date: '', content: ''},
+    const students = reactive([
+      {id: '', name: ''},
     ]);
-    //访问后端得到日历信息
-    //从后端获得日历信息，key是date，content由两部分组成，实习单位：工作日
-    //todo 补充休息日
-    //todo 额外获取额外信息，补充请假等信息
-    getBasicCalendarInfo({student_id:localStorage.getItem("phone")?.toString()}).then(res=>{
-      //res返回
-      console.log(res)
-      const companyNames=res.data.company_names
-      const endDates=res.data.end_dates
-      const startDates=res.data.start_dates
-      for (let index=0;index<companyNames.length;index++){
-        let startDate=startDates[index]
-        let endDate=endDates[index]
-
-        let info=companyNames[index]+"实习 工作日"
-
-        let myDate=new Date(startDate);
-        let end=new Date(endDate);
-        while(myDate<=end){
-          let d=""
-          d+=myDate.getFullYear()
-          d+="-"
-          let month=myDate.getMonth()+1
-          if(month.toString().length==1){
-            d+="0"
-            d+=month
-          }else{
-            d+=month
-          }
-          d+="-"
-          let day=myDate.getDate()
-          if(day.toString().length==1){
-            d+="0"
-            d+=myDate.getDate()
-          }else {
-            d+=myDate.getDate()
-          }
-          resDate.push({date: d,content: info})
-          myDate.setDate(myDate.getDate()+1)
-        }
+    getChildrenList().then(res=>{
+      students.pop()
+      for(let index=0;index<res.data.length;index++){
+        students.push({id:res.data[index].id,name:res.data[index].name})
       }
     })
 
-
-    const dealMyDate = (v: string) => {
-      let res = '';
-      for (let index = 0; index < resDate.length; index++) {
-        if (resDate[index].date == v) {
-          res = resDate[index].content;
-          break;
-        }
-      }
-      return res;
-    }
-    return {value, options, dealMyDate}
+    return {value, students, dealMyDate, getStudentCalenderInfo}
   },
   components:{
 
@@ -94,29 +65,6 @@ export default defineComponent({
 })
 
 const value = ref('')
-
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
 </script>
 
 <style scoped>
