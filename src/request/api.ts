@@ -12,7 +12,7 @@ export function login(data:loginData){
 }
 
 interface getBasicCalendarInfoData{
-    student_id:string
+    student_id:string|any
 }
 export function getBasicCalendarInfo(data:getBasicCalendarInfoData){
     return service({
@@ -61,5 +61,18 @@ export function setBasicCalendarInfo(data:setBasicCalendarInfoData){
         url:"/basic_info/set",
         method:"post",
         data
+    })
+}
+
+export function getApplication(page: number, pageSize: number){
+    return service({
+        url:"/teacher/application/get",
+        method:"get",
+        params: {
+            student_id: 0,//暂时设置为0，意思是获取全部学生的申请信息
+            page:page,
+            page_size:pageSize,
+            agreed:0//暂时设置为0，意思是获取所有没有被审批的申请信息
+        }
     })
 }
