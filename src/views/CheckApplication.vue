@@ -29,7 +29,9 @@ export default defineComponent({
   setup(){
     //后端获取申请列表
     getApplication(1,10).then(res=>{
-      tableData.pop()
+      while(tableData.length!=0){
+        tableData.pop()
+      }
       for (let index=0;index<res.data.infos.length;index++){
         const info = res.data.infos[index]
         tableData.push({
@@ -57,14 +59,14 @@ const handleClick = () => {
 const totalPages = ref(5000)
 const tableData = reactive([
   {
-    id: '1',
-    startDate: '2016-05-03',
-    endDate: '2016-05-06',
-    name: '小王',
-    company: '滴滴',
-    startTime: '10:00',
-    endTime: '21:00',
-    type: '是',
+    id: '',
+    startDate: '',
+    endDate: '',
+    name: '',
+    company: "",
+    startTime: '',
+    endTime: '',
+    type: '',
   }
 ])
 </script>
