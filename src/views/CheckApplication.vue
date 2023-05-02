@@ -9,11 +9,11 @@
     <el-table-column prop="endTime" label="下班时间" width="120" />
     <el-table-column prop="type" label="是否全日制" width="120" />
     <el-table-column fixed="right" label="Operations" width="120">
-      <template #default>
-        <el-button link type="primary" size="small" @click="handleClick"
+      <template #default="{ row }">
+        <el-button link type="primary" size="small" @click="agree(row.id)"
         >同意</el-button
         >
-        <el-button link type="primary" size="small">拒绝</el-button>
+        <el-button link type="primary" size="small" @click="refuse(row.id)">拒绝</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -23,31 +23,46 @@
 
 <script lang="ts">
 import {defineComponent, reactive, ref} from "vue";
-import {getApplication} from "@/request/api";
+import {agreeApplication, getApplication, refuseApplication} from "@/request/api";
+
+function agree(id:string){
+  agreeApplication(id).then(res=>{
+    getApplicationInfo()//刷新申请列表
+  })
+}
+function refuse(id:string){
+  refuseApplication(id).then(res=>{
+    getApplicationInfo()//刷新申请列表
+  })
+}
+
+function getApplicationInfo(){
+  //后端获取申请列表
+  getApplication(1,10).then(res=>{
+    while(tableData.length!=0){
+      tableData.pop()
+    }
+    for (let index=0;index<res.data.infos.length;index++){
+      const info = res.data.infos[index]
+      tableData.push({
+        id: info.id,
+        startDate: info.startDate,
+        endDate: info.endDate,
+        name: info.name,
+        company: info.company,
+        startTime: info.startTime,
+        endTime: info.endTime,
+        type: info.type,
+      })
+    }
+    totalPages.value= res.data.totalPages * 10
+  })
+}
 export default defineComponent({
   name:"CheckApplicationView",
   setup(){
-    //后端获取申请列表
-    getApplication(1,10).then(res=>{
-      while(tableData.length!=0){
-        tableData.pop()
-      }
-      for (let index=0;index<res.data.infos.length;index++){
-        const info = res.data.infos[index]
-        tableData.push({
-          id: info.id,
-          startDate: info.startDate,
-          endDate: info.endDate,
-          name: info.name,
-          company: info.company,
-          startTime: info.startTime,
-          endTime: info.endTime,
-          type: info.type,
-        })
-      }
-      totalPages.value= res.data.totalPages * 10
-    })
-    return {handleClick, tableData, totalPages}
+    getApplicationInfo()
+    return {handleClick, tableData, totalPages, agree, refuse}
   },
   components:{
 

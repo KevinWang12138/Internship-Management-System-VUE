@@ -76,3 +76,25 @@ export function getApplication(page: number, pageSize: number){
         }
     })
 }
+
+export function agreeApplication(id:string){
+    return service({
+        url:"/teacher/basic_info/check",
+        method:"get",
+        params: {
+            id:id,
+            agreed:1
+        }
+    })
+}
+
+export function refuseApplication(id:string){
+    return service({
+        url:"/teacher/basic_info/check",
+        method:"get",
+        params: {
+            id:id,
+            agreed:1
+        }
+    })
+}
