@@ -24,9 +24,42 @@ import {defineComponent, reactive, ref} from "vue";
 import {getBasicCalendarInfoById, getChildrenList} from "@/request/api";
 
 function getStudentCalenderInfo(studentId: any) {
-  console.log(111)
   getBasicCalendarInfoById(studentId).then(res=>{
-    console.log(res.data)
+    //res返回
+    const companyNames=res.data.company_names
+    const endDates=res.data.end_dates
+    const startDates=res.data.start_dates
+    for (let index=0;index<companyNames.length;index++) {
+      let startDate = startDates[index]
+      let endDate = endDates[index]
+
+      let info = companyNames[index] + "实习 工作日"
+
+      let myDate = new Date(startDate);
+      let end = new Date(endDate);
+      while (myDate <= end) {
+        let d = ""
+        d += myDate.getFullYear()
+        d += "-"
+        let month = myDate.getMonth() + 1
+        if (month.toString().length == 1) {
+          d += "0"
+          d += month
+        } else {
+          d += month
+        }
+        d += "-"
+        let day = myDate.getDate()
+        if (day.toString().length == 1) {
+          d += "0"
+          d += myDate.getDate()
+        } else {
+          d += myDate.getDate()
+        }
+        resDate.push({date: d, content: info})
+        myDate.setDate(myDate.getDate() + 1)
+      }
+    }
   })
 }
 

@@ -31,7 +31,6 @@ export default defineComponent({
     //todo 额外获取额外信息，补充请假等信息
     getBasicCalendarInfo({student_id:localStorage.getItem("phone")?.toString()}).then(res=>{
       //res返回
-      console.log(res)
       const companyNames=res.data.company_names
       const endDates=res.data.end_dates
       const startDates=res.data.start_dates
