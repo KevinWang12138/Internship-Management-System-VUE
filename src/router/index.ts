@@ -30,15 +30,32 @@ const router = createRouter({
             title: "新建实习"
           },
           component: () => import('../views/CreateInternView.vue'),
+        },
+        {
+          path: "checkSelfApplication",
+          name: "checkSelfApplication",
+          meta:{
+            isShow: true,
+            father: 'home',
+            title: "查看申请"
+          },
+          component: () => import('../views/student/CheckApplication.vue'),
+        },
+        {
+          path: "studentInformation",
+          name: "studentInformation",
+          meta:{
+            isShow: true,
+            father: 'home',
+            title: "个人信息"
+          },
+          component: () => import('../views/student/StudentInformation.vue'),
         }
       ]
     },
     {
       path: '/login',
       name: 'login',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/LoginView.vue')
     },
     {
