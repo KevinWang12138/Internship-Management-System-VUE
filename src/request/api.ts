@@ -79,11 +79,12 @@ export function getApplication(page: number, pageSize: number){
 
 export function getSelfApplication(page: number, pageSize: number){
     return service({
-        url:"/student/application/get",
+        url:"/application/get",
         method:"get",
         params: {
             page:page,
-            page_size:pageSize
+            page_size:pageSize,
+            agreed:3//暂时设置为3，意思是获取所有的申请信息，不管是否被审批
         }
     })
 }
