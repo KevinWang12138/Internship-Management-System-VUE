@@ -77,6 +77,17 @@ export function getApplication(page: number, pageSize: number){
     })
 }
 
+export function getSelfApplication(page: number, pageSize: number){
+    return service({
+        url:"/student/application/get",
+        method:"get",
+        params: {
+            page:page,
+            page_size:pageSize
+        }
+    })
+}
+
 export function agreeApplication(id:string){
     return service({
         url:"/teacher/basic_info/check",

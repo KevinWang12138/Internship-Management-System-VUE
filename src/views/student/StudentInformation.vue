@@ -2,10 +2,18 @@
 1
 </template>
 
-<script>
-export default {
-  name: "StudentInformation"
-}
+<script lang="ts">
+import {defineComponent} from "vue";
+
+export default defineComponent({
+  name:"StudentInformation",
+  setup(){
+    return {}
+  },
+  components:{
+
+  },
+})
 </script>
 
 <style scoped>

@@ -62,15 +62,12 @@ export default defineComponent({
   name:"CheckApplicationView",
   setup(){
     getApplicationInfo()
-    return {handleClick, tableData, totalPages, agree, refuse}
+    return {tableData, totalPages, agree, refuse}
   },
   components:{
 
   },
 })
-const handleClick = () => {
-  console.log('click')
-}
 const totalPages = ref(5000)
 const tableData = reactive([
   {
