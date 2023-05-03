@@ -110,3 +110,10 @@ export function refuseApplication(id:string){
         }
     })
 }
+
+export function getStudentInformation(){
+    return service({
+        url:"/information",
+        method:"get"
+    })
+}
