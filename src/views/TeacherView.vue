@@ -5,7 +5,7 @@
         <el-row :gutter="20">
           <el-col :span="4"><img src="src/assets/logo.webp" class="logo"></el-col>
           <el-col :span="16"><h2>这里我要放导航栏！</h2></el-col>
-          <el-col :span="4"><span class="quit">这里我要放退出登录！</span></el-col>
+          <el-col :span="4" class="quit"> <el-button type="quit" class="mb-4" @click="exit">退出登录</el-button></el-col>
         </el-row>
       </el-header>
       <el-container>
@@ -32,13 +32,19 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {useRouter} from "vue-router";
-
 export default defineComponent({
   name:"TeacherView",
   setup(){
     const router = useRouter()
     const list = router.getRoutes().filter(v=>v.meta.father=='teacher').filter(v=>v.meta.isShow)
-    return {list}
+    function exit(){
+      localStorage.removeItem("student")
+      localStorage.removeItem("teacher")
+      localStorage.removeItem("token")
+      localStorage.removeItem("phone")
+      router.push('/')
+    }
+    return {list, exit}
   },
   components:{
 
@@ -63,6 +69,11 @@ export default defineComponent({
     text-align: center;
     line-height: 80px;
   }
+  .mb-4{
+    width: 100px;
+    height: 50px;
+  }
+
 }
 .el-aside{
   .el-menu{

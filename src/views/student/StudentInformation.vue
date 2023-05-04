@@ -29,7 +29,6 @@ import { defineComponent, reactive } from "vue";
 import { getStudentInformation } from "@/request/api";
 function getInformation(){
   getStudentInformation().then(res=>{
-    console.log(res.data)
     tableData.studentName = res.data.studentName
     tableData.studentPhone = res.data.studentPhone
     tableData.studentSchool = res.data.studentSchool

@@ -117,3 +117,10 @@ export function getStudentInformation(){
         method:"get"
     })
 }
+
+export function getTeacherInformation(){
+    return service({
+        url:"/teacher/information",
+        method:"get"
+    })
+}

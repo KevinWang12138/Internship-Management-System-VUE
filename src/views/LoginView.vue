@@ -47,6 +47,20 @@ import {useRouter} from "vue-router"
 
 export default defineComponent({
   setup(){
+    //登录
+    const router = useRouter()
+
+    if(localStorage.getItem("student")){
+      //如果登录的是学生端，则跳转到学生主页
+      router.push('/student')
+    }
+    if(localStorage.getItem("teacher")){
+      //如果登录的是教师端，则跳转到教师主页
+      router.push('/teacher')
+    }
+
+
+
     const data=reactive(new LoginData());
     const rules={
       phone: [
@@ -60,8 +74,6 @@ export default defineComponent({
         { required: true }
       ]
     }
-    //登录
-    const router = useRouter()
     const ruleFormRef = ref<FormInstance>()
     const submitForm = (formEl: FormInstance | undefined) => {
       if (!formEl) return
@@ -72,8 +84,19 @@ export default defineComponent({
             //记录token
             localStorage.setItem("token",res.data)
             localStorage.setItem("phone",data.ruleForm.phone)
-            //跳转页面 首页
-            router.push("/")
+            if(data.ruleForm.role=='1'){
+              localStorage.setItem("student",'1')
+              localStorage.removeItem("teacher")
+
+              //页面跳转
+              router.push('/student')
+            }else if(data.ruleForm.role=='2'){
+              localStorage.setItem("teacher",'2')
+              localStorage.removeItem("student")
+
+              //页面跳转
+              router.push('/teacher')
+            }
           })
         } else {
           console.log('error submit!')
@@ -87,7 +110,7 @@ export default defineComponent({
       data.ruleForm.phone=""
       data.ruleForm.password=""
     }
-    return {...toRefs(data),rules,ruleFormRef,submitForm,resetForm};
+    return {...toRefs(data),rules,ruleFormRef,submitForm,resetForm,router};
   }
 })
 </script>

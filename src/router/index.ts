@@ -6,8 +6,8 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: '/student',
+      name: 'student',
       component: HomeView,
       children: [
         {
@@ -53,7 +53,7 @@ const router = createRouter({
       ]
     },
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: () => import('../views/LoginView.vue')
     },
@@ -81,6 +81,16 @@ const router = createRouter({
             title: "查看学生日历"
           },
           component: () => import('../views/CheckCalendarView.vue'),
+        },
+        {
+          path: "teacherInformation",
+          name: "teacherInformation",
+          meta:{
+            isShow: true,
+            father: 'teacher',
+            title: "个人信息及学生信息"
+          },
+          component: () => import('../views/teacher/TeacherInformation.vue'),
         }
       ]
     }
