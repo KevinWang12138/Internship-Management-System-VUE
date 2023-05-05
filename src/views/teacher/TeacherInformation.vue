@@ -1,4 +1,5 @@
 <template>
+  <el-button type=primary plain class="editButton">编辑</el-button>
   <el-descriptions
     title="个人信息"
     direction="vertical"
@@ -82,5 +83,13 @@ export default defineComponent({
 <style scoped>
 .el-descriptions {
   margin-top: 20px;
+}
+.editButton{
+  position: absolute;
+  top: 0;
+  right: 50px;
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
 }
 </style>
