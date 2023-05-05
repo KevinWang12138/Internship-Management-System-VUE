@@ -91,6 +91,16 @@ const router = createRouter({
             title: "个人信息及学生信息"
           },
           component: () => import('../views/teacher/TeacherInformation.vue'),
+        },
+        {
+          path: "edit",
+          name: "editTeacherInformation",
+          meta:{
+            isShow: false,
+            father: 'teacher',
+            title: "编辑"
+          },
+          component: () => import('../views/teacher/EditTeacherInformation.vue'),
         }
       ]
     }

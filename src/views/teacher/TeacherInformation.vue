@@ -1,5 +1,5 @@
 <template>
-  <el-button type=primary plain class="editButton">编辑</el-button>
+  <el-button type=primary plain class="editButton" @click="edit">编辑</el-button>
   <el-descriptions
     title="个人信息"
     direction="vertical"
@@ -33,6 +33,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import { getTeacherInformation } from "@/request/api";
+import { useRouter } from "vue-router";
 function getInformation(){
   getTeacherInformation().then(res=>{
     tableData.teacherName = res.data.teacherName
@@ -72,7 +73,11 @@ export default defineComponent({
   name:"TeacherInformation",
   setup(){
     getInformation()
-    return {tableData,studentData}
+    const router = useRouter()
+    function edit(){
+      router.push('/teacher/edit')
+    }
+    return {tableData,studentData,edit}
   },
   components:{
 
