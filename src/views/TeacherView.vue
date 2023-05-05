@@ -4,7 +4,7 @@
       <el-header>
         <el-row :gutter="20">
           <el-col :span="4"><img src="src/assets/logo.webp" class="logo"></el-col>
-          <el-col :span="16"><h2>这里我要放导航栏！</h2></el-col>
+          <el-col :span="16"><h2>欢迎登录</h2></el-col>
           <el-col :span="4" class="quit"> <el-button type="quit" class="mb-4" @click="exit">退出登录</el-button></el-col>
         </el-row>
       </el-header>
