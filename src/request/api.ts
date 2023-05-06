@@ -124,3 +124,13 @@ export function getTeacherInformation(){
         method:"get"
     })
 }
+
+export function searchStudent(phone:any){
+    return service({
+        url:"/teacher/search_student",
+        method:"get",
+        params: {
+            phone:phone
+        }
+    })
+}
