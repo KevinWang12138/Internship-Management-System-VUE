@@ -134,3 +134,13 @@ export function searchStudent(phone:any){
         }
     })
 }
+interface changeStudentRelationData{
+    student_id_list:string[]
+}
+export function changeStudentRelation(data:changeStudentRelationData){
+    return service({
+        url:"/teacher/change_student",
+        method:"post",
+        data
+    })
+}

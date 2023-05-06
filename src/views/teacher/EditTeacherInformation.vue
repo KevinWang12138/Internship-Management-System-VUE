@@ -32,7 +32,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { getChildrenList, searchStudent } from "@/request/api";
+import { changeStudentRelation, getChildrenList, searchStudent } from "@/request/api";
 import { Search } from '@element-plus/icons-vue'
 
 
@@ -75,7 +75,14 @@ export default defineComponent({
     ])
     addTableData.pop()
     function submit(){
-      router.push("/teacher/teacherInformation")
+      let ids:string[]
+      ids = []
+      for(let i = 0;i<tableData.length;i++){
+        ids.push(tableData[i].id)
+      }
+      changeStudentRelation({ student_id_list:ids }).then(res=>{
+        router.push("/teacher/teacherInformation")
+      })
     }
     getChildrenList().then(res=>{
       while (tableData.length!=0){
