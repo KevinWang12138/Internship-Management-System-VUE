@@ -144,3 +144,17 @@ export function changeStudentRelation(data:changeStudentRelationData){
         data
     })
 }
+interface registerData{
+    phone:string
+    password:string
+    name:string
+    school:string
+    role:number
+}
+export function register(data:registerData){
+    return service({
+        url:"/register",
+        method:"post",
+        data
+    })
+}
