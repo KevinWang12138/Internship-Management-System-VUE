@@ -32,7 +32,7 @@
         <el-button type="primary" class="loginButton" @click="submitForm(ruleFormRef)"
         >登录</el-button
         >
-        <el-button class="loginButton" @click="resetForm(ruleFormRef)">重置</el-button>
+        <el-button class="loginButton" @click="register">注册</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -105,12 +105,11 @@ export default defineComponent({
       })
 
     }
-    //重置
-    const resetForm = () => {
-      data.ruleForm.phone=""
-      data.ruleForm.password=""
+
+    function register(){
+      router.push("/register")
     }
-    return {...toRefs(data),rules,ruleFormRef,submitForm,resetForm,router};
+    return {...toRefs(data),rules,ruleFormRef,submitForm,router,register};
   }
 })
 </script>
