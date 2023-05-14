@@ -50,6 +50,26 @@ const router = createRouter({
             title: "个人信息"
           },
           component: () => import('../views/student/StudentInformation.vue'),
+        },
+        {
+          path: "checkJobs",
+          name: "checkJobs",
+          meta:{
+            isShow: true,
+            father: 'home',
+            title: "职位列表"
+          },
+          component: () => import('../views/student/CheckJobs.vue'),
+        },
+        {
+          path: "interviewSituation",
+          name: "interviewSituation",
+          meta:{
+            isShow: true,
+            father: 'home',
+            title: "面试情况"
+          },
+          component: () => import('../views/student/InterviewSituation.vue'),
         }
       ]
     },
