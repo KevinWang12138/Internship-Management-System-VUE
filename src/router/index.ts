@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from "@/views/HomeView.vue";
 import TeacherView from "@/views/TeacherView.vue";
+import CompanyView from "@/views/company/CompanyView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -106,6 +107,33 @@ const router = createRouter({
             title: "编辑"
           },
           component: () => import('../views/teacher/EditTeacherInformation.vue'),
+        }
+      ]
+    },
+    {
+      path: '/company',
+      name: 'company',
+      component: CompanyView,
+      children: [
+        {
+          path: "postJob",
+          name: "postJob",
+          meta:{
+            isShow: true,
+            father: 'company',
+            title: "发布职位"
+          },
+          component: () => import('../views/company/PostJob.vue'),
+        },
+        {
+          path: "checkApplicationSituation",
+          name: "checkApplicationSituation",
+          meta:{
+            isShow: true,
+            father: 'company',
+            title: "查看职位申请情况"
+          },
+          component: () => import('../views/company/CheckApplicationSituation.vue'),
         }
       ]
     }
