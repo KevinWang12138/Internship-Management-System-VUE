@@ -10,9 +10,7 @@
     <el-table-column prop="studentSchool" label="学生学校" width="120" />
     <el-table-column fixed="right" label="Operations" width="120">
       <template #default="{ row }">
-        <el-button link type="primary" size="small" @click="agree(row.id)"
-        >推进到下一阶段</el-button
-        >
+        <el-button link type="primary" size="small" @click="agree(row.id)">推进</el-button>
         <el-button link type="primary" size="small" @click="refuse(row.id)">淘汰</el-button>
       </template>
     </el-table-column>
@@ -23,12 +21,23 @@
 
 <script lang="ts">
 import {defineComponent, reactive} from "vue";
-
+const tableData = reactive([
+  {
+    id: '',
+    studentId: '',
+    jobId: '',
+    status: '',
+    studentName: "",
+    studentPhone: '',
+    jobName: '',
+    studentSchool: '',
+  }
+])
 export default defineComponent({
   name:"CheckApplicationSituation",
   setup(){
 
-    return {}
+    return {tableData}
   },
   components:{
 

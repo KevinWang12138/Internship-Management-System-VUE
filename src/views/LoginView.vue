@@ -9,7 +9,7 @@
         class="demo-ruleForm"
     >
       <h2>登录系统</h2>
-      <el-form-item label="手机号" prop="phone">
+      <el-form-item label="账号" prop="phone">
         <el-input v-model="ruleForm.phone" autocomplete="off" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
@@ -26,6 +26,7 @@
         >
           <el-option label="学生" value=1 />
           <el-option label="教师" value=2 />
+          <el-option label="企业" value=3 />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -87,15 +88,24 @@ export default defineComponent({
             if(data.ruleForm.role=='1'){
               localStorage.setItem("student",'1')
               localStorage.removeItem("teacher")
+              localStorage.removeItem("company")
 
               //页面跳转
               router.push('/student')
             }else if(data.ruleForm.role=='2'){
               localStorage.setItem("teacher",'2')
               localStorage.removeItem("student")
+              localStorage.removeItem("company")
 
               //页面跳转
               router.push('/teacher')
+            }else if(data.ruleForm.role=='3'){
+              localStorage.setItem("company",'3')
+              localStorage.removeItem("student")
+              localStorage.removeItem("teacher")
+
+              //页面跳转
+              router.push('/company')
             }
           })
         } else {
