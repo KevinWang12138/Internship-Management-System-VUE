@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import {defineComponent, reactive} from "vue";
+import { checkJobApplicationInfo } from "@/request/api";
 const tableData = reactive([
   {
     id: '',
@@ -36,7 +37,44 @@ const tableData = reactive([
 export default defineComponent({
   name:"CheckApplicationSituation",
   setup(){
-
+    checkJobApplicationInfo().then(res=>{
+      while (tableData.length>0){
+        tableData.pop()
+      }
+      let status = ""
+      for(let i =0;i<res.data.length;i++){
+        switch (res.data[i].status) {
+          case 0:
+            status = "待审批"
+            break;
+          case 1:
+            status = "审批中"
+            break;
+          case 2:
+            status = "面试中"
+            break;
+          case 3:
+            status = "面试通过"
+            break;
+          case 4:
+            status = "入职"
+            break;
+          case 5:
+            status = "不通过"
+            break;
+        }
+        tableData.push({
+          id: res.data[i].id,
+          studentId: res.data[i].studentId,
+          jobId: res.data[i].jobId,
+          status: status,
+          studentName: res.data[i].studentName,
+          studentPhone: res.data[i].studentPhone,
+          jobName: res.data[i].jobName,
+          studentSchool: res.data[i].studentSchool,
+        })
+      }
+    })
     return {tableData}
   },
   components:{

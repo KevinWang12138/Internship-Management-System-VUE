@@ -172,3 +172,10 @@ export function checkInterviewSituation(){
         method:"get",
     })
 }
+
+export function checkJobApplicationInfo(){
+    return service({
+        url:"/company/get_applicant_info",
+        method:"get",
+    })
+}
