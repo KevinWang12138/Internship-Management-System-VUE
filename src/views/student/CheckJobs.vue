@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import {defineComponent, reactive} from "vue";
+import { getJob } from "@/request/api";
 const tableData = reactive([
   {
     id: '',
@@ -29,7 +30,22 @@ const tableData = reactive([
 export default defineComponent({
   name:"CheckJobs",
   setup(){
-
+    getJob().then(res=>{
+      while(tableData.length>0){
+        tableData.pop()
+      }
+      for(let i=0;i<res.data.length;i++){
+        tableData.push(
+          {
+            id: res.data[i].id,
+            name: res.data[i].name,
+            companyName: res.data[i].company_name,
+            info: res.data[i].info,
+            count: res.data[i].count,
+          }
+        )
+      }
+    })
     return {tableData}
   },
   components:{

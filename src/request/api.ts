@@ -158,3 +158,17 @@ export function register(data:registerData){
         data
     })
 }
+
+export function getJob(){
+    return service({
+        url:"/job/get",
+        method:"get",
+    })
+}
+
+export function checkInterviewSituation(){
+    return service({
+        url:"/application/check",
+        method:"get",
+    })
+}
