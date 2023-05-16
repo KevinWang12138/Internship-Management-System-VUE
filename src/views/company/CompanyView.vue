@@ -40,6 +40,7 @@ export default defineComponent({
     function exit(){
       localStorage.removeItem("student")
       localStorage.removeItem("teacher")
+      localStorage.removeItem("manager")
       localStorage.removeItem("token")
       localStorage.removeItem("phone")
       router.push('/')

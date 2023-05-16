@@ -166,6 +166,43 @@ const router = createRouter({
           component: () => import('../views/company/Jobs.vue'),
         }
       ]
+    },
+    {
+      path: '/manager',
+      name: 'manager',
+      component: CompanyView,
+      children: [
+        {
+          path: "postJob",
+          name: "postJob",
+          meta:{
+            isShow: true,
+            father: 'company',
+            title: "发布职位"
+          },
+          component: () => import('../views/company/PostJob.vue'),
+        },
+        {
+          path: "checkApplicationSituation",
+          name: "checkApplicationSituation",
+          meta:{
+            isShow: true,
+            father: 'company',
+            title: "查看职位申请情况"
+          },
+          component: () => import('../views/company/CheckApplicationSituation.vue'),
+        },
+        {
+          path: "jobs",
+          name: "jobs",
+          meta:{
+            isShow: true,
+            father: 'company',
+            title: "已发布职位"
+          },
+          component: () => import('../views/company/Jobs.vue'),
+        }
+      ]
     }
   ]
 })
