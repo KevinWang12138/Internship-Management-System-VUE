@@ -1,5 +1,4 @@
 <template>
-  <el-button type=primary plain class="editButton" @click="edit">编辑</el-button>
   <el-descriptions
     title="个人信息"
     direction="vertical"
@@ -9,7 +8,19 @@
   >
     <el-descriptions-item label="姓名">{{ tableData.studentName }}</el-descriptions-item>
     <el-descriptions-item label="手机号">{{ tableData.studentPhone }}</el-descriptions-item>
-    <el-descriptions-item label="学校" :span="2">{{ tableData.studentSchool }}</el-descriptions-item>
+    <el-descriptions-item label="学号" :span="2">{{ tableData.studentID }}</el-descriptions-item>
+  </el-descriptions>
+  <el-descriptions
+    title="研究信息"
+    direction="vertical"
+    :column="4"
+    :size="size"
+    border
+  >
+    <el-descriptions-item label="学校">{{ tableData.studentSchool }}</el-descriptions-item>
+    <el-descriptions-item label="专业">{{ tableData.studentMajor }}</el-descriptions-item>
+    <el-descriptions-item label="年级">{{ tableData.studentGrade }}</el-descriptions-item>
+    <el-descriptions-item label="研究方向" :span="2">{{ tableData.studentResearchDirection }}</el-descriptions-item>
   </el-descriptions>
 
   <el-descriptions
@@ -21,7 +32,7 @@
   >
     <el-descriptions-item label="姓名">{{ tableData.teacherName }}</el-descriptions-item>
     <el-descriptions-item label="手机号">{{ tableData.teacherPhone }}</el-descriptions-item>
-    <el-descriptions-item label="学校" :span="2">{{ tableData.teacherSchool }}</el-descriptions-item>
+    <el-descriptions-item label="简介" :span="2">{{ tableData.teacherInfo }}</el-descriptions-item>
   </el-descriptions>
 </template>
 
@@ -36,7 +47,20 @@ function getInformation(){
     tableData.studentSchool = res.data.studentSchool
     tableData.teacherName = res.data.teacherName
     tableData.teacherPhone = res.data.teacherPhone
-    tableData.teacherSchool = res.data.teacherSchool
+
+    tableData.studentID=res.data.studentID
+    tableData.studentMajor=res.data.studentMajor
+    if(res.data.studentGrade == 1){
+      tableData.studentGrade = "研一"
+    }else if(res.data.studentGrade == 2){
+      tableData.studentGrade = "研二"
+    }else if(res.data.studentGrade == 3){
+      tableData.studentGrade = "研三"
+    }else if(res.data.studentGrade == 4){
+      tableData.studentGrade = "研四"
+    }
+    tableData.studentResearchDirection=res.data.studentResearchDirection
+    tableData.teacherInfo= res.data.teacherInfo
   })
 }
 const tableData = reactive(
@@ -44,9 +68,14 @@ const tableData = reactive(
     studentPhone: '',
     studentName: '',
     studentSchool: '',
+    studentID:'',
+    studentMajor:'',
+    studentGrade:'',
+    studentResearchDirection:'',
+
     teacherPhone: "",
     teacherName: '',
-    teacherSchool: ''
+    teacherInfo: ''
   }
 )
 export default defineComponent({
