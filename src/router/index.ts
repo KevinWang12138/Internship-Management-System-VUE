@@ -154,6 +154,16 @@ const router = createRouter({
             title: "查看职位申请情况"
           },
           component: () => import('../views/company/CheckApplicationSituation.vue'),
+        },
+        {
+          path: "jobs",
+          name: "jobs",
+          meta:{
+            isShow: true,
+            father: 'company',
+            title: "已发布职位"
+          },
+          component: () => import('../views/company/Jobs.vue'),
         }
       ]
     }

@@ -17,6 +17,8 @@
 
 <script lang="ts">
 import {defineComponent, reactive} from "vue";
+import { postJob } from "@/request/api";
+import router from "@/router";
 
 let form = reactive({
   name: '',
@@ -24,7 +26,15 @@ let form = reactive({
   count: 0
 })
 const onSubmit = () => {
+  console.log(form)
 
+  postJob({
+    name: form.name,
+    info: form.desc,
+    count: form.count,
+  }).then(res=>{
+    router.push('/company/jobs')
+  })
 }
 
 export default defineComponent({

@@ -179,3 +179,15 @@ export function checkJobApplicationInfo(){
         method:"get",
     })
 }
+interface jobInfo{
+    name:string,
+    info:string,
+    count:number
+}
+export function postJob(data:jobInfo){
+    return service({
+        url:"/company/post_job",
+        method:"post",
+        data
+    })
+}
