@@ -45,6 +45,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import { addCompany } from "@/request/api";
+import router from "@/router";
 export default defineComponent({
   name:"AddCompany",
   setup(){
@@ -60,6 +61,7 @@ export default defineComponent({
         hr_password:password.value
       }).then(res=>{
         //跳转到公司列表页面
+        router.push('/manager/company_list')
       })
     }
     return {companyName,desc,phone,password,submit}

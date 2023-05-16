@@ -192,6 +192,16 @@ const router = createRouter({
             title: "添加公司"
           },
           component: () => import('../views/manager/AddCompany.vue'),
+        },
+        {
+          path: "company_list",
+          name: "company_list",
+          meta:{
+            isShow: true,
+            father: 'manager',
+            title: "公司列表"
+          },
+          component: () => import('../views/manager/CompanyList.vue'),
         }
       ]
     }
