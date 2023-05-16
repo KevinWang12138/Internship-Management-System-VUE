@@ -191,3 +191,20 @@ export function postJob(data:jobInfo){
         data
     })
 }
+
+export function getMajors(){
+    return service({
+        url:"/manager/major",
+        method:"get",
+    })
+}
+
+export function getBasicInfo(majorId:number){
+    return service({
+        url:"/manager/basic_info",
+        method:"get",
+        params: {
+            major_id:majorId
+        }
+    })
+}
