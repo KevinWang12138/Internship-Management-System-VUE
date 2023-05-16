@@ -1,8 +1,8 @@
 <template>
 
   <el-button type=primary plain class="submitButton" @click="submit">提交</el-button>
-
-  <el-table :data="tableData" style="width: 100%">
+  <el-row><el-text>编辑学生列表：</el-text></el-row>
+  <el-table :data="tableData" style="width: 100%" >
     <el-table-column prop="id" label="id" width="500" />
     <el-table-column prop="name" label="姓名" width="500" />
     <el-table-column>
@@ -27,12 +27,21 @@
       </template>
     </el-table-column>
   </el-table>
+
+  <el-row><el-text>编辑个人信息：</el-text></el-row>
+  <el-form-item label="个人简介:">
+    <el-input v-model="info" type="textarea" />
+  </el-form-item>
+  <el-form-item label="个人头像:">
+    <el-input v-model="info" type="textarea" />
+  </el-form-item>
+
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { changeStudentRelation, getChildrenList, searchStudent } from "@/request/api";
+import { changeStudentRelation, getChildrenList, getTeacherInformation, searchStudent } from "@/request/api";
 import { Search } from '@element-plus/icons-vue'
 
 
@@ -40,6 +49,7 @@ export default defineComponent({
   name:"EditTeacherInformation",
   setup(){
     const input = ref('')
+    const info = ref('')
     function searchStudentByPhone(){
       searchStudent(input.value).then(res=>{
         let ok = true
@@ -107,7 +117,11 @@ export default defineComponent({
         tableData.push(row)
       }
     }
-    return {submit,tableData,handleDelete,handleAdd,addTableData,input,Search,searchStudentByPhone}
+
+    getTeacherInformation().then(res=>{
+      info.value = res.data.info
+    })
+    return {submit,tableData,handleDelete,handleAdd,addTableData,input,Search,searchStudentByPhone,info}
   },
   components:{
 
