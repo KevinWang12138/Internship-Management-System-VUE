@@ -59,7 +59,7 @@ export default defineComponent({
         hr_phone:phone.value,
         hr_password:password.value
       }).then(res=>{
-        console.log(res)
+        //跳转到公司列表页面
       })
     }
     return {companyName,desc,phone,password,submit}
