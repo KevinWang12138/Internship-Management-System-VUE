@@ -32,9 +32,6 @@
   <el-form-item label="个人简介:">
     <el-input v-model="info" type="textarea" />
   </el-form-item>
-  <el-form-item label="个人头像:">
-    <el-input v-model="info" type="textarea" />
-  </el-form-item>
 
 </template>
 
