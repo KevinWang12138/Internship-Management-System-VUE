@@ -27,6 +27,7 @@
           <el-option label="学生" value=1 />
           <el-option label="教师" value=2 />
           <el-option label="企业" value=3 />
+          <el-option label="管理员" value=4 />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -59,7 +60,14 @@ export default defineComponent({
       //如果登录的是教师端，则跳转到教师主页
       router.push('/teacher')
     }
-
+    if(localStorage.getItem("company")){
+      //如果登录的是教师端，则跳转到教师主页
+      router.push('/company')
+    }
+    if(localStorage.getItem("manager")){
+      //如果登录的是教师端，则跳转到教师主页
+      router.push('/manager')
+    }
 
 
     const data=reactive(new LoginData());
@@ -89,6 +97,7 @@ export default defineComponent({
               localStorage.setItem("student",'1')
               localStorage.removeItem("teacher")
               localStorage.removeItem("company")
+              localStorage.removeItem("manager")
 
               //页面跳转
               router.push('/student')
@@ -96,6 +105,7 @@ export default defineComponent({
               localStorage.setItem("teacher",'2')
               localStorage.removeItem("student")
               localStorage.removeItem("company")
+              localStorage.removeItem("manager")
 
               //页面跳转
               router.push('/teacher')
@@ -103,9 +113,18 @@ export default defineComponent({
               localStorage.setItem("company",'3')
               localStorage.removeItem("student")
               localStorage.removeItem("teacher")
+              localStorage.removeItem("manager")
 
               //页面跳转
               router.push('/company')
+            }else if(data.ruleForm.role=='4'){
+              localStorage.setItem("manager",'4')
+              localStorage.removeItem("student")
+              localStorage.removeItem("teacher")
+              localStorage.removeItem("company")
+
+              //页面跳转
+              router.push('/manager')
             }
           })
         } else {
