@@ -182,6 +182,16 @@ const router = createRouter({
             title: "查看统计数据"
           },
           component: () => import('../views/manager/CountView.vue'),
+        },
+        {
+          path: "add_company",
+          name: "add_company",
+          meta:{
+            isShow: true,
+            father: 'manager',
+            title: "添加公司"
+          },
+          component: () => import('../views/manager/AddCompany.vue'),
         }
       ]
     }

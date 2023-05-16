@@ -208,3 +208,16 @@ export function getBasicInfo(majorId:number){
         }
     })
 }
+interface addCompanyData{
+    company_name:string,
+    company_desc:string,
+    hr_phone:string,
+    hr_password:string
+}
+export function addCompany(data:addCompanyData){
+    return service({
+        url:"/manager/add_company",
+        method:"post",
+        data
+    })
+}
