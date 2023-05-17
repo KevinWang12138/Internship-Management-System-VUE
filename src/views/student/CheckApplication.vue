@@ -1,13 +1,14 @@
 <template>
   <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="id" label="id" width="150" />
+    <el-table-column prop="id" label="id" width="40" />
     <el-table-column prop="startDate" label="开始日期" width="150" />
     <el-table-column prop="endDate" label="结束日期" width="150" />
     <el-table-column prop="company" label="实习公司" width="120" />
     <el-table-column prop="startTime" label="上班时间" width="120" />
     <el-table-column prop="endTime" label="下班时间" width="120" />
-    <el-table-column prop="type" label="是否全日制" width="120" />
+    <el-table-column prop="type" label="是否全日制" width="100" />
     <el-table-column prop="condition" label="审批情况" width="120" />
+    <el-table-column prop="moreInfo" label="更多信息" width="200" />
   </el-table>
   <!--底部的分页-->
   <el-pagination background layout="prev, pager, next" :total="totalPages"/>
@@ -41,7 +42,8 @@ function getApplicationInfo(){
         startTime: info.startTime,
         endTime: info.endTime,
         type: info.type,
-        condition: cond
+        condition: cond,
+        moreInfo: info.moreInfo,
       })
     }
     totalPages.value= res.data.totalPages * 10
@@ -68,6 +70,7 @@ const tableData = reactive([
     endTime: '',
     type: '',
     condition: '',
+    moreInfo: '',
   }
 ])
 </script>
