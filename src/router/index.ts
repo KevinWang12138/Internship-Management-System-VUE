@@ -165,6 +165,26 @@ const router = createRouter({
             title: "已发布职位"
           },
           component: () => import('../views/company/Jobs.vue'),
+        },
+        {
+          path: "company_count",
+          name: "company_count",
+          meta:{
+            isShow: true,
+            father: 'company',
+            title: "统计数据"
+          },
+          component: () => import('../views/company/CompanyCountView.vue'),
+        },
+        {
+          path: "company_comment",
+          name: "company_comment",
+          meta:{
+            isShow: true,
+            father: 'company',
+            title: "评价系统"
+          },
+          component: () => import('../views/company/CompanyComment.vue'),
         }
       ]
     },
