@@ -243,3 +243,10 @@ export function postDaily(data:postDailyData){
         data
     })
 }
+
+export function getDatesWithDaily(){
+    return service({
+        url:"/daily/list",
+        method:"get"
+    })
+}

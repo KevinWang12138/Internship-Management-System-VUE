@@ -1,7 +1,7 @@
 <template>
   <el-calendar>
     <template #dateCell="{data}">
-      <div class="calendar-item" @click="open(data)">
+      <div class="calendar-item" @click="open(data)" :class="{ highlighted: shouldHighlightDate(data.day) }">
         <div class="calendar-time">
           {{ data.day.split('-').slice(2).join('')}}
         </div>
@@ -26,7 +26,8 @@
 
 <script lang="ts">
 import {defineComponent, reactive, ref} from "vue";
-import { getBasicCalendarInfo, getDaily, postDaily } from "@/request/api";
+import { getBasicCalendarInfo, getDaily, getDatesWithDaily, postDaily } from "@/request/api";
+import router from "@/router";
 
 export default defineComponent({
   name:"CalendarView",
@@ -109,8 +110,22 @@ export default defineComponent({
         console.log(res)
       })
       toggleEditing();
+      location.reload();
     }
-    return {dealMyDate,drawer, open,submit,text,isEditing,toggleEditing}
+    const datesWithDaily = reactive([""]);
+    getDatesWithDaily().then(res=>{
+      while(datesWithDaily.length>0){
+        datesWithDaily.pop()
+      }
+      for(let i=0;i<res.data.length;i++){
+        datesWithDaily.push(res.data[i])
+      }
+      console.log(datesWithDaily)
+    })
+    const shouldHighlightDate = (date:any) => {
+      return datesWithDaily.includes(date);
+    };
+    return {dealMyDate,drawer, open,submit,text,isEditing,toggleEditing,shouldHighlightDate}
   },
   components:{
 
@@ -119,5 +134,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.highlighted {
+  background-color: lightblue;
+}
 </style>
