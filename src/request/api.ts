@@ -251,7 +251,7 @@ export function getDatesWithDaily(){
     })
 }
 
-interface updateBasicInfo{
+interface basicInfoForUpdate{
     age:number
     gender:string
     bio:string
@@ -264,10 +264,25 @@ interface updateBasicInfo{
     major:string
     grade:string
 }
-export function updateBasicInfo(data:updateBasicInfo){
+export function updateBasicInfo(data:basicInfoForUpdate){
     return service({
         url:"/basic_info/update",
         method:"post",
         data
     })
+}
+
+
+
+export function uploadFile(file: File){
+    const formData = new FormData();
+    formData.append('file', file);
+    return service({
+        url: '/student/file',
+        method: 'post',
+        data: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    });
 }

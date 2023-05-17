@@ -55,6 +55,16 @@
       <el-form-item label="导师简介">
         <el-input type="textarea" v-model="formData.tutorBio" :disabled=true></el-input>
       </el-form-item>
+      <el-form-item label="上传简历">
+        <el-upload
+        :show-file-list="false"
+        :disabled="!editing"
+        @change="handleResumeChange"
+        >
+        <el-button size="small">选择文件</el-button>
+        </el-upload>
+        <span v-if="resume">: {{ resume }}</span>
+      </el-form-item>
       <div class="profile-actions">
         <el-button v-if="!editing" type="primary" @click="editProfile">编辑</el-button>
         <el-button v-else type="success" @click="saveProfile">保存</el-button>
@@ -66,7 +76,7 @@
 
 <script>
 import { reactive, ref } from 'vue';
-import { getStudentInformation, updateBasicInfo } from "@/request/api";
+import { getStudentInformation, updateBasicInfo, uploadFile } from "@/request/api";
 
 export default {
   name: 'ProfilePage',
@@ -135,21 +145,34 @@ export default {
         major:formData.major,
         grade:formData.grade
       }).then(res=>{
-        console.log(res)
+        uploadFile(theFile).then(res=>{
+          console.log(res)
+        })
         editing.value = false;
       })
+
     };
 
     const cancelEditing = () => {
       editing.value = false;
     };
 
+    const resume = ref("文件名")
+    let theFile = null
+    function handleResumeChange(file) {
+      // 处理简历文件选择的逻辑
+      // 将选中的简历文件名赋值给resume变量
+      resume.value = file.name
+      theFile = file.raw
+    }
     return {
       formData,
       editing,
       editProfile,
       saveProfile,
       cancelEditing,
+      resume,
+      handleResumeChange
     };
   },
 };
