@@ -1,20 +1,10 @@
 <template>
 
-  <el-button type=primary plain class="submitButton" @click="submit">提交</el-button>
-  <el-row><el-text>编辑学生列表：</el-text></el-row>
-  <el-table :data="tableData" style="width: 100%" >
-    <el-table-column prop="id" label="id" width="500" />
-    <el-table-column prop="name" label="姓名" width="500" />
-    <el-table-column>
-      <template #default="{row}">
-        <el-button link type="primary" size="small" @click="handleDelete(row)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
   <el-input
     class="userInput"
     v-model="input"
     :prefix-icon="Search"
+    placeholder="输入学生手机号"
   >输入框</el-input>
   <el-button type="primary" @click="searchStudentByPhone">搜索</el-button>
   <p>搜索结果</p>
@@ -27,11 +17,26 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-row><el-text>编辑学生列表：</el-text></el-row>
+  <el-table :data="tableData" style="width: 100%" >
+    <el-table-column prop="id" label="id" width="500" />
+    <el-table-column prop="name" label="姓名" width="500" />
+    <el-table-column>
+      <template #default="{row}">
+        <el-button link type="primary" size="small" @click="handleDelete(row)">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
 
   <el-row><el-text>编辑个人信息：</el-text></el-row>
+  <el-form-item label="手机号:">
+    <el-input v-model="phone" />
+  </el-form-item>
   <el-form-item label="个人简介:">
     <el-input v-model="info" type="textarea" />
   </el-form-item>
+
+  <el-button type=primary plain class="submitButton" @click="submit" style="width: 100px">提交</el-button>
 
 </template>
 
@@ -47,6 +52,7 @@ export default defineComponent({
   setup(){
     const input = ref('')
     const info = ref('')
+    const phone = ref('')
     function searchStudentByPhone(){
       searchStudent(input.value).then(res=>{
         let ok = true
@@ -87,7 +93,7 @@ export default defineComponent({
       for(let i = 0;i<tableData.length;i++){
         ids.push(tableData[i].id)
       }
-      changeStudentRelation({ student_id_list:ids }).then(res=>{
+      changeStudentRelation({ student_id_list:ids, phone: phone.value, info: info.value}).then(res=>{
         router.push("/teacher/teacherInformation")
       })
     }
@@ -117,8 +123,9 @@ export default defineComponent({
 
     getTeacherInformation().then(res=>{
       info.value = res.data.info
+      phone.value = res.data.teacherPhone
     })
-    return {submit,tableData,handleDelete,handleAdd,addTableData,input,Search,searchStudentByPhone,info}
+    return {submit,tableData,handleDelete,handleAdd,addTableData,input,Search,searchStudentByPhone,info,phone}
   },
   components:{
 

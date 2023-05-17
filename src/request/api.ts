@@ -137,6 +137,8 @@ export function searchStudent(phone:any){
 }
 interface changeStudentRelationData{
     student_id_list:string[]
+    phone: string
+    info: string
 }
 export function changeStudentRelation(data:changeStudentRelationData){
     return service({
