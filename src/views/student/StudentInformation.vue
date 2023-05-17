@@ -37,6 +37,12 @@
       <el-form-item label="学号">
         <el-input v-model="formData.studentId" :disabled="!editing"></el-input>
       </el-form-item>
+      <el-form-item label="手机号">
+        <el-input v-model="formData.phone" :disabled="!editing"></el-input>
+      </el-form-item>
+      <el-form-item label="专业">
+        <el-input v-model="formData.major" :disabled="!editing"></el-input>
+      </el-form-item>
       <el-form-item label="导师姓名">
         <el-input v-model="formData.tutorName" :disabled=true></el-input>
       </el-form-item>
@@ -57,6 +63,7 @@
 
 <script>
 import { reactive, ref } from 'vue';
+import { getStudentInformation } from "@/request/api";
 
 export default {
   name: 'ProfilePage',
@@ -76,8 +83,30 @@ export default {
       tutorName: '导师姓名',
       tutorPhone: '导师手机',
       tutorBio: '导师简介',
+      phone: '',
+      major: ''
     });
 
+    getStudentInformation().then(res=>{
+      console.log(res)
+      formData.age = res.data.age
+      formData.bio = res.data.bio
+      formData.gender = res.data.gender
+      formData.hometown = res.data.hometown
+      formData.idCardNumber = res.data.idCardNumber
+      formData.location = res.data.location
+      formData.studentGrade = res.data.studentGrade
+      formData.studentId = res.data.studentID
+      formData.name = res.data.studentName
+      formData.researchArea = res.data.studentResearchDirection
+      formData.school = res.data.studentSchool
+      formData.tutorBio = res.data.teacherInfo
+      formData.tutorName = res.data.teacherName
+      formData.tutorPhone = res.data.teacherPhone
+      formData.techStack = res.data.techStack
+      formData.phone = res.data.studentPhone
+      formData.major = res.data.studentMajor
+    })
 
 
     const editing = ref(false);
