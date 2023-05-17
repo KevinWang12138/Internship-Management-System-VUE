@@ -221,3 +221,25 @@ export function addCompany(data:addCompanyData){
         data
     })
 }
+
+export function getDaily(date:any){
+    return service({
+        url:"/daily/get",
+        method:"get",
+        params: {
+            date:date
+        }
+    })
+}
+
+interface postDailyData{
+    text:string,
+    date:string
+}
+export function postDaily(data:postDailyData){
+    return service({
+        url:"/daily/post",
+        method:"post",
+        data
+    })
+}

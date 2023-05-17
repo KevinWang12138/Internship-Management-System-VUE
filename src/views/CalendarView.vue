@@ -1,7 +1,7 @@
 <template>
   <el-calendar>
     <template #dateCell="{data}">
-      <div class="calendar-item">
+      <div class="calendar-item" @click="open(data)">
         <div class="calendar-time">
           {{ data.day.split('-').slice(2).join('')}}
         </div>
@@ -13,22 +13,30 @@
       </div>
     </template>
   </el-calendar>
+  <el-drawer v-model="drawer" title="I am the title" :with-header="false">
+    <span>实习日报</span>
+    <div>
+      <textarea v-model="text" :disabled="!isEditing" rows="40" style="width: 90%"></textarea>
+      <el-row></el-row>
+      <button @click="toggleEditing">{{ isEditing ? '完成编辑' : '编辑' }}</button>
+      <button @click="submit" :disabled="!isEditing">提交</button>
+    </div>
+  </el-drawer>
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive} from "vue";
-import {getBasicCalendarInfo} from "@/request/api";
+import {defineComponent, reactive, ref} from "vue";
+import { getBasicCalendarInfo, getDaily, postDaily } from "@/request/api";
 
 export default defineComponent({
   name:"CalendarView",
   setup(){
+    const drawer = ref(false)
     const resDate = reactive([
       {date: '', content: ''},
     ]);
     //访问后端得到日历信息
     //从后端获得日历信息，key是date，content由两部分组成，实习单位：工作日
-    //todo 补充休息日
-    //todo 额外获取额外信息，补充请假等信息
     getBasicCalendarInfo({student_id:localStorage.getItem("phone")?.toString()}).then(res=>{
       //res返回
       const companyNames=res.data.company_names
@@ -78,7 +86,31 @@ export default defineComponent({
       }
       return res;
     }
-    return {dealMyDate}
+    const text=ref('')
+    const date=ref('')
+    function open(data:any){
+      text.value=''
+      //从后端获取日报信息
+      getDaily(data.day).then(res=>{
+        drawer.value = true
+        text.value = res.data.text
+      })
+      date.value=data.day
+    }
+    const isEditing=ref(false)
+    function toggleEditing() {
+      isEditing.value = !isEditing.value
+    }
+    function submit() {
+      postDaily({
+        date:date.value,
+        text:text.value
+      }).then(res=>{
+        console.log(res)
+      })
+      toggleEditing();
+    }
+    return {dealMyDate,drawer, open,submit,text,isEditing,toggleEditing}
   },
   components:{
 

@@ -11,8 +11,6 @@
       </template>
     </el-table-column>
   </el-table>
-  <!--底部的分页-->
-  <el-pagination background layout="prev, pager, next" :total="totalPages"/>
 </template>
 
 <script lang="ts">
