@@ -2,7 +2,7 @@
   <div class="profile">
     <el-form :model="formData" ref="profileForm" label-width="120px" class="profile-form">
       <el-form-item label="姓名">
-        <el-input v-model="formData.name" :disabled="!editing"></el-input>
+        <el-input v-model="formData.name" :disabled=true></el-input>
       </el-form-item>
       <el-form-item label="年龄">
         <el-input v-model="formData.age" :disabled="!editing"></el-input>
@@ -17,7 +17,7 @@
         <el-input type="textarea" v-model="formData.bio" :disabled="!editing"></el-input>
       </el-form-item>
       <el-form-item label="技术栈">
-        <el-input v-model="formData.techStack" :disabled="!editing"></el-input>
+        <el-input type="textarea" v-model="formData.techStack" :disabled="!editing"></el-input>
       </el-form-item>
       <el-form-item label="研究方向">
         <el-input v-model="formData.researchArea" :disabled="!editing"></el-input>
@@ -32,16 +32,19 @@
         <el-input v-model="formData.location" :disabled="!editing"></el-input>
       </el-form-item>
       <el-form-item label="学校">
-        <el-input v-model="formData.school" :disabled="!editing"></el-input>
+        <el-input v-model="formData.school" :disabled=true></el-input>
       </el-form-item>
       <el-form-item label="学号">
-        <el-input v-model="formData.studentId" :disabled="!editing"></el-input>
+        <el-input v-model="formData.studentId" :disabled=true></el-input>
+      </el-form-item>
+      <el-form-item label="年级">
+        <el-input v-model="formData.grade" :disabled=true></el-input>
       </el-form-item>
       <el-form-item label="手机号">
         <el-input v-model="formData.phone" :disabled="!editing"></el-input>
       </el-form-item>
       <el-form-item label="专业">
-        <el-input v-model="formData.major" :disabled="!editing"></el-input>
+        <el-input v-model="formData.major" :disabled=true></el-input>
       </el-form-item>
       <el-form-item label="导师姓名">
         <el-input v-model="formData.tutorName" :disabled=true></el-input>
@@ -63,7 +66,7 @@
 
 <script>
 import { reactive, ref } from 'vue';
-import { getStudentInformation } from "@/request/api";
+import { getStudentInformation, updateBasicInfo } from "@/request/api";
 
 export default {
   name: 'ProfilePage',
@@ -84,7 +87,8 @@ export default {
       tutorPhone: '导师手机',
       tutorBio: '导师简介',
       phone: '',
-      major: ''
+      major: '',
+      grade:'',
     });
 
     getStudentInformation().then(res=>{
@@ -106,6 +110,7 @@ export default {
       formData.techStack = res.data.techStack
       formData.phone = res.data.studentPhone
       formData.major = res.data.studentMajor
+      formData.grade = res.data.studentGrade
     })
 
 
@@ -116,8 +121,23 @@ export default {
     };
 
     const saveProfile = () => {
-      // Perform saving logic here
-      editing.value = false;
+      //传递给后端
+      updateBasicInfo({
+        age:formData.age,
+        gender:formData.gender,
+        bio:formData.bio,
+        techStack:formData.techStack,
+        researchArea:formData.researchArea,
+        hometown:formData.hometown,
+        idCardNumber:formData.idCardNumber,
+        location:formData.location,
+        phone:formData.phone,
+        major:formData.major,
+        grade:formData.grade
+      }).then(res=>{
+        console.log(res)
+        editing.value = false;
+      })
     };
 
     const cancelEditing = () => {

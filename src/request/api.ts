@@ -250,3 +250,24 @@ export function getDatesWithDaily(){
         method:"get"
     })
 }
+
+interface updateBasicInfo{
+    age:number
+    gender:string
+    bio:string
+    techStack:string
+    researchArea:string
+    hometown:string
+    idCardNumber:string
+    location:string
+    phone:string
+    major:string
+    grade:string
+}
+export function updateBasicInfo(data:updateBasicInfo){
+    return service({
+        url:"/basic_info/update",
+        method:"post",
+        data
+    })
+}
