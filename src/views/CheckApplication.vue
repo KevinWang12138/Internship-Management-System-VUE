@@ -17,25 +17,18 @@
       </template>
     </el-table-column>
   </el-table>
-  <!--底部的分页-->
-  <el-pagination background layout="prev, pager, next" :total="totalPages"/>
 </template>
 
 <script lang="ts">
 import {defineComponent, reactive, ref} from "vue";
 import {agreeApplication, getApplication, refuseApplication} from "@/request/api";
+import { ElMessage, ElMessageBox, type Action } from "element-plus";
 
 function agree(id:string){
   agreeApplication(id).then(res=>{
     getApplicationInfo()//刷新申请列表
   })
 }
-function refuse(id:string){
-  refuseApplication(id).then(res=>{
-    getApplicationInfo()//刷新申请列表
-  })
-}
-
 function getApplicationInfo(){
   //后端获取申请列表
   getApplication(1,10).then(res=>{
@@ -61,7 +54,19 @@ function getApplicationInfo(){
 export default defineComponent({
   name:"CheckApplicationView",
   setup(){
+    function refuse(id:string){
+      ElMessageBox.prompt('输入拒绝原因', 'Tip', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+      })
+        .then(({ value }) => {
+          refuseApplication(id,value).then(res=>{
+            getApplicationInfo()//刷新申请列表
+          })
+        })
+    }
     getApplicationInfo()
+
     return {tableData, totalPages, agree, refuse}
   },
   components:{

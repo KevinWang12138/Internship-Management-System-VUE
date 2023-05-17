@@ -100,13 +100,14 @@ export function agreeApplication(id:string){
     })
 }
 
-export function refuseApplication(id:string){
+export function refuseApplication(id:string,reason:string){
     return service({
         url:"/teacher/basic_info/check",
         method:"get",
         params: {
             id:id,
-            agreed:1
+            agreed:1,
+            reason: reason
         }
     })
 }
