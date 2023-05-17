@@ -38,13 +38,13 @@
         <el-input v-model="formData.studentId" :disabled="!editing"></el-input>
       </el-form-item>
       <el-form-item label="导师姓名">
-        <el-input v-model="formData.tutorName" :disabled="!editing"></el-input>
+        <el-input v-model="formData.tutorName" :disabled=true></el-input>
       </el-form-item>
       <el-form-item label="导师手机">
-        <el-input v-model="formData.tutorPhone" :disabled="!editing"></el-input>
+        <el-input v-model="formData.tutorPhone" :disabled=true></el-input>
       </el-form-item>
       <el-form-item label="导师简介">
-        <el-input type="textarea" v-model="formData.tutorBio" :disabled="!editing"></el-input>
+        <el-input type="textarea" v-model="formData.tutorBio" :disabled=true></el-input>
       </el-form-item>
       <div class="profile-actions">
         <el-button v-if="!editing" type="primary" @click="editProfile">编辑</el-button>
@@ -77,6 +77,8 @@ export default {
       tutorPhone: '导师手机',
       tutorBio: '导师简介',
     });
+
+
 
     const editing = ref(false);
 
