@@ -13,7 +13,7 @@
       </div>
     </template>
   </el-calendar>
-  <el-drawer v-model="drawer" title="I am the title" :with-header="false">
+  <el-drawer v-model="drawer" title="实习日报" :with-header="false">
     <span>实习日报</span>
     <div>
       <textarea v-model="text" :disabled="!isEditing" rows="40" style="width: 90%"></textarea>
