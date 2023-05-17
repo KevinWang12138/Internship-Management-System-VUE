@@ -2,10 +2,13 @@
   <el-form :model="form" label-width="120px">
     <el-form-item label="实习公司">
       <el-col :span="5">
-        <el-select v-model="form.region" placeholder="点击选择实习公司" @change="getOptionValue($event)">
-          <el-option v-for="(value, index) in companyInfo" :key="index" :label="value.name" :value="value.id">
-          </el-option>
-        </el-select>
+        <el-autocomplete
+          v-model="form.region"
+          :fetch-suggestions="querySearch"
+          clearable
+          class="inline-input w-50"
+          placeholder="点击选择实习公司"
+        />
       </el-col>
       <el-col :span="5" class="text-center">
         没有找到该公司？请手动填写！
@@ -71,10 +74,10 @@
 </template>
 
 <script lang="ts">
-  import {defineComponent, reactive, ref} from "vue";
+  import {defineComponent, onMounted, reactive, ref} from "vue";
   import {getCompanyList, setBasicCalendarInfo} from "@/request/api";
   import { ElMessage, ElMessageBox, type FormInstance } from 'element-plus'
-  import router from "@/router";
+  import type { Action } from 'element-plus'
 
   let form = reactive({
     name: '',
@@ -88,26 +91,6 @@
     resource: '',
     desc: '',
   })
-  const onSubmit = () => {
-    //提交实习信息给后端
-    setBasicCalendarInfo({
-      company_id:companyId,
-      company_name:newCompanyName,
-      start_date:dateA,
-      end_date:dateB,
-      start_work_time:timeA,
-      end_work_time:timeB,
-      type:type,
-      more_info:form.desc
-    }).then(res=>{
-      console.log(res.errNo)
-      if(res.errNo==0){
-        ElMessage("提交成功")
-      }else{
-        ElMessage(res.errMsg)
-      }
-    })
-  }
 
   //以下是选中的项目的值
   let companyId = ""//选中的公司id
@@ -117,9 +100,6 @@
   let timeA=""//上班时间
   let timeB=""//下班时间
   let type = 0//工作类型
-  const getOptionValue = (val: any) => {
-    companyId = val
-  }
   const  getDateA = (val:Date) =>{
     let day = val.getDate().toString()
     if(day.length==1){
@@ -161,17 +141,87 @@
   export default defineComponent({
     name:"CreateInternView",
     setup(){
-      const companyInfo = reactive([
-        {id: '', name: ''},
-      ]);
-      getCompanyList().then(res=>{
-        companyInfo.pop()
-        for(let index=0;index<res.data.length;index++){
-          companyInfo.push({id:res.data[index].id,name:res.data[index].name})
+      interface CompanyInfoItem {
+        value: string
+        id: string
+      }
+      const companies = ref<CompanyInfoItem[]>([])
+      const querySearch = (queryString: string, cb: any) => {
+        const results = queryString
+          ? companies.value.filter(createFilter(queryString))
+          : companies.value
+        // call callback function to return suggestions
+        cb(results)
+      }
+      const createFilter = (queryString: string) => {
+        return (companyInfoItem: CompanyInfoItem) => {
+          return (
+            companyInfoItem.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+          )
         }
-        companyInfo.push({id:'0',name:"其他"})
+      }
+      const loadAll = () => {
+        getCompanyList().then(res=>{
+          while(companies.value.length>0){
+            companies.value.pop()
+          }
+          for(let index=0;index<res.data.length;index++){
+            companies.value.push({ value: res.data[index].name, id: res.data[index].id })
+          }
+        })
+        return companies.value
+      }
+
+      onMounted(() => {
+        companies.value = loadAll()
       })
-      return {form, onSubmit,companyInfo, getOptionValue, getTimeA, getTimeB,getDateA ,getDateB,getType}
+
+
+      const onSubmit = () => {
+        console.log(form)
+        if(form.region!=''){
+          newCompanyName=form.region
+          for(let i = 0;i<companies.value.length;i++){
+            if(companies.value[i].value==form.region){
+              companyId = companies.value[i].id
+              break;
+            }
+          }
+        }else{
+          companyId = '0'
+          newCompanyName = form.name
+        }
+        //提交实习信息给后端
+        setBasicCalendarInfo({
+          company_id:companyId,
+          company_name:newCompanyName,
+          start_date:dateA,
+          end_date:dateB,
+          start_work_time:timeA,
+          end_work_time:timeB,
+          type:type,
+          more_info:form.desc
+        }).then(res=>{
+          ElMessageBox.alert('提交成功！', '成功', {
+            confirmButtonText: 'OK',
+            callback: (action: Action) => {
+              form.name= ''
+              form.region= ''
+              form.date1= ''
+              form.date2= ''
+              form.time1= ''
+              form.time2= ''
+              form.delivery= false
+              form.type= []
+              form.resource= ''
+              form.desc= ''
+            },
+          })
+        })
+      }
+
+
+      return {form, onSubmit, getTimeA, getTimeB,getDateA ,getDateB,getType,querySearch}
     },
     components:{
 
