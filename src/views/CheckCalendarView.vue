@@ -1,8 +1,25 @@
 <template>
-  <el-select @change="getStudentCalenderInfo('1')" v-model="value" class="m-2" placeholder="选择学生" size="large">
-    <el-option v-for="(value, index) in students" :key="index" :label="value.name" :value="value.id">
-    </el-option>
-  </el-select>
+  <el-autocomplete
+    v-model="state1"
+    :fetch-suggestions="querySearch"
+    clearable
+    class="inline-input w-50"
+    placeholder="Please Input"
+    @select="handleSelect"
+  />
+
+
+
+
+
+
+<!--  <el-select @change="getStudentCalenderInfo('1')" v-model="value" class="m-2" placeholder="选择学生" size="large">-->
+<!--    <el-option v-for="(value, index) in students" :key="index" :label="value.name" :value="value.id">-->
+<!--    </el-option>-->
+<!--  </el-select>-->
+
+
+
   <el-calendar>
     <template #dateCell="{data}">
       <div class="calendar-item">
@@ -20,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, ref} from "vue";
+import {defineComponent, onMounted, reactive, ref} from "vue";
 import {getBasicCalendarInfoById, getChildrenList} from "@/request/api";
 
 function getStudentCalenderInfo(studentId: any) {
@@ -81,16 +98,57 @@ export default defineComponent({
   name:"CheckApplicationView",
   setup(){
     const students = reactive([
-      {id: '', name: ''},
+      {id: '', value: ''},
     ]);
-    getChildrenList().then(res=>{
-      students.pop()
-      for(let index=0;index<res.data.length;index++){
-        students.push({id:res.data[index].id,name:res.data[index].name})
+
+
+
+    interface StudentItem {
+      value: string
+      id: string
+    }
+
+    const state1 = ref('')
+
+    const student = ref<StudentItem[]>([])
+    const querySearch = (queryString: string, cb: any) => {
+      const results = queryString
+        ? student.value.filter(createFilter(queryString))
+        : student.value
+      // call callback function to return suggestions
+      cb(results)
+    }
+    const createFilter = (queryString: string) => {
+      return (restaurant: StudentItem) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        )
       }
+    }
+    const loadAll = () => {
+      getChildrenList().then(res=>{
+        for(let index=0;index<res.data.length;index++){
+          students.push({id:res.data[index].id,value:res.data[index].name})
+        }
+      })
+
+      return students
+    }
+
+    const handleSelect = (item: StudentItem) => {
+      getStudentCalenderInfo(item.id)
+    }
+
+    onMounted(() => {
+      student.value = loadAll()
     })
 
-    return {value, students, dealMyDate, getStudentCalenderInfo}
+
+
+
+
+
+    return {value, students, dealMyDate, getStudentCalenderInfo, querySearch,state1,handleSelect}
   },
   components:{
 
@@ -98,6 +156,10 @@ export default defineComponent({
 })
 
 const value = ref('')
+
+function createFilter(queryString: string): any {
+    throw new Error("Function not implemented.");
+}
 </script>
 
 <style scoped>
