@@ -1,18 +1,17 @@
 <template>
   <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="id" label="id" width="200" />
+    <el-table-column prop="id" label="id" width="100" />
     <el-table-column prop="status" label="申请状态" width="200" />
-    <el-table-column prop="jobName" label="职位名称" width="300" />
-    <el-table-column prop="companyName" label="公司名称" width="300" />
+    <el-table-column prop="jobName" label="职位名称" width="200" />
+    <el-table-column prop="companyName" label="公司名称" width="200" />
+    <el-table-column prop="moreInfo" label="更多信息" width="300" />
     <el-table-column fixed="right" label="Operations" width="200">
       <template #default="{ row }">
-        <el-button link type="primary" size="small" @click="agree(row.id)">接受</el-button>
-        <el-button link type="primary" size="small" @click="refuse(row.id)">拒绝</el-button>
+        <el-button link type="primary" size="small" :disabled="!canClick(row)" @click="agree(row.id)">接受</el-button>
+        <el-button link type="primary" size="small" :disabled="!canClick(row)" @click="refuse(row.id)">拒绝</el-button>
       </template>
     </el-table-column>
   </el-table>
-  <!--底部的分页-->
-  <el-pagination background layout="prev, pager, next" :total="totalPages"/>
 </template>
 <script lang="ts">
 import {defineComponent, reactive} from "vue";
@@ -23,6 +22,7 @@ const tableData = reactive([
     status: '',
     jobName: '',
     companyName: '',
+    moreInfo: ''
   }
 ])
 export default defineComponent({
@@ -60,10 +60,14 @@ export default defineComponent({
           status: status,
           jobName: res.data[i].jobName,
           companyName: res.data[i].companyName,
+          moreInfo: res.data[i].moreInfo
         })
       }
     })
-    return {tableData}
+    function canClick(row:any){
+      return row.status == "面试通过"
+    }
+    return {tableData,canClick}
   },
   components:{
 
