@@ -287,3 +287,14 @@ export function uploadFile(file: File){
         }
     });
 }
+
+export function getDailyWithStudentId(date:any,studentId:any){
+    return service({
+        url:"/teacher/daily/get_with_studentId",
+        method:"get",
+        params: {
+            date:date,
+            student_id:studentId
+        }
+    })
+}

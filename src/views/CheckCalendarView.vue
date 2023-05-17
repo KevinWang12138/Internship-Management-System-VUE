@@ -8,21 +8,9 @@
     @select="handleSelect"
   />
 
-
-
-
-
-
-<!--  <el-select @change="getStudentCalenderInfo('1')" v-model="value" class="m-2" placeholder="选择学生" size="large">-->
-<!--    <el-option v-for="(value, index) in students" :key="index" :label="value.name" :value="value.id">-->
-<!--    </el-option>-->
-<!--  </el-select>-->
-
-
-
   <el-calendar>
     <template #dateCell="{data}">
-      <div class="calendar-item">
+      <div class="calendar-item" @click="open(data)">
         <div class="calendar-time">
           {{ data.day.split('-').slice(2).join('')}}
         </div>
@@ -34,11 +22,19 @@
       </div>
     </template>
   </el-calendar>
+
+  <el-drawer v-model="drawer" title="实习日报" :with-header="false">
+    <span>实习日报</span>
+    <div>
+      <textarea v-model="text" :disabled="!isEditing" rows="40" style="width: 90%"></textarea>
+      <el-row></el-row>
+    </div>
+  </el-drawer>
 </template>
 
 <script lang="ts">
 import {defineComponent, onMounted, reactive, ref} from "vue";
-import {getBasicCalendarInfoById, getChildrenList} from "@/request/api";
+import { getBasicCalendarInfoById, getChildrenList, getDaily, getDailyWithStudentId } from "@/request/api";
 
 function getStudentCalenderInfo(studentId: any) {
   getBasicCalendarInfoById(studentId).then(res=>{
@@ -134,9 +130,10 @@ export default defineComponent({
 
       return students
     }
-
+    const studentId = ref('')
     const handleSelect = (item: StudentItem) => {
       getStudentCalenderInfo(item.id)
+      studentId.value = item.id
     }
 
     onMounted(() => {
@@ -147,8 +144,24 @@ export default defineComponent({
 
 
 
-
-    return {value, students, dealMyDate, getStudentCalenderInfo, querySearch,state1,handleSelect}
+    const drawer = ref(false)
+    const text=ref('')
+    const isEditing=ref(false)
+    function toggleEditing() {
+      isEditing.value = !isEditing.value
+    }
+    const date=ref('')
+    function open(data:any){
+      text.value=''
+      //从后端获取日报信息
+      getDailyWithStudentId(data.day,studentId.value).then(res=>{
+        drawer.value = true
+        text.value = res.data.text
+        console.log(text.value)
+      })
+      date.value=data.day
+    }
+    return {value, students, dealMyDate, getStudentCalenderInfo, querySearch,state1,handleSelect,drawer, open,text,isEditing,toggleEditing}
   },
   components:{
 
