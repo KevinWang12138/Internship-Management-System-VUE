@@ -41,6 +41,7 @@ export default defineComponent({
       localStorage.removeItem("student")
       localStorage.removeItem("teacher")
       localStorage.removeItem("manager")
+      localStorage.removeItem("company")
       localStorage.removeItem("token")
       localStorage.removeItem("phone")
       router.push('/')

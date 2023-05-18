@@ -120,7 +120,6 @@ export default defineComponent({
       for(let i=0;i<res.data.length;i++){
         datesWithDaily.push(res.data[i])
       }
-      console.log(datesWithDaily)
     })
     const shouldHighlightDate = (date:any) => {
       return datesWithDaily.includes(date);

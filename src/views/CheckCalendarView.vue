@@ -10,7 +10,7 @@
 
   <el-calendar>
     <template #dateCell="{data}">
-      <div class="calendar-item" @click="open(data)">
+      <div class="calendar-item" @click="open(data)" :class="{ highlighted: shouldHighlightDate(data.day) }">
         <div class="calendar-time">
           {{ data.day.split('-').slice(2).join('')}}
         </div>
@@ -34,7 +34,13 @@
 
 <script lang="ts">
 import {defineComponent, onMounted, reactive, ref} from "vue";
-import { getBasicCalendarInfoById, getChildrenList, getDaily, getDailyWithStudentId } from "@/request/api";
+import {
+  getBasicCalendarInfoById,
+  getChildrenList,
+  getDaily,
+  getDailyWithStudentId,
+  getDatesWithDaily, getDatesWithDailyWithStudentId
+} from "@/request/api";
 
 function getStudentCalenderInfo(studentId: any) {
   getBasicCalendarInfoById(studentId).then(res=>{
@@ -131,9 +137,20 @@ export default defineComponent({
       return students
     }
     const studentId = ref('')
+    const datesWithDaily = reactive([""]);
     const handleSelect = (item: StudentItem) => {
       getStudentCalenderInfo(item.id)
       studentId.value = item.id
+
+
+      getDatesWithDailyWithStudentId(item.id).then(res=>{
+        while(datesWithDaily.length>0){
+          datesWithDaily.pop()
+        }
+        for(let i=0;i<res.data.length;i++){
+          datesWithDaily.push(res.data[i])
+        }
+      })
     }
 
     onMounted(() => {
@@ -161,7 +178,11 @@ export default defineComponent({
       })
       date.value=data.day
     }
-    return {value, students, dealMyDate, getStudentCalenderInfo, querySearch,state1,handleSelect,drawer, open,text,isEditing,toggleEditing}
+
+    const shouldHighlightDate = (date:any) => {
+      return datesWithDaily.includes(date);
+    };
+    return {value, students, dealMyDate, getStudentCalenderInfo, querySearch,state1,handleSelect,drawer, open,text,isEditing,toggleEditing,shouldHighlightDate}
   },
   components:{
 
@@ -176,5 +197,7 @@ function createFilter(queryString: string): any {
 </script>
 
 <style scoped>
-
+.highlighted {
+  background-color: lightblue;
+}
 </style>

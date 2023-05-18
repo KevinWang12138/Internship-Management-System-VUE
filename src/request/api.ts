@@ -254,6 +254,17 @@ export function getDatesWithDaily(){
     })
 }
 
+export function getDatesWithDailyWithStudentId(studentId:any){
+    return service({
+        url:"/teacher/daily/list",
+        method:"get",
+        params: {
+            student_id:studentId
+        }
+    })
+}
+
+
 interface basicInfoForUpdate{
     age:number
     gender:string
