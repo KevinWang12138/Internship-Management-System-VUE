@@ -24,6 +24,14 @@
             <span>{{ student.name }}</span>
           </div>
           <div class="profile-item">
+            <span>手机号：</span>
+            <span>{{ student.phone }}</span>
+          </div>
+          <div class="profile-item">
+            <span>身份证号：</span>
+            <span>{{ student.idCardNumber }}</span>
+          </div>
+          <div class="profile-item">
             <span>学校：</span>
             <span>{{ student.school }}</span>
           </div>
@@ -56,6 +64,14 @@
             <span>{{ student.researchArea }}</span>
           </div>
           <div class="profile-item">
+            <span>个人简介：</span>
+            <span>{{ student.bio }}</span>
+          </div>
+          <div class="profile-item">
+            <span>技术栈：</span>
+            <span>{{ student.techStack }}</span>
+          </div>
+          <div class="profile-item">
             <span>导师简介：</span>
             <span>{{ student.tutorBio }}</span>
           </div>
@@ -65,7 +81,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
-import { checkJobApplicationInfo } from "@/request/api";
+import { checkJobApplicationInfo, getStudentBasicInfo } from "@/request/api";
 const tableData = reactive([
   {
     id: '',
@@ -123,9 +139,26 @@ export default defineComponent({
     const drawer = ref(false)
     function open(index:any){
       //获取详细个人信息
-
-      drawer.value = true
+      getStudentBasicInfo(tableData[index-1].studentId).then(res=>{
+        console.log(res)
+        student.age = res.data.age
+        student.gender = res.data.gender
+        student.hometown = res.data.hometown
+        student.currentLocation = res.data.location
+        student.grade = res.data.studentGrade
+        student.major = res.data.studentMajor
+        student.name = res.data.studentName
+        student.researchArea = res.data.studentResearchDirection
+        student.tutorBio = res.data.teacherInfo
+        student.bio = res.data.bio
+        student.idCardNumber = res.data.idCardNumber
+        student.phone = res.data.studentPhone
+        student.school = res.data.studentSchool
+        student.techStack = res.data.techStack
+        drawer.value = true
+      })
     }
+
     const student = reactive({
       name: '张三',
         school: 'ABC大学',
@@ -137,6 +170,10 @@ export default defineComponent({
         currentLocation: '上海',
         researchArea: '人工智能',
         tutorBio: 'XXX教授是一位在人工智能领域有丰富经验的导师。',
+      bio: '',
+      idCardNumber: '',
+      phone: '',
+      techStack:''
     })
     return {tableData,drawer,open,student}
   },

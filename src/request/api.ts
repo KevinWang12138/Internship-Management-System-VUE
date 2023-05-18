@@ -330,3 +330,13 @@ export function updateComment(data:updateCommentRequest){
         data
     })
 }
+
+export function getStudentBasicInfo(studentId:any){
+    return service({
+        url:"/company/student_information",
+        method:"get",
+        params: {
+            student_id:studentId
+        }
+    })
+}
