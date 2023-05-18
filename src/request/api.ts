@@ -362,3 +362,10 @@ export function getAllDaily(studentId:any){
         }
     })
 }
+
+export function getInternshipSituation(){
+    return service({
+        url:"/student/internship_info",
+        method:"get",
+    })
+}
