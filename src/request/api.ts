@@ -311,3 +311,10 @@ export function getDailyWithStudentId(date:any,studentId:any){
         }
     })
 }
+
+export function getWorkingStudent(){
+    return service({
+        url:"/company/get_working_student",
+        method:"get"
+    })
+}
