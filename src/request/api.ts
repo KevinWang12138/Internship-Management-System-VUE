@@ -369,3 +369,16 @@ export function getInternshipSituation(){
         method:"get",
     })
 }
+
+export function simulateBackendProcessing(file: File){
+    const formData = new FormData();
+    formData.append('file', file);
+    return service({
+        url: '/student/file',
+        method: 'post',
+        data: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    });
+}

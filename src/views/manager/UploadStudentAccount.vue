@@ -3,15 +3,16 @@
     <h2>上传学生Excel表格</h2>
     <el-upload
       class="upload"
-      action="/api/upload"
+      action="http://localhost:8080/upload_student_account"
       :show-file-list="false"
       :on-success="handleSuccess"
       :before-upload="beforeUpload"
+      @change="handleResumeChange"
     >
       <el-button type="primary" class="upload-button">点击上传</el-button>
     </el-upload>
     <div v-if="file" class="file-info">
-      <span class="file-name">{{ file.name }}</span>
+      <span class="file-name">{{ file }}</span>
       <el-button type="text" @click="removeFile" class="remove-button">移除</el-button>
     </div>
     <el-button type="primary" :disabled="!file" class="submit-button" @click="submit">开始统计</el-button>
@@ -39,12 +40,16 @@ export default {
       loading: false,
       result: null,
       errorMessage: "",
+      excel: null
     };
   },
   methods: {
     handleSuccess(response) {
       // 处理上传成功的回调
-      this.file = response.file;
+      this.file = response.data;
+    },
+    handleResumeChange(file){
+      this.excel =file
     },
     beforeUpload(file) {
       // 在上传之前的处理，例如限制文件类型和大小
@@ -69,7 +74,7 @@ export default {
       this.loading = true;
       // 调用后端统计接口
       // 示例代码：假设后端接口返回一个Promise对象
-      simulateBackendProcessing()
+      simulateBackendProcessing(this.excel.raw)
         .then((response) => {
           this.result = "success";
         })
