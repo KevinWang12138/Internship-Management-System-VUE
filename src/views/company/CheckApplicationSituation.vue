@@ -1,26 +1,70 @@
 <template>
   <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="id" label="id" width="150" />
-    <el-table-column prop="studentId" label="学生id" width="150" />
-    <el-table-column prop="jobId" label="职位id" width="150" />
+    <el-table-column prop="id" label="id" width="80" />
+    <el-table-column prop="studentId" label="学生id" width="80" />
+    <el-table-column prop="jobId" label="职位id" width="80" />
     <el-table-column prop="status" label="申请状态" width="120" />
     <el-table-column prop="studentName" label="学生姓名" width="120" />
-    <el-table-column prop="studentPhone" label="学生手机号" width="120" />
-    <el-table-column prop="jobName" label="职位名称" width="120" />
+    <el-table-column prop="studentPhone" label="学生手机号" width="200" />
+    <el-table-column prop="jobName" label="职位名称" width="200" />
     <el-table-column prop="studentSchool" label="学生学校" width="120" />
-    <el-table-column fixed="right" label="Operations" width="120">
+    <el-table-column fixed="right" label="Operations" width="200">
       <template #default="{ row }">
+        <el-button link type="primary" size="small" @click="open(row.id)">详情</el-button>
         <el-button link type="primary" size="small" @click="agree(row.id)">推进</el-button>
         <el-button link type="primary" size="small" @click="refuse(row.id)">淘汰</el-button>
       </template>
     </el-table-column>
   </el-table>
-  <!--底部的分页-->
-  <el-pagination background layout="prev, pager, next" :total="totalPages"/>
+  <el-drawer v-model="drawer" title="详细信息" :with-header="false">
+        <div class="profile">
+          <h2>基本信息</h2>
+          <div class="profile-item">
+            <span>姓名：</span>
+            <span>{{ student.name }}</span>
+          </div>
+          <div class="profile-item">
+            <span>学校：</span>
+            <span>{{ student.school }}</span>
+          </div>
+          <div class="profile-item">
+            <span>年龄：</span>
+            <span>{{ student.age }}</span>
+          </div>
+          <div class="profile-item">
+            <span>性别：</span>
+            <span>{{ student.gender }}</span>
+          </div>
+          <div class="profile-item">
+            <span>专业：</span>
+            <span>{{ student.major }}</span>
+          </div>
+          <div class="profile-item">
+            <span>年级：</span>
+            <span>{{ student.grade }}</span>
+          </div>
+          <div class="profile-item">
+            <span>籍贯：</span>
+            <span>{{ student.hometown }}</span>
+          </div>
+          <div class="profile-item">
+            <span>现居地：</span>
+            <span>{{ student.currentLocation }}</span>
+          </div>
+          <div class="profile-item">
+            <span>研究方向：</span>
+            <span>{{ student.researchArea }}</span>
+          </div>
+          <div class="profile-item">
+            <span>导师简介：</span>
+            <span>{{ student.tutorBio }}</span>
+          </div>
+        </div>
+  </el-drawer>
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive} from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import { checkJobApplicationInfo } from "@/request/api";
 const tableData = reactive([
   {
@@ -75,7 +119,26 @@ export default defineComponent({
         })
       }
     })
-    return {tableData}
+
+    const drawer = ref(false)
+    function open(index:any){
+      //获取详细个人信息
+
+      drawer.value = true
+    }
+    const student = reactive({
+      name: '张三',
+        school: 'ABC大学',
+        age: 22,
+        gender: '男',
+        major: '计算机科学',
+        grade: '大四',
+        hometown: '北京',
+        currentLocation: '上海',
+        researchArea: '人工智能',
+        tutorBio: 'XXX教授是一位在人工智能领域有丰富经验的导师。',
+    })
+    return {tableData,drawer,open,student}
   },
   components:{
 
@@ -85,5 +148,17 @@ export default defineComponent({
 
 
 <style scoped>
+.profile {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
 
+.profile h2 {
+  margin-bottom: 10px;
+}
+
+.profile-item {
+  margin-bottom: 10px;
+}
 </style>
