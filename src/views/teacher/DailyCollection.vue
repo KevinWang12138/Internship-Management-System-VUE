@@ -19,16 +19,24 @@
       </template>
     </el-table-column>
   </el-table>
+
+  <el-drawer v-model="drawer" title="实习日报" :with-header="false">
+    <span>实习日报</span>
+    <div>
+      <textarea v-model="text" :disabled="!isEditing" rows="40" style="width: 90%"></textarea>
+      <el-row></el-row>
+    </div>
+  </el-drawer>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref } from "vue";
-import { getAllDaily, getChildrenList } from "@/request/api";
+import { getAllDaily, getChildrenList, getDailyWithStudentId } from "@/request/api";
 export default defineComponent({
   name:"DailyCollection",
   setup(){
     const tableData = reactive([
-      {id: '', date: '', companyName: '', studentId:'',studentName:''}
+      {id: '', date: '', companyName: '', studentId:'',studentName:'',text:''}
     ]);
     function getDaily(id:any){
       getAllDaily(id).then(res=>{
@@ -41,7 +49,8 @@ export default defineComponent({
             date: res.data[i].date,
             companyName: res.data[i].companyName,
             studentId:res.data[i].studentId,
-            studentName:res.data[i].studentName
+            studentName:res.data[i].studentName,
+            text:res.data[i].text
           })
         }
         console.log(res)
@@ -97,7 +106,14 @@ export default defineComponent({
 
       return students
     }
-    return {students, querySearch,state1,tableData,handleSelect}
+    const drawer = ref(false)
+    const text=ref('')
+    const isEditing=ref(false)
+    function open(data:any){
+      text.value=tableData[data-1].text
+      drawer.value=true
+    }
+    return {students, querySearch,state1,tableData,handleSelect,drawer, open,text,isEditing}
   },
   components:{
 
