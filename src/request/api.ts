@@ -390,3 +390,13 @@ export function companyPush(id:string){
         }
     })
 }
+export function companyRefuse(id:string,info:string){
+    return service({
+        url:"/company/refuse",
+        method:"get",
+        params: {
+            id:id,
+            info:info
+        }
+    })
+}

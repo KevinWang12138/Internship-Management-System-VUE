@@ -81,7 +81,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
-import { checkJobApplicationInfo, companyPush, getStudentBasicInfo } from "@/request/api";
+import { checkJobApplicationInfo, companyPush, companyRefuse, getStudentBasicInfo, refuseApplication } from "@/request/api";
+import { ElMessageBox } from "element-plus";
 const tableData = reactive([
   {
     id: '',
@@ -183,7 +184,15 @@ export default defineComponent({
     }
 
     function refuse(id:any){
-
+      ElMessageBox.prompt('输入淘汰原因', 'Tip', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+      })
+        .then(({ value }) => {
+          companyRefuse(id,value).then(res=>{
+            location.reload()
+          })
+        })
     }
 
     return {tableData,drawer,open,student,agree,refuse}
