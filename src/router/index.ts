@@ -140,6 +140,16 @@ const router = createRouter({
           component: () => import('../views/teacher/EditTeacherInformation.vue'),
         },
         {
+          path: "dailyCollection",
+          name: "dailyCollection",
+          meta:{
+            isShow: true,
+            father: 'teacher',
+            title: "日志系统"
+          },
+          component: () => import('../views/teacher/DailyCollection.vue'),
+        },
+        {
           path: "editTeacherPassword",
           name: "editTeacherPassword",
           meta:{

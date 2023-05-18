@@ -352,3 +352,13 @@ export function changePassword(data:changePasswordRequest){
         data
     })
 }
+
+export function getAllDaily(studentId:any){
+    return service({
+        url:"/teacher/daily/all",
+        method:"get",
+        params: {
+            student_id:studentId
+        }
+    })
+}
