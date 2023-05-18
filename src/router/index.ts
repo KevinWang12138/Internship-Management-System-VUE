@@ -254,6 +254,16 @@ const router = createRouter({
           component: () => import('../views/manager/CountView.vue'),
         },
         {
+          path: "uploadStudentAccount",
+          name: "uploadStudentAccount",
+          meta:{
+            isShow: true,
+            father: 'manager',
+            title: "导入账号"
+          },
+          component: () => import('../views/manager/UploadStudentAccount.vue'),
+        },
+        {
           path: "add_company",
           name: "add_company",
           meta:{
