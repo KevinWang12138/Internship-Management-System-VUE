@@ -318,3 +318,15 @@ export function getWorkingStudent(){
         method:"get"
     })
 }
+
+interface updateCommentRequest{
+    id:string
+    comment:string
+}
+export function updateComment(data:updateCommentRequest){
+    return service({
+        url:"/company/update_comment",
+        method:"post",
+        data
+    })
+}
