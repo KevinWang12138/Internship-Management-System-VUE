@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import {defineComponent, reactive} from "vue";
-import { checkJobApplicationInfo } from "@/request/api";
+import { checkJobApplicationInfo, jobList } from "@/request/api";
 const tableData = reactive([
   {
     id: '',
@@ -21,6 +21,19 @@ const tableData = reactive([
 export default defineComponent({
   name:"TheJobs",
   setup(){
+    jobList().then(res=>{
+      while(tableData.length>0){
+        tableData.pop()
+      }
+      for(let i=0;i<res.data.length;i++){
+        tableData.push({
+          id: res.data[i].id,
+          name: res.data[i].name,
+          info: res.data[i].info,
+          count: res.data[i].count
+        })
+      }
+    })
     return {tableData}
   },
   components:{

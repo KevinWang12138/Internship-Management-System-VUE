@@ -400,3 +400,10 @@ export function companyRefuse(id:string,info:string){
         }
     })
 }
+
+export function jobList(){
+    return service({
+        url:"/company/job/list",
+        method:"get"
+    })
+}
