@@ -71,6 +71,16 @@ const router = createRouter({
             title: "面试情况"
           },
           component: () => import('../views/student/InterviewSituation.vue'),
+        },
+        {
+          path: "editPassword",
+          name: "editPassword",
+          meta:{
+            isShow: true,
+            father: 'home',
+            title: "修改密码"
+          },
+          component: () => import('../views/EditPassword.vue'),
         }
       ]
     },

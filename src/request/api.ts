@@ -340,3 +340,15 @@ export function getStudentBasicInfo(studentId:any){
         }
     })
 }
+
+interface changePasswordRequest{
+    old_password:string
+    new_password:string
+}
+export function changePassword(data:changePasswordRequest){
+    return service({
+        url:"/change_password",
+        method:"post",
+        data
+    })
+}
