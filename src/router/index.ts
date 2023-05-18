@@ -138,6 +138,16 @@ const router = createRouter({
             title: "编辑"
           },
           component: () => import('../views/teacher/EditTeacherInformation.vue'),
+        },
+        {
+          path: "editTeacherPassword",
+          name: "editTeacherPassword",
+          meta:{
+            isShow: true,
+            father: 'teacher',
+            title: "修改密码"
+          },
+          component: () => import('../views/EditPassword.vue'),
         }
       ]
     },
@@ -195,6 +205,16 @@ const router = createRouter({
             title: "评价系统"
           },
           component: () => import('../views/company/CompanyComment.vue'),
+        },
+        {
+          path: "editCompanyPassword",
+          name: "editCompanyPassword",
+          meta:{
+            isShow: true,
+            father: 'company',
+            title: "修改密码"
+          },
+          component: () => import('../views/EditPassword.vue'),
         }
       ]
     },
@@ -232,6 +252,16 @@ const router = createRouter({
             title: "公司列表"
           },
           component: () => import('../views/manager/CompanyList.vue'),
+        },
+        {
+          path: "editManagerPassword",
+          name: "editManagerPassword",
+          meta:{
+            isShow: true,
+            father: 'manager',
+            title: "修改密码"
+          },
+          component: () => import('../views/EditPassword.vue'),
         }
       ]
     }
