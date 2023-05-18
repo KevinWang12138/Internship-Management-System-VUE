@@ -16,7 +16,7 @@
       <el-button type="text" @click="removeFile" class="remove-button">移除</el-button>
     </div>
     <el-button type="primary" :disabled="!file" class="submit-button" @click="submit">开始统计</el-button>
-    <el-dialog title="统计结果" v-model:visible="dialogVisible" width="30%">
+    <el-dialog title="统计结果" v-model="dialogVisible" width="30%">
       <div v-if="loading" class="loading-container">
         <el-loading text="统计中..." fullscreen></el-loading>
       </div>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { simulateBackendProcessing } from "@/request/api";
+
 export default {
   data() {
     return {
@@ -70,11 +72,8 @@ export default {
       this.file = null;
     },
     submit() {
-      // 提交表格并触发后端数据统计
       this.loading = true;
-      // 调用后端统计接口
-      // 示例代码：假设后端接口返回一个Promise对象
-      simulateBackendProcessing(this.excel.raw)
+      simulateBackendProcessing(this.file)
         .then((response) => {
           this.result = "success";
         })

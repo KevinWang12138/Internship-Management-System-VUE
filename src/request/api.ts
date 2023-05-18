@@ -370,15 +370,13 @@ export function getInternshipSituation(){
     })
 }
 
-export function simulateBackendProcessing(file: File){
-    const formData = new FormData();
-    formData.append('file', file);
+
+export function simulateBackendProcessing(name:string){
     return service({
-        url: '/student/file',
-        method: 'post',
-        data: formData,
-        headers: {
-            'Content-Type': 'multipart/form-data',
+        url:"/manager/file",
+        method:"get",
+        params: {
+            name:name
         }
-    });
+    })
 }
