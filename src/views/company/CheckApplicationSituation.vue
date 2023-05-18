@@ -11,8 +11,8 @@
     <el-table-column fixed="right" label="Operations" width="200">
       <template #default="{ row }">
         <el-button link type="primary" size="small" @click="open(row.id)">详情</el-button>
-        <el-button link type="primary" size="small" @click="agree(row.id)">推进</el-button>
-        <el-button link type="primary" size="small" @click="refuse(row.id)">淘汰</el-button>
+        <el-button link type="primary" size="small" :disabled="row.status=='面试通过'||row.status=='不通过'||row.status=='入职'" @click="agree(row.id)">推进</el-button>
+        <el-button link type="primary" size="small" :disabled="row.status=='面试通过'||row.status=='不通过'||row.status=='入职'" @click="refuse(row.id)">淘汰</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -81,7 +81,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
-import { checkJobApplicationInfo, getStudentBasicInfo } from "@/request/api";
+import { checkJobApplicationInfo, companyPush, getStudentBasicInfo } from "@/request/api";
 const tableData = reactive([
   {
     id: '',
@@ -175,7 +175,18 @@ export default defineComponent({
       phone: '',
       techStack:''
     })
-    return {tableData,drawer,open,student}
+
+    function agree(id:any){
+      companyPush(id).then(res=>{
+        location.reload()
+      })
+    }
+
+    function refuse(id:any){
+
+    }
+
+    return {tableData,drawer,open,student,agree,refuse}
   },
   components:{
 

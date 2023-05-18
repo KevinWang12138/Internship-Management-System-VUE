@@ -380,3 +380,13 @@ export function simulateBackendProcessing(name:string){
         }
     })
 }
+
+export function companyPush(id:string){
+    return service({
+        url:"/company/push",
+        method:"get",
+        params: {
+            id:id
+        }
+    })
+}

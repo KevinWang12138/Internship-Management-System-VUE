@@ -25,11 +25,16 @@
       <el-statistic title="接入公司数" :value="companyCount" />
     </el-col>
   </el-row>
+
+  <div>
+    <div id="pieChart" style="width: 400px; height: 400px;"></div>
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import { ChatLineRound, Male } from '@element-plus/icons-vue'
 import { getBasicInfo, getMajors } from "@/request/api";
+import * as echarts from 'echarts';
 export default defineComponent({
   name:"CountView",
   setup(){
@@ -53,18 +58,70 @@ export default defineComponent({
     })
     function getBasic() {
       getBasicInfo(majorId.value).then(res=>{
-        console.log(res.data)
-        console.log(majorId.value)
         totalStudents.value=res.data.studentCount
         totalStudentsWithExperience.value=res.data.studentWithExperienceCount
         companyCount.value=res.data.companyCount
       })
     }
     getBasic()
+
+
+
+
+
     return {options,majorId,getBasic,companyCount,totalStudentsWithExperience,totalStudents}
   },
   components:{
 
+  },
+  mounted() {
+    this.renderPieChart();
+  },
+  methods: {
+    renderPieChart() {
+      const pieChart = echarts.init(document.getElementById('pieChart')!);
+
+      const pieOptions: echarts.EChartsOption = {
+        title: {
+          text: '就职公司饼状图',
+          subtext: '仅展现最多的五个公司',
+          x: 'center',
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b}: {c} ({d}%)',
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+          data: ['类别1', '类别2', '类别3', '类别4', '类别5'],
+        },
+        series: [
+          {
+            name: '访问来源',
+            type: 'pie',
+            radius: '55%',
+            center: ['50%', '60%'],
+            data: [
+              { value: 335, name: '类别1' },
+              { value: 310, name: '类别2' },
+              { value: 234, name: '类别3' },
+              { value: 135, name: '类别4' },
+              { value: 1548, name: '类别5' },
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
+            },
+          },
+        ],
+      };
+
+      pieChart.setOption(pieOptions);
+    },
   },
 })
 </script>
