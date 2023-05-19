@@ -407,3 +407,30 @@ export function jobList(){
         method:"get"
     })
 }
+
+
+interface studentPushRequest{
+    id:any
+    start_date:string
+    end_date:string
+    start_time:string
+    end_time:string
+    type:number
+}
+export function studentPush(data:studentPushRequest){
+    return service({
+        url:"/student/push",
+        method:"post",
+        data
+    })
+}
+
+export function refuseInternview(id:any){
+    return service({
+        url:"/student/refuse",
+        method:"get",
+        params: {
+            id:id
+        }
+    })
+}

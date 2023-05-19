@@ -11,8 +11,8 @@
     <el-table-column fixed="right" label="Operations" width="200">
       <template #default="{ row }">
         <el-button link type="primary" size="small" @click="open(row.id)">详情</el-button>
-        <el-button link type="primary" size="small" :disabled="row.status=='面试通过'||row.status=='不通过'||row.status=='入职'" @click="agree(row.id)">推进</el-button>
-        <el-button link type="primary" size="small" :disabled="row.status=='面试通过'||row.status=='不通过'||row.status=='入职'" @click="refuse(row.id)">淘汰</el-button>
+        <el-button link type="primary" size="small" :disabled="row.status=='面试通过'||row.status=='不通过'||row.status=='入职' || row.status=='待导师审批' || row.status=='候选人拒绝'" @click="agree(row.id)">推进</el-button>
+        <el-button link type="primary" size="small" :disabled="row.status=='面试通过'||row.status=='不通过'||row.status=='入职' || row.status=='待导师审批' || row.status=='候选人拒绝'" @click="refuse(row.id)">淘汰</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -127,6 +127,12 @@ export default defineComponent({
             break;
           case 5:
             status = "不通过"
+            break;
+          case 6:
+            status = "待学校导师审批"
+            break;
+          case 7:
+            status = "候选人拒绝"
             break;
         }
         tableData.push({
