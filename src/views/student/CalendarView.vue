@@ -91,12 +91,17 @@ export default defineComponent({
     const date=ref('')
     function open(data:any){
       text.value=''
-      //从后端获取日报信息
-      getDaily(data.day).then(res=>{
-        drawer.value = true
-        text.value = res.data.text
-      })
-      date.value=data.day
+      for(let i=0;i<resDate.length;i++){
+        if(resDate[i].date==data.day){
+          //从后端获取日报信息
+          getDaily(data.day).then(res=>{
+            drawer.value = true
+            text.value = res.data.text
+          })
+          date.value=data.day
+          return
+        }
+      }
     }
     const isEditing=ref(false)
     function toggleEditing() {
