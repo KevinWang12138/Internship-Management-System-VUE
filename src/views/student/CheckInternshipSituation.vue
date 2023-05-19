@@ -1,4 +1,5 @@
 <template>
+
   <el-table :data="tableData" style="width: 100%">
     <el-table-column prop="id" label="id" width="150" />
     <el-table-column prop="jobName" label="职位名称" width="300" />
@@ -52,6 +53,10 @@ export default defineComponent({
         })
       }
     })
+
+
+
+
     return {drawer,text,isEditing,open,tableData}
   },
   components:{

@@ -1,4 +1,6 @@
 <template>
+  <el-button class="button-only-ok" v-if="!pushed" @click="push">仅看流程中</el-button>
+  <el-button class="button-only-ok" v-else @click="ret">全部记录</el-button>
   <el-table :data="tableData" style="width: 100%">
     <el-table-column prop="id" label="id" width="100" />
     <el-table-column prop="status" label="申请状态" width="200" />
@@ -95,11 +97,23 @@ const tableData = reactive([
     moreInfo: ''
   }
 ])
+const theTable = reactive([
+  {
+    id: '',
+    status: '',
+    jobName: '',
+    companyName: '',
+    moreInfo: ''
+  }
+])
 export default defineComponent({
   name:"InterviewSituation",
   setup(){
     while(tableData.length>0){
       tableData.pop()
+    }
+    while(theTable.length>0){
+      theTable.pop()
     }
     //0待审批，1审批中，2面试中，3面试通过，4入职，5不通过，6待导师审批
     checkInterviewSituation().then(res=>{
@@ -132,6 +146,13 @@ export default defineComponent({
             break;
         }
         tableData.push({
+          id: res.data[i].id,
+          status: status,
+          jobName: res.data[i].jobName,
+          companyName: res.data[i].companyName,
+          moreInfo: res.data[i].moreInfo
+        })
+        theTable.push({
           id: res.data[i].id,
           status: status,
           jobName: res.data[i].jobName,
@@ -219,7 +240,33 @@ export default defineComponent({
         location.reload()
       })
     }
-    return {tableData,canClick, agree, refuse,dialogVisible,form,submit,getDateA,getDateB,getTimeA,getTimeB,getType}
+
+
+
+
+    const pushed = ref(false)
+
+    function push(){
+      while(tableData.length>0){
+        tableData.pop()
+      }
+      for(let i = 0;i< theTable.length;i++){
+        if(theTable[i].status != "不通过" && theTable[i].status != "入职" && theTable[i].status != "候选人拒绝"){
+          tableData.push(theTable[i])
+        }
+      }
+      pushed.value = true
+    }
+    function  ret(){
+      while(tableData.length>0){
+        tableData.pop()
+      }
+      for(let i = 0;i< theTable.length;i++){
+        tableData.push(theTable[i])
+      }
+      pushed.value = false
+    }
+    return {tableData,canClick, agree, refuse,dialogVisible,form,submit,getDateA,getDateB,getTimeA,getTimeB,getType,pushed,push,ret}
   },
   components:{
 
