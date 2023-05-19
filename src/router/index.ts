@@ -60,7 +60,7 @@ const router = createRouter({
             father: 'home',
             title: "新建实习"
           },
-          component: () => import('../views/CreateInternView.vue'),
+          component: () => import('../views/student/CreateInternView.vue'),
         },
         {
           path: "internshipSituation",
