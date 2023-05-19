@@ -141,6 +141,12 @@
   export default defineComponent({
     name:"CreateInternView",
     setup(){
+      ElMessageBox.alert('如果您在系统外申请到实习，请在本页上传信息，否则请移步申请实习页面', '提示', {
+        confirmButtonText: '确定',
+      });
+
+
+
       interface CompanyInfoItem {
         value: string
         id: string

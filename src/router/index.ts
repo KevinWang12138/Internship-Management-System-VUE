@@ -23,16 +23,6 @@ const router = createRouter({
           component: () => import('../views/CalendarView.vue'),
         },
         {
-          path: "createIntern",
-          name: "createIntern",
-          meta:{
-            isShow: true,
-            father: 'home',
-            title: "新建实习"
-          },
-          component: () => import('../views/CreateInternView.vue'),
-        },
-        {
           path: "checkSelfApplication",
           name: "checkSelfApplication",
           meta:{
@@ -58,9 +48,19 @@ const router = createRouter({
           meta:{
             isShow: true,
             father: 'home',
-            title: "职位列表"
+            title: "申请实习"
           },
           component: () => import('../views/student/CheckJobs.vue'),
+        },
+        {
+          path: "createIntern",
+          name: "createIntern",
+          meta:{
+            isShow: true,
+            father: 'home',
+            title: "新建实习"
+          },
+          component: () => import('../views/CreateInternView.vue'),
         },
         {
           path: "internshipSituation",
