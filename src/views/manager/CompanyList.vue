@@ -1,4 +1,8 @@
 <template>
+  <div class="search-container">
+    <el-input class="search-input" v-model="searchKeyword" placeholder="输入公司名称" clearable></el-input>
+    <el-button class="search-button" type="primary" @click="search">搜索</el-button>
+  </div>
   <el-table :data="tableData" style="width: 100%">
     <el-table-column prop="id" label="id" width="300" />
     <el-table-column prop="name" label="公司名称" width="300" />
@@ -6,8 +10,8 @@
   </el-table>
 </template>
 <script lang="ts">
-import {defineComponent, reactive} from "vue";
-import { getCompanyList, getJob } from "@/request/api";
+import {defineComponent, reactive, ref} from "vue";
+import { getCompanyList, getCompanyListWithKeyword, getJob } from "@/request/api";
 const tableData = reactive([
   {
     id: '',
@@ -32,7 +36,25 @@ export default defineComponent({
         )
       }
     })
-    return {tableData}
+
+    const searchKeyword = ref("")
+    function search(){
+      getCompanyListWithKeyword(searchKeyword.value).then(res=>{
+        while(tableData.length>0){
+          tableData.pop()
+        }
+        for(let i=0;i<res.data.length;i++){
+          tableData.push(
+            {
+              id: res.data[i].id,
+              name: res.data[i].name,
+              desc: res.data[i].description
+            }
+          )
+        }
+      })
+    }
+    return {tableData,search,searchKeyword}
   },
   components:{
 

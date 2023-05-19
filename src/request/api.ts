@@ -45,7 +45,15 @@ export function getCompanyList(){
         method:"get"
     })
 }
-
+export function getCompanyListWithKeyword(keyword:string){
+    return service({
+        url:"/company/list_like",
+        method:"get",
+        params:{
+            keyword: keyword
+        }
+    })
+}
 interface setBasicCalendarInfoData{
     company_id:string|undefined,
     company_name:string,
