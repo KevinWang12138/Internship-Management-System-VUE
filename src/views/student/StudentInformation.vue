@@ -65,6 +65,10 @@
         </el-upload>
         <span v-if="resume">: {{ resume }}</span>
       </el-form-item>
+      <el-form-item label="查看简历">
+        <a class="resume-link" :href="resumeUrl" download="我的简历.pdf" v-if="resumeUrl">下载简历</a>
+        <span v-else>暂无简历</span>
+      </el-form-item>
       <div class="profile-actions">
         <el-button v-if="!editing" type="primary" @click="editProfile">编辑</el-button>
         <el-button v-else type="success" @click="saveProfile">保存</el-button>
@@ -121,6 +125,9 @@ export default {
       formData.phone = res.data.studentPhone
       formData.major = res.data.studentMajor
       formData.grade = res.data.studentGrade
+      if(res.data.url!=null&&res.data.url!=""){
+        resumeUrl.value = "http://localhost:8080/download/resume?fileName="+res.data.url
+      }
     })
 
 
@@ -165,6 +172,9 @@ export default {
       resume.value = file.name
       theFile = file.raw
     }
+    const fileName = ref("未上传，请先上传")
+    const resumeUrl = ref("")
+
     return {
       formData,
       editing,
@@ -172,7 +182,9 @@ export default {
       saveProfile,
       cancelEditing,
       resume,
-      handleResumeChange
+      handleResumeChange,
+      fileName,
+      resumeUrl
     };
   },
 };
