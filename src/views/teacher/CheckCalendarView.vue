@@ -43,6 +43,9 @@ import {
 } from "@/request/api";
 
 function getStudentCalenderInfo(studentId: any) {
+  while(resDate.length>0){
+    resDate.pop()
+  }
   getBasicCalendarInfoById(studentId).then(res=>{
     //res返回
     const companyNames=res.data.company_names

@@ -34,7 +34,7 @@ export default defineComponent({
   setup(){
     const drawer = ref(false)
     const resDate = reactive([
-      {date: '', content: ''},
+      {date: '', content: '',company: ''},
     ]);
     //访问后端得到日历信息
     //从后端获得日历信息，key是date，content由两部分组成，实习单位：工作日
@@ -70,7 +70,7 @@ export default defineComponent({
           }else {
             d+=myDate.getDate()
           }
-          resDate.push({date: d,content: info})
+          resDate.push({date: d,content: info,company: companyNames[index]})
           myDate.setDate(myDate.getDate()+1)
         }
       }
@@ -91,6 +91,8 @@ export default defineComponent({
     const date=ref('')
     function open(data:any){
       text.value=''
+      companyVal.value=''
+
       for(let i=0;i<resDate.length;i++){
         if(resDate[i].date==data.day){
           //从后端获取日报信息
@@ -99,6 +101,7 @@ export default defineComponent({
             text.value = res.data.text
           })
           date.value=data.day
+          companyVal.value=resDate[i].company
           return
         }
       }
@@ -107,10 +110,12 @@ export default defineComponent({
     function toggleEditing() {
       isEditing.value = !isEditing.value
     }
+    const companyVal = ref("")
     function submit() {
       postDaily({
         date:date.value,
-        text:text.value
+        text:text.value,
+        company: companyVal.value
       }).then(res=>{
         console.log(res)
       })

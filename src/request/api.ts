@@ -247,7 +247,8 @@ export function getDaily(date:any){
 
 interface postDailyData{
     text:string,
-    date:string
+    date:string,
+    company:string
 }
 export function postDaily(data:postDailyData){
     return service({
