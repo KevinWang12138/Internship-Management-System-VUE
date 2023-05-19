@@ -65,4 +65,16 @@ export default defineComponent({
 
 <style scoped>
 
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  margin-right: 10px; /* 调整输入框与按钮之间的间距 */
+}
+
+.search-button {
+  flex-shrink: 0; /* 防止按钮被压缩 */
+}
 </style>
