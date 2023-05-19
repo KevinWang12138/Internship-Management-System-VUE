@@ -67,18 +67,11 @@ export default defineComponent({
 
 
 
+    const companys=reactive(['Google', 'Meta', 'Netflix', 'Apple', 'Amazon'])
+    const numbers=reactive([335,310,234,135,1548])
 
 
-    return {options,majorId,getBasic,companyCount,totalStudentsWithExperience,totalStudents}
-  },
-  components:{
-
-  },
-  mounted() {
-    this.renderPieChart();
-  },
-  methods: {
-    renderPieChart() {
+    function renderPieChart() {
       const pieChart = echarts.init(document.getElementById('pieChart')!);
 
       const pieOptions: echarts.EChartsOption = {
@@ -94,20 +87,20 @@ export default defineComponent({
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: ['类别1', '类别2', '类别3', '类别4', '类别5'],
+          data: companys,
         },
         series: [
           {
-            name: '访问来源',
+            name: '入职人数',
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
             data: [
-              { value: 335, name: '类别1' },
-              { value: 310, name: '类别2' },
-              { value: 234, name: '类别3' },
-              { value: 135, name: '类别4' },
-              { value: 1548, name: '类别5' },
+              { value: numbers[0], name: companys[0] },
+              { value: numbers[1], name: companys[1] },
+              { value: numbers[2], name: companys[2] },
+              { value: numbers[3], name: companys[3] },
+              { value: numbers[4], name: companys[4] },
             ],
             emphasis: {
               itemStyle: {
@@ -121,7 +114,16 @@ export default defineComponent({
       };
 
       pieChart.setOption(pieOptions);
-    },
+    }
+    return {options,majorId,getBasic,companyCount,totalStudentsWithExperience,totalStudents,renderPieChart}
+  },
+  components:{
+
+  },
+  mounted() {
+    this.renderPieChart();
+  },
+  methods: {
   },
 })
 </script>
