@@ -11,7 +11,7 @@
     <el-table-column prop="moreInfo" label="更多信息" width="200" />
   </el-table>
   <!--底部的分页-->
-  <el-pagination background layout="prev, pager, next" :total="totalPages"/>
+<!--  <el-pagination background layout="prev, pager, next" :total="totalPages"/>-->
 </template>
 
 <script lang="ts">
@@ -19,7 +19,7 @@ import {defineComponent, reactive, ref} from "vue";
 import {getApplication, getSelfApplication} from "@/request/api";
 function getApplicationInfo(){
   //后端获取申请列表
-  getSelfApplication(1,10).then(res=>{
+  getSelfApplication(1,100).then(res=>{
     console.log(res.data)
     while(tableData.length!=0){
       tableData.pop()
