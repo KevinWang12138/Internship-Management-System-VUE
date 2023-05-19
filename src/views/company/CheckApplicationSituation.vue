@@ -75,6 +75,11 @@
             <span>导师简介：</span>
             <span>{{ student.tutorBio }}</span>
           </div>
+          <div class="profile-item">
+            <span>个人简历：</span>
+            <a class="resume-link" :href="resumeUrl" download="我的简历.pdf" v-if="resumeUrl">下载简历</a>
+            <span v-else>暂无简历</span>
+          </div>
         </div>
   </el-drawer>
 </template>
@@ -156,6 +161,9 @@ export default defineComponent({
         student.phone = res.data.studentPhone
         student.school = res.data.studentSchool
         student.techStack = res.data.techStack
+        if(res.data.url!=null&&res.data.url!=""){
+          resumeUrl.value="http://localhost:8080/download?fileName="+res.data.url
+        }
         drawer.value = true
       })
     }
@@ -195,7 +203,9 @@ export default defineComponent({
         })
     }
 
-    return {tableData,drawer,open,student,agree,refuse}
+    const resumeUrl = ref('')
+
+    return {tableData,drawer,open,student,agree,refuse,resumeUrl}
   },
   components:{
 
