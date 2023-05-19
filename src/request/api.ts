@@ -169,6 +169,16 @@ export function getJob(){
     })
 }
 
+export function getJobByLike(keyword:any){
+    return service({
+        url:"/job/get_like",
+        method:"get",
+        params:{
+            keyword:keyword
+        }
+    })
+}
+
 export function checkInterviewSituation(){
     return service({
         url:"/application/check",
