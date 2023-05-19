@@ -17,6 +17,7 @@
       v-model="desc"
       class="w-50 m-2"
       placeholder="公司描述"
+      type="textarea"
     />
   </el-row>
   <el-row :gutter="20">
