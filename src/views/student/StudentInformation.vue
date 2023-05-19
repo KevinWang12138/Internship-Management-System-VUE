@@ -126,7 +126,7 @@ export default {
       formData.major = res.data.studentMajor
       formData.grade = res.data.studentGrade
       if(res.data.url!=null&&res.data.url!=""){
-        resumeUrl.value = "http://localhost:8080/download/resume?fileName="+res.data.url
+        resumeUrl.value = "http://localhost:8080/download?fileName="+res.data.url
       }
     })
 
