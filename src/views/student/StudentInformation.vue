@@ -63,7 +63,6 @@
         >
         <el-button size="small">选择文件</el-button>
         </el-upload>
-        <span v-if="resume">: {{ resume }}</span>
       </el-form-item>
       <el-form-item label="查看简历">
         <a class="resume-link" :href="resumeUrl" download="我的简历.pdf" v-if="resumeUrl">下载简历</a>
@@ -86,8 +85,8 @@ export default {
   name: 'ProfilePage',
   setup() {
     const formData = reactive({
-      name: 'John Doe',
-      age: 25,
+      name: '姓名',
+      age: null,
       gender: '男',
       bio: '个人简介',
       techStack: '技术栈',
