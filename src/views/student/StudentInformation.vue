@@ -46,6 +46,9 @@
       <el-form-item label="专业">
         <el-input v-model="formData.major" :disabled=true></el-input>
       </el-form-item>
+      <el-form-item label="学院">
+        <el-input v-model="formData.college" :disabled=true></el-input>
+      </el-form-item>
       <el-form-item label="导师姓名">
         <el-input v-model="formData.tutorName" :disabled=true></el-input>
       </el-form-item>
@@ -102,6 +105,7 @@ export default {
       phone: '',
       major: '',
       grade:'',
+      college: '',
     });
 
     getStudentInformation().then(res=>{
@@ -124,6 +128,7 @@ export default {
       formData.phone = res.data.studentPhone
       formData.major = res.data.studentMajor
       formData.grade = res.data.studentGrade
+      formData.college = res.data.college
       if(res.data.url!=null&&res.data.url!=""){
         resumeUrl.value = "http://localhost:8080/download?fileName="+res.data.url
       }
