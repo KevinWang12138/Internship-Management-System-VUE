@@ -117,7 +117,7 @@ const router = createRouter({
             father: 'teacher',
             title: "审批申请"
           },
-          component: () => import('../views/CheckApplication.vue'),
+          component: () => import('../views/teacher/CheckApplication.vue'),
         },
         {
           path: "checkCalendar",
@@ -127,7 +127,7 @@ const router = createRouter({
             father: 'teacher',
             title: "查看学生日历"
           },
-          component: () => import('../views/CheckCalendarView.vue'),
+          component: () => import('../views/teacher/CheckCalendarView.vue'),
         },
         {
           path: "teacherInformation",

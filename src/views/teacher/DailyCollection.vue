@@ -38,10 +38,16 @@ export default defineComponent({
     const tableData = reactive([
       {id: '', date: '', companyName: '', studentId:'',studentName:'',text:''}
     ]);
+    const theTable = reactive([
+      {id: '', date: '', companyName: '', studentId:'',studentName:'',text:''}
+    ]);
     function getDaily(id:any){
       getAllDaily(id).then(res=>{
         while(tableData.length>0){
           tableData.pop()
+        }
+        while(theTable.length>0){
+          theTable.pop()
         }
         for(let i=0;i<res.data.length;i++){
           tableData.push({
@@ -52,22 +58,31 @@ export default defineComponent({
             studentName:res.data[i].studentName,
             text:res.data[i].text
           })
+          theTable.push({
+            id: res.data[i].id,
+            date: res.data[i].date,
+            companyName: res.data[i].companyName,
+            studentId:res.data[i].studentId,
+            studentName:res.data[i].studentName,
+            text:res.data[i].text
+          })
         }
-        console.log(res)
       })
     }
     getDaily(0)
 
     function handleSelect(){
-
-      let id = '0';
-      for(let i=0;i<tableData.length;i++){
-        if(tableData[i].studentName == state1.value){
-          id = tableData[i].id
-          break;
+      console.log(state1.value)
+      if(state1.value!=""){
+        while(tableData.length>0){
+          tableData.pop()
+        }
+        for(let i=0;i<theTable.length;i++){
+          if(theTable[i].studentName==state1.value){
+            tableData.push(theTable[i])
+          }
         }
       }
-      getDaily(id)
     }
 
     interface StudentItem {
