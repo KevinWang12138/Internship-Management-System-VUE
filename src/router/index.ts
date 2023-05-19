@@ -20,7 +20,7 @@ const router = createRouter({
             father: 'home',
             title: "实习日历"
           },
-          component: () => import('../views/CalendarView.vue'),
+          component: () => import('../views/student/CalendarView.vue'),
         },
         {
           path: "checkSelfApplication",
