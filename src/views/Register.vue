@@ -18,7 +18,14 @@
       <el-input v-model="ruleForm.password" />
     </el-form-item>
     <el-form-item label="学校" prop="school">
-      <el-input v-model="ruleForm.school" />
+      <el-autocomplete
+        v-model="ruleForm.school"
+        :fetch-suggestions="querySearch"
+        clearable
+        class="inline-input w-50"
+        placeholder="Please Input"
+        @select="handleSelect"
+      />
     </el-form-item>
 
     <el-form-item label="身份" prop="type">
@@ -37,9 +44,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from "vue";
+import { defineComponent, onMounted, reactive, ref, toRefs } from "vue";
 import type { FormInstance, FormRules } from 'element-plus'
-import { login, register } from "@/request/api";
+import { getAllSchool, getChildrenList, getDatesWithDailyWithStudentId, login, register } from "@/request/api";
 import { useRouter } from "vue-router";
 import { LoginData } from "@/type/login";
 
@@ -98,7 +105,56 @@ export default defineComponent({
         }
       })
     }
-    return {formSize,ruleFormRef,ruleForm,rules,submitForm};
+
+
+
+
+
+
+
+    interface SchoolItem {
+      value: string
+      id: string
+    }
+
+    const state1 = ref('')
+
+    const school = ref<SchoolItem[]>([])
+    const querySearch = (queryString: string, cb: any) => {
+      const results = queryString
+        ? school.value.filter(createFilter(queryString))
+        : school.value
+      // call callback function to return suggestions
+      cb(results)
+    }
+    const createFilter = (queryString: string) => {
+      return (schoolItem: SchoolItem) => {
+        return (
+          schoolItem.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        )
+      }
+    }
+    const schools = reactive([
+      {id: '', value: ''},
+    ]);
+    const loadAll = () => {
+      getAllSchool().then(res=>{
+        for(let index=0;index<res.data.length;index++){
+          schools.push({id:res.data[index].id,value:res.data[index].name})
+        }
+      })
+
+      return schools
+    }
+
+    onMounted(() => {
+      school.value = loadAll()
+    })
+
+    const handleSelect = (item: SchoolItem) => {
+
+    }
+    return {formSize,ruleFormRef,ruleForm,rules,submitForm,state1,handleSelect,querySearch};
   }
 })
 

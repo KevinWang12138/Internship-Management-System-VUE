@@ -453,3 +453,11 @@ export function refuseInternview(id:any){
         }
     })
 }
+
+
+export function getAllSchool(){
+    return service({
+        url:"/school/list",
+        method:"get"
+    })
+}
