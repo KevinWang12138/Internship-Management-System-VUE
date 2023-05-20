@@ -62,6 +62,9 @@ export default defineComponent({
         totalStudentsWithExperience.value=res.data.studentWithExperienceCount
         companyCount.value=res.data.companyCount
       })
+
+      //重新生成
+      renderPieChart(majorId.value)
     }
     getBasic()
 
@@ -70,12 +73,12 @@ export default defineComponent({
 
 
 
-    function renderPieChart() {
+    function renderPieChart(id:any) {
       const companys=reactive(['Google'])
       const numbers=reactive([0])
       companys.pop()
       numbers.pop()
-      getCompanyCount(0).then(res=>{
+      getCompanyCount(id).then(res=>{
         for(let i=0;i<res.data.length;i++){
           companys.push(res.data[i].name)
           numbers.push(res.data[i].count)
@@ -141,7 +144,7 @@ export default defineComponent({
 
   },
   mounted() {
-    this.renderPieChart();
+    this.renderPieChart(0);
   },
   methods: {
   },
