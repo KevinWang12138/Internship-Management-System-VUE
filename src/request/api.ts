@@ -461,3 +461,14 @@ export function getAllSchool(){
         method:"get"
     })
 }
+
+
+export function getCompanyCount(id:any){
+    return service({
+        url:"/manager/count",
+        method:"get",
+        params: {
+            id:id
+        }
+    })
+}

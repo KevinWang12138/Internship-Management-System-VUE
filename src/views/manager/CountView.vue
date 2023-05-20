@@ -33,7 +33,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import { ChatLineRound, Male } from '@element-plus/icons-vue'
-import { getBasicInfo, getMajors } from "@/request/api";
+import { getBasicInfo, getCompanyCount, getMajors } from "@/request/api";
 import * as echarts from 'echarts';
 export default defineComponent({
   name:"CountView",
@@ -67,54 +67,74 @@ export default defineComponent({
 
 
 
-    const companys=reactive(['Google', 'Meta', 'Netflix', 'Apple', 'Amazon'])
-    const numbers=reactive([335,310,234,135,1548])
+
 
 
     function renderPieChart() {
-      const pieChart = echarts.init(document.getElementById('pieChart')!);
+      const companys=reactive(['Google'])
+      const numbers=reactive([0])
+      companys.pop()
+      numbers.pop()
+      getCompanyCount(0).then(res=>{
+        for(let i=0;i<res.data.length;i++){
+          companys.push(res.data[i].name)
+          numbers.push(res.data[i].count)
+        }
 
-      const pieOptions: echarts.EChartsOption = {
-        title: {
-          text: '就职公司饼状图',
-          subtext: '仅展现最多的五个公司',
-          x: 'center',
-        },
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} ({d}%)',
-        },
-        legend: {
-          orient: 'vertical',
-          left: 'left',
-          data: companys,
-        },
-        series: [
-          {
-            name: '入职人数',
-            type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
-            data: [
-              { value: numbers[0], name: companys[0] },
-              { value: numbers[1], name: companys[1] },
-              { value: numbers[2], name: companys[2] },
-              { value: numbers[3], name: companys[3] },
-              { value: numbers[4], name: companys[4] },
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
+
+
+        const pieChart = echarts.init(document.getElementById('pieChart')!);
+        const x = reactive([
+          { value: numbers[0], name: companys[0] },
+        ])
+        x.pop()
+        for(let i=0;i<companys.length;i++){
+          if(i==10){
+            break;
+          }
+          x.push({
+            value: numbers[i],
+            name: companys[i]
+          })
+        }
+        const pieOptions: echarts.EChartsOption = {
+          title: {
+            text: '就职公司饼状图',
+            subtext: '仅展现最多的十个公司',
+            x: 'center',
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)',
+          },
+          legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: companys,
+          },
+          series: [
+            {
+              name: '入职人数',
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '60%'],
+              data: x,
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                },
               },
             },
-          },
-        ],
-      };
+          ],
+        };
 
-      pieChart.setOption(pieOptions);
+        pieChart.setOption(pieOptions);
+      })
     }
+
+
     return {options,majorId,getBasic,companyCount,totalStudentsWithExperience,totalStudents,renderPieChart}
   },
   components:{
