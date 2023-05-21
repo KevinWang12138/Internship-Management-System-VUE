@@ -194,10 +194,13 @@ export function checkInterviewSituation(){
     })
 }
 
-export function checkJobApplicationInfo(){
+export function checkJobApplicationInfo(name:any){
     return service({
         url:"/company/get_applicant_info",
         method:"get",
+        params:{
+            school:name
+        }
     })
 }
 interface jobInfo{

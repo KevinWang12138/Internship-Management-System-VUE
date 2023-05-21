@@ -1,6 +1,10 @@
 <template>
-  <el-button class="button-only-ok" v-if="!pushed" @click="onlyCheck">仅看流程中</el-button>
-  <el-button class="button-only-ok" v-else @click="ret">全部记录</el-button>
+  <div class="search-container">
+    <el-input class="search-input" v-model="searchKeyword" placeholder="输入学校名称" clearable></el-input>
+    <el-button class="search-button" type="primary" @click="search">搜索</el-button>
+    <el-button class="button-only-ok" v-if="!pushed" @click="onlyCheck">仅看流程中</el-button>
+    <el-button class="button-only-ok" v-else @click="ret">全部记录</el-button>
+  </div>
   <el-table :data="tableData" style="width: 100%">
     <el-table-column prop="id" label="id" width="80" />
     <el-table-column prop="studentId" label="学生id" width="80" />
@@ -118,63 +122,69 @@ const theTable = reactive([
 export default defineComponent({
   name:"CheckApplicationSituation",
   setup(){
-    checkJobApplicationInfo().then(res=>{
-      while (tableData.length>0){
-        tableData.pop()
-      }
-      while (theTable.length>0){
-        theTable.pop()
-      }
-      let status = ""
-      for(let i =0;i<res.data.length;i++){
-        switch (res.data[i].status) {
-          case 0:
-            status = "待审批"
-            break;
-          case 1:
-            status = "审批中"
-            break;
-          case 2:
-            status = "面试中"
-            break;
-          case 3:
-            status = "面试通过"
-            break;
-          case 4:
-            status = "入职"
-            break;
-          case 5:
-            status = "不通过"
-            break;
-          case 6:
-            status = "待学校导师审批"
-            break;
-          case 7:
-            status = "候选人拒绝"
-            break;
+    function check(schoolName:any){
+      checkJobApplicationInfo(schoolName).then(res=>{
+        while (tableData.length>0){
+          tableData.pop()
         }
-        tableData.push({
-          id: res.data[i].id,
-          studentId: res.data[i].studentId,
-          jobId: res.data[i].jobId,
-          status: status,
-          studentName: res.data[i].studentName,
-          studentPhone: res.data[i].studentPhone,
-          jobName: res.data[i].jobName,
-          studentSchool: res.data[i].studentSchool,
-        })
-        theTable.push({
-          id: res.data[i].id,
-          studentId: res.data[i].studentId,
-          jobId: res.data[i].jobId,
-          status: status,
-          studentName: res.data[i].studentName,
-          studentPhone: res.data[i].studentPhone,
-          jobName: res.data[i].jobName,
-          studentSchool: res.data[i].studentSchool,
-        })
-      }
-    })
+        while (theTable.length>0){
+          theTable.pop()
+        }
+        let status = ""
+        for(let i =0;i<res.data.length;i++){
+          switch (res.data[i].status) {
+            case 0:
+              status = "待审批"
+              break;
+            case 1:
+              status = "审批中"
+              break;
+            case 2:
+              status = "面试中"
+              break;
+            case 3:
+              status = "面试通过"
+              break;
+            case 4:
+              status = "入职"
+              break;
+            case 5:
+              status = "不通过"
+              break;
+            case 6:
+              status = "待学校导师审批"
+              break;
+            case 7:
+              status = "候选人拒绝"
+              break;
+          }
+          tableData.push({
+            id: res.data[i].id,
+            studentId: res.data[i].studentId,
+            jobId: res.data[i].jobId,
+            status: status,
+            studentName: res.data[i].studentName,
+            studentPhone: res.data[i].studentPhone,
+            jobName: res.data[i].jobName,
+            studentSchool: res.data[i].studentSchool,
+          })
+          theTable.push({
+            id: res.data[i].id,
+            studentId: res.data[i].studentId,
+            jobId: res.data[i].jobId,
+            status: status,
+            studentName: res.data[i].studentName,
+            studentPhone: res.data[i].studentPhone,
+            jobName: res.data[i].jobName,
+            studentSchool: res.data[i].studentSchool,
+          })
+        }
+      })
+
+    }
+
+    check("")
+
 
     const drawer = ref(false)
     function open(index:any){
@@ -261,7 +271,14 @@ export default defineComponent({
       }
       pushed.value = false
     }
-    return {tableData,drawer,open,student,agree,refuse,resumeUrl,pushed,ret,onlyCheck}
+
+
+
+    const searchKeyword = ref("")
+    function search(){
+      check(searchKeyword.value)
+    }
+    return {tableData,drawer,open,student,agree,refuse,resumeUrl,pushed,ret,onlyCheck,searchKeyword,search}
   },
   components:{
 
@@ -283,5 +300,19 @@ export default defineComponent({
 
 .profile-item {
   margin-bottom: 10px;
+}
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  margin-right: 10px; /* 调整输入框与按钮之间的间距 */
+}
+
+.search-button {
+  flex-shrink: 0; /* 防止按钮被压缩 */
 }
 </style>
