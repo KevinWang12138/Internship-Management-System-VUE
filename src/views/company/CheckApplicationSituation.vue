@@ -1,4 +1,6 @@
 <template>
+  <el-button class="button-only-ok" v-if="!pushed" @click="onlyCheck">仅看流程中</el-button>
+  <el-button class="button-only-ok" v-else @click="ret">全部记录</el-button>
   <el-table :data="tableData" style="width: 100%">
     <el-table-column prop="id" label="id" width="80" />
     <el-table-column prop="studentId" label="学生id" width="80" />
@@ -11,8 +13,8 @@
     <el-table-column fixed="right" label="Operations" width="200">
       <template #default="{ row }">
         <el-button link type="primary" size="small" @click="open(row.id)">详情</el-button>
-        <el-button link type="primary" size="small" :disabled="row.status=='面试通过'||row.status=='不通过'||row.status=='入职' || row.status=='待导师审批' || row.status=='候选人拒绝'" @click="agree(row.id)">推进</el-button>
-        <el-button link type="primary" size="small" :disabled="row.status=='面试通过'||row.status=='不通过'||row.status=='入职' || row.status=='待导师审批' || row.status=='候选人拒绝'" @click="refuse(row.id)">淘汰</el-button>
+        <el-button link type="primary" size="small" :disabled="row.status=='面试通过'||row.status=='不通过'||row.status=='入职' || row.status=='待学校导师审批' || row.status=='候选人拒绝'" @click="agree(row.id)">推进</el-button>
+        <el-button link type="primary" size="small" :disabled="row.status=='面试通过'||row.status=='不通过'||row.status=='入职' || row.status=='待学校导师审批' || row.status=='候选人拒绝'" @click="refuse(row.id)">淘汰</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -100,12 +102,28 @@ const tableData = reactive([
     studentSchool: '',
   }
 ])
+
+const theTable = reactive([
+  {
+    id: '',
+    studentId: '',
+    jobId: '',
+    status: '',
+    studentName: "",
+    studentPhone: '',
+    jobName: '',
+    studentSchool: '',
+  }
+])
 export default defineComponent({
   name:"CheckApplicationSituation",
   setup(){
     checkJobApplicationInfo().then(res=>{
       while (tableData.length>0){
         tableData.pop()
+      }
+      while (theTable.length>0){
+        theTable.pop()
       }
       let status = ""
       for(let i =0;i<res.data.length;i++){
@@ -136,6 +154,16 @@ export default defineComponent({
             break;
         }
         tableData.push({
+          id: res.data[i].id,
+          studentId: res.data[i].studentId,
+          jobId: res.data[i].jobId,
+          status: status,
+          studentName: res.data[i].studentName,
+          studentPhone: res.data[i].studentPhone,
+          jobName: res.data[i].jobName,
+          studentSchool: res.data[i].studentSchool,
+        })
+        theTable.push({
           id: res.data[i].id,
           studentId: res.data[i].studentId,
           jobId: res.data[i].jobId,
@@ -211,7 +239,29 @@ export default defineComponent({
 
     const resumeUrl = ref('')
 
-    return {tableData,drawer,open,student,agree,refuse,resumeUrl}
+
+    const pushed = ref(false)
+    function onlyCheck(){
+      while(tableData.length>0){
+        tableData.pop()
+      }
+      for(let i = 0;i< theTable.length;i++){
+        if(theTable[i].status != "不通过" && theTable[i].status != "入职" && theTable[i].status != "候选人拒绝"){
+          tableData.push(theTable[i])
+        }
+      }
+      pushed.value = true
+    }
+    function  ret(){
+      while(tableData.length>0){
+        tableData.pop()
+      }
+      for(let i = 0;i< theTable.length;i++){
+        tableData.push(theTable[i])
+      }
+      pushed.value = false
+    }
+    return {tableData,drawer,open,student,agree,refuse,resumeUrl,pushed,ret,onlyCheck}
   },
   components:{
 
