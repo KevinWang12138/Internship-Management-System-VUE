@@ -226,6 +226,7 @@
                 form.type= []
                 form.resource= ''
                 form.desc= ''
+                imageData.value = null
               },
             })
           })
