@@ -482,3 +482,13 @@ export function applicateJob(id:any){
         }
     })
 }
+
+export function companyDetail(id:any){
+    return service({
+        url:"/teacher/company/detail",
+        method:"get",
+        params: {
+            id:id
+        }
+    })
+}

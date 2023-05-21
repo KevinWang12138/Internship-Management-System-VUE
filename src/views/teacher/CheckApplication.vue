@@ -1,6 +1,6 @@
 <template>
   <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="id" label="id" width="150" />
+    <el-table-column prop="id" label="id" width="100" />
     <el-table-column prop="startDate" label="开始日期" width="150" />
     <el-table-column prop="endDate" label="结束日期" width="150" />
     <el-table-column prop="name" label="姓名" width="120" />
@@ -8,8 +8,9 @@
     <el-table-column prop="startTime" label="上班时间" width="120" />
     <el-table-column prop="endTime" label="下班时间" width="120" />
     <el-table-column prop="type" label="是否全日制" width="120" />
-    <el-table-column fixed="right" label="Operations" width="120">
+    <el-table-column fixed="right" label="Operations" width="150">
       <template #default="{ row }">
+        <el-button link type="primary" size="small" @click="open(row.id)">详情</el-button>
         <el-button link type="primary" size="small" @click="agree(row.id)"
         >同意</el-button
         >
@@ -17,11 +18,17 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-drawer v-model="drawer" title="详细信息" :with-header="false">
+    <span>详细信息</span>
+    <el-row>
+      公司简介：{{theText}}
+    </el-row>
+  </el-drawer>
 </template>
 
 <script lang="ts">
 import {defineComponent, reactive, ref} from "vue";
-import {agreeApplication, getApplication, refuseApplication} from "@/request/api";
+import { agreeApplication, companyDetail, getApplication, refuseApplication } from "@/request/api";
 import { ElMessage, ElMessageBox, type Action } from "element-plus";
 
 function agree(id:string){
@@ -67,7 +74,16 @@ export default defineComponent({
     }
     getApplicationInfo()
 
-    return {tableData, totalPages, agree, refuse}
+    const drawer = ref(false)
+    const theText = ref("")
+    function open(id:any){
+      //获取公司详情信息
+      companyDetail(id).then(res=>{
+        theText.value = res.data
+        drawer.value = true;
+      })
+    }
+    return {tableData, totalPages, agree, refuse,open,drawer,theText}
   },
   components:{
 
