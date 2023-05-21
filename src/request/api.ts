@@ -495,3 +495,18 @@ export function companyDetail(id:any){
         }
     })
 }
+
+
+export function uploadOfferPic(file: any,id: string){
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('id', id);
+    return service({
+        url: '/upload_student_offer',
+        method: 'post',
+        data: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    });
+}

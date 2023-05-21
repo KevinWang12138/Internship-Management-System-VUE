@@ -67,6 +67,12 @@
     <el-form-item label="补充信息说明">
       <el-input v-model="form.desc" type="textarea" />
     </el-form-item>
+    <el-form-item label="上传offer图片">
+      <input type="file" @change="handleFileUpload">
+      <div v-if="imageData">
+        <img :src="imageData" alt="Uploaded Image" class="uploaded-image">
+      </div>
+    </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">提交</el-button>
     </el-form-item>
@@ -75,7 +81,7 @@
 
 <script lang="ts">
   import {defineComponent, onMounted, reactive, ref} from "vue";
-  import {getCompanyList, setBasicCalendarInfo} from "@/request/api";
+  import { getCompanyList, setBasicCalendarInfo, uploadOfferPic } from "@/request/api";
   import { ElMessage, ElMessageBox, type FormInstance } from 'element-plus'
   import type { Action } from 'element-plus'
 
@@ -205,26 +211,49 @@
           type:type,
           more_info:form.desc
         }).then(res=>{
-          ElMessageBox.alert('提交成功！', '成功', {
-            confirmButtonText: 'OK',
-            callback: (action: Action) => {
-              form.name= ''
-              form.region= ''
-              form.date1= ''
-              form.date2= ''
-              form.time1= ''
-              form.time2= ''
-              form.delivery= false
-              form.type= []
-              form.resource= ''
-              form.desc= ''
-            },
+          //把theFile上传到服务器上
+          uploadOfferPic(theFile,res.data).then(res=>{
+            ElMessageBox.alert('提交成功！', '成功', {
+              confirmButtonText: 'OK',
+              callback: (action: Action) => {
+                form.name= ''
+                form.region= ''
+                form.date1= ''
+                form.date2= ''
+                form.time1= ''
+                form.time2= ''
+                form.delivery= false
+                form.type= []
+                form.resource= ''
+                form.desc= ''
+              },
+            })
           })
         })
+
       }
 
+      const imageData = ref<string | null>(null);
 
-      return {form, onSubmit, getTimeA, getTimeB,getDateA ,getDateB,getType,querySearch}
+      let theFile: File | null = null
+      const handleFileUpload = (event: Event) => {
+        const input = event.target as HTMLInputElement;
+        const file = input.files?.[0];
+
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            imageData.value = reader.result as string;
+          };
+          reader.readAsDataURL(file);
+          theFile = file
+        }
+      };
+
+
+
+
+      return {form, onSubmit, getTimeA, getTimeB,getDateA ,getDateB,getType,querySearch,imageData,handleFileUpload}
     },
     components:{
 
@@ -236,5 +265,9 @@
 <style scoped>
 .text-center{
   text-align: center;
+}
+.uploaded-image {
+  max-width: 300px; /* 设置最大宽度 */
+  max-height: 300px; /* 设置最大高度 */
 }
 </style>
