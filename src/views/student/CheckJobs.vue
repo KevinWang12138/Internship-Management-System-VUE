@@ -11,7 +11,7 @@
     <el-table-column prop="count" label="职位数量" width="200" />
     <el-table-column fixed="right" label="Operations" width="200">
       <template #default="{ row }">
-        <el-button link type="primary" size="small">投递职位</el-button>
+        <el-button link type="primary" size="small" @click="applicate(row.id)">投递职位</el-button>
         <el-button link type="primary" size="small" @click="open(row.id)">查看详情</el-button>
       </template>
     </el-table-column>
@@ -26,7 +26,9 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
-import { getDaily, getJob, getJobByLike } from "@/request/api";
+import { applicateJob, getDaily, getJob, getJobByLike } from "@/request/api";
+import { ElMessage } from "element-plus";
+import router from "@/router";
 const tableData = reactive([
   {
     id: '',
@@ -85,7 +87,13 @@ export default defineComponent({
         }
       })
     }
-    return {tableData,drawer,open,theText,searchKeyword,search}
+
+    function applicate(id:any){
+      applicateJob(id).then(res=>{
+        ElMessage('申请成功')
+      })
+    }
+    return {tableData,drawer,open,theText,searchKeyword,search,applicate}
   },
   components:{
 

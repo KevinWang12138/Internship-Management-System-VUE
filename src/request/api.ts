@@ -472,3 +472,13 @@ export function getCompanyCount(id:any){
         }
     })
 }
+
+export function applicateJob(id:any){
+    return service({
+        url:"/job/application",
+        method:"get",
+        params: {
+            id:id
+        }
+    })
+}
