@@ -510,3 +510,13 @@ export function uploadOfferPic(file: any,id: string){
         }
     });
 }
+
+export function getOfferPic(url:any){
+    return service({
+        url:"/teacher/offer/get",
+        method:"get",
+        params: {
+            url:url
+        }
+    })
+}

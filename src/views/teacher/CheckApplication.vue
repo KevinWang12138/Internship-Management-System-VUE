@@ -23,13 +23,19 @@
     <el-row>
       公司简介：{{theText}}
     </el-row>
+    <el-row v-if="imageData" class="offer">
+      <span>offer截图:</span>
+      <img :src="imageData" alt="Image" class="downloaded-image">
+
+    </el-row>
   </el-drawer>
 </template>
 
 <script lang="ts">
 import {defineComponent, reactive, ref} from "vue";
-import { agreeApplication, companyDetail, getApplication, refuseApplication } from "@/request/api";
+import { agreeApplication, companyDetail, getApplication, getOfferPic, refuseApplication } from "@/request/api";
 import { ElMessage, ElMessageBox, type Action } from "element-plus";
+import axios from "axios";
 
 function agree(id:string){
   agreeApplication(id).then(res=>{
@@ -53,6 +59,7 @@ function getApplicationInfo(){
         startTime: info.startTime,
         endTime: info.endTime,
         type: info.type,
+        url: info.url
       })
     }
     totalPages.value= res.data.totalPages * 10
@@ -76,14 +83,41 @@ export default defineComponent({
 
     const drawer = ref(false)
     const theText = ref("")
+
+    const imageData = ref<string | null>(null);
     function open(id:any){
       //获取公司详情信息
       companyDetail(id).then(res=>{
         theText.value = res.data
-        drawer.value = true;
+
+        let url = ''
+        for(let i=0;i<tableData.length;i++){
+          if(tableData[i].id == id){
+            url = tableData[i].url
+            break;
+          }
+        }
+
+        if(url!=null && url != ""){
+          axios({
+            url: "http://localhost:8080/teacher/offer/get?url="+url, //URL,根据实际情况来
+            method: "get",
+            responseType: "blob",
+          }).then(function (response) {
+            let blob = new Blob([response.data], { type: response.data.type });
+            let url = URL.createObjectURL(blob);
+            //url 你赋值给你需要展示的变量即可
+            imageData.value = url
+            drawer.value =true
+          });
+        }else{
+          imageData.value = null
+          drawer.value =true
+        }
       })
     }
-    return {tableData, totalPages, agree, refuse,open,drawer,theText}
+
+    return {tableData, totalPages, agree, refuse,open,drawer,theText,imageData}
   },
   components:{
 
@@ -100,9 +134,17 @@ const tableData = reactive([
     startTime: '',
     endTime: '',
     type: '',
+    url: ''
   }
 ])
 </script>
 
 <style scoped>
+.downloaded-image {
+  max-width: 300px; /* 设置最大宽度 */
+  max-height: 300px; /* 设置最大高度 */
+}
+.offer{
+  margin-top: 50px;
+}
 </style>
