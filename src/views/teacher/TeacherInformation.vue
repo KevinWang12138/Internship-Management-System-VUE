@@ -5,7 +5,7 @@
         <el-input v-model="formData.name" :disabled=true></el-input>
       </el-form-item>
       <el-form-item label="个人简介">
-        <el-input type="textarea" v-model="formData.bio" :disabled="!editing"></el-input>
+        <el-input type="textarea" v-model="formData.bio" :disabled="!editing" class="custom-textarea" :rows="23"></el-input>
       </el-form-item>
       <el-form-item label="学校">
         <el-input v-model="formData.school" :disabled=true></el-input>
@@ -95,5 +95,9 @@ export default defineComponent({
 .profile-actions {
   text-align: right;
   margin-top: 20px;
+}
+
+.custom-textarea{
+  height: 500px;
 }
 </style>
