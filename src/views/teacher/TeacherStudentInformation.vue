@@ -1,7 +1,7 @@
 <template>
   <el-table :data="tableData" style="width: 100%">
     <el-table-column prop="id" label="id" width="200" />
-    <el-table-column prop="studentId" label="学生id" width="200" />
+    <el-table-column prop="studentID" label="学号" width="200" />
     <el-table-column prop="studentName" label="学生姓名" width="200" />
     <el-table-column prop="studentPhone" label="手机号" width="300" />
     <el-table-column fixed="right" label="Operations" width="300">
@@ -77,7 +77,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
-import { getStudentBasicInfo } from "@/request/api";
+import { getTeacherInformation } from "@/request/api";
 
 export default defineComponent({
   name:"TeacherStudentInformation",
@@ -85,13 +85,26 @@ export default defineComponent({
     const tableData = reactive([
       {
         id: '',
-        studentId: '',
+        studentID: '',
         studentName: "",
         studentPhone: '',
       }
     ])
     const drawer = ref(false)
-
+    getTeacherInformation().then(res=>{
+      let studentInfos = res.data.studentInfos
+      while(tableData.length!=0){
+        tableData.pop()
+      }
+      for(let i=0;i<studentInfos.length;i++){
+        tableData.push({
+          "id":studentInfos[i].id,
+          "studentName":studentInfos[i].studentName,
+          "studentPhone":studentInfos[i].studentPhone,
+          "studentID":studentInfos[i].studentID
+        })
+      }
+    })
     function open(index:any){
       drawer.value = true
     }
