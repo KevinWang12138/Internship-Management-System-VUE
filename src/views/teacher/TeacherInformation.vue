@@ -112,12 +112,4 @@ export default defineComponent({
 .el-descriptions {
   margin-top: 20px;
 }
-.editButton{
-  position: absolute;
-  top: 0;
-  right: 50px;
-  width: 200px;
-  height: 50px;
-  font-size: 20px;
-}
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <el-button type=primary plain class="editButton" @click="edit">修改学生名单</el-button>
   <el-table :data="tableData" style="width: 100%">
     <el-table-column prop="id" label="id" width="200" />
     <el-table-column prop="studentID" label="学号" width="200" />
@@ -70,6 +71,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import { getStudentBasicInfo, getTeacherInformation } from "@/request/api";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name:"TeacherStudentInformation",
@@ -135,8 +137,11 @@ export default defineComponent({
       techStack:''
     })
 
-
-    return {tableData,drawer,open,student,resumeUrl}
+    const router = useRouter()
+    function edit(){
+      router.push('/teacher/edit')
+    }
+    return {tableData,drawer,open,student,resumeUrl,edit}
   },
   components:{
 

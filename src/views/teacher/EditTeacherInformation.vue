@@ -28,14 +28,6 @@
     </el-table-column>
   </el-table>
 
-  <el-row><el-text>编辑个人信息：</el-text></el-row>
-  <el-form-item label="手机号:">
-    <el-input v-model="phone" />
-  </el-form-item>
-  <el-form-item label="个人简介:">
-    <el-input v-model="info" type="textarea" />
-  </el-form-item>
-
   <el-button type=primary plain class="submitButton" @click="submit" style="width: 100px">提交</el-button>
 
 </template>
@@ -136,5 +128,9 @@ export default defineComponent({
 <style>
 .userInput{
   width: 200px;
+}
+.submitButton{
+  position: fixed;
+  right: 200px;
 }
 </style>
