@@ -29,9 +29,21 @@
 import { defineComponent, reactive, ref } from "vue";
 import { getTeacherInformation, updateBasicInfo, uploadFile } from "@/request/api";
 import { useRouter } from "vue-router";
+
+const formData = reactive({
+  name: '姓名',
+  bio: '个人简介',
+  school: '学校',
+  phone: '',
+  college: '',
+});
 function getInformation(){
   getTeacherInformation().then(res=>{
-
+    formData.name = res.data.teacherName
+    formData.bio = res.data.info
+    formData.school = res.data.teacherSchool
+    formData.phone = res.data.teacherPhone
+    formData.college = res.data.college
   })
 }
 
@@ -40,13 +52,6 @@ export default defineComponent({
   name:"TeacherInformation",
   setup(){
     getInformation()
-    const formData = reactive({
-      name: '姓名',
-      bio: '个人简介',
-      school: '学校',
-      phone: '',
-      college: '',
-    });
 
 
     const editing = ref(false);
