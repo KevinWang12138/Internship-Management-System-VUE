@@ -26,7 +26,9 @@
     <el-row v-if="imageData" class="offer">
       <span>offer截图:</span>
       <img :src="imageData" alt="Image" class="downloaded-image">
-
+    </el-row>
+    <el-row v-if="moreInfo" class="offer">
+      更多信息：{{moreInfo}}
     </el-row>
   </el-drawer>
 </template>
@@ -83,13 +85,22 @@ export default defineComponent({
 
     const drawer = ref(false)
     const theText = ref("")
+    const moreInfo = ref(null)
 
     const imageData = ref<string | null>(null);
     function open(id:any){
       //获取公司详情信息
       companyDetail(id).then(res=>{
-        theText.value = res.data
-
+        if(res.data.description){
+          theText.value = res.data.description
+        }else{
+          theText.value = "该公司不在数据库内，请联系学生了解"
+        }
+        if(res.data.moreInfo&&res.data.moreInfo!=""){
+          moreInfo.value = res.data.moreInfo
+        }else{
+          moreInfo.value = null
+        }
         let url = ''
         for(let i=0;i<tableData.length;i++){
           if(tableData[i].id == id){
@@ -117,7 +128,7 @@ export default defineComponent({
       })
     }
 
-    return {tableData, totalPages, agree, refuse,open,drawer,theText,imageData}
+    return {tableData, totalPages, agree, refuse,open,drawer,theText,imageData,moreInfo}
   },
   components:{
 
