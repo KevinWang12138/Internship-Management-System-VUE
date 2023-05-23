@@ -27,20 +27,12 @@
         <span>{{ student.idCardNumber }}</span>
       </div>
       <div class="profile-item">
-        <span>学校：</span>
-        <span>{{ student.school }}</span>
-      </div>
-      <div class="profile-item">
         <span>年龄：</span>
         <span>{{ student.age }}</span>
       </div>
       <div class="profile-item">
         <span>性别：</span>
         <span>{{ student.gender }}</span>
-      </div>
-      <div class="profile-item">
-        <span>专业：</span>
-        <span>{{ student.major }}</span>
       </div>
       <div class="profile-item">
         <span>年级：</span>
@@ -77,7 +69,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
-import { getTeacherInformation } from "@/request/api";
+import { getStudentBasicInfo, getTeacherInformation } from "@/request/api";
 
 export default defineComponent({
   name:"TeacherStudentInformation",
@@ -105,21 +97,38 @@ export default defineComponent({
         })
       }
     })
-    function open(index:any){
+    const resumeUrl = ref('')
+    function open(id:any){
+      //获取学生的详细信息
+      getStudentBasicInfo(id).then(res=>{
+        console.log(res)
+        student.age = res.data.age
+        student.gender = res.data.gender
+        student.hometown = res.data.hometown
+        student.currentLocation = res.data.location
+        student.grade = res.data.studentGrade
+        student.name = res.data.studentName
+        student.researchArea = res.data.studentResearchDirection
+        student.bio = res.data.bio
+        student.idCardNumber = res.data.idCardNumber
+        student.phone = res.data.studentPhone
+        student.techStack = res.data.techStack
+        if(res.data.url!=null&&res.data.url!=""){
+          resumeUrl.value="http://localhost:8080/download?fileName="+res.data.url
+        }
+        drawer.value = true
+      })
       drawer.value = true
     }
 
     const student = reactive({
       name: '张三',
-      school: 'ABC大学',
       age: 22,
       gender: '男',
-      major: '计算机科学',
       grade: '大四',
       hometown: '北京',
       currentLocation: '上海',
       researchArea: '人工智能',
-      tutorBio: 'XXX教授是一位在人工智能领域有丰富经验的导师。',
       bio: '',
       idCardNumber: '',
       phone: '',
@@ -127,7 +136,7 @@ export default defineComponent({
     })
 
 
-    return {tableData,drawer,open,student}
+    return {tableData,drawer,open,student,resumeUrl}
   },
   components:{
 
