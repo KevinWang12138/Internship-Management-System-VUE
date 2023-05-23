@@ -26,8 +26,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
-import { getTeacherInformation } from "@/request/api";
+import { defineComponent, reactive, ref } from "vue";
+import { getTeacherInformation, updateBasicInfo, uploadFile } from "@/request/api";
 import { useRouter } from "vue-router";
 function getInformation(){
   getTeacherInformation().then(res=>{
@@ -40,8 +40,30 @@ export default defineComponent({
   name:"TeacherInformation",
   setup(){
     getInformation()
+    const formData = reactive({
+      name: '姓名',
+      bio: '个人简介',
+      school: '学校',
+      phone: '',
+      college: '',
+    });
 
-    return {}
+
+    const editing = ref(false);
+
+    const editProfile = () => {
+      editing.value = true;
+    };
+
+    const saveProfile = () => {
+      //传递给后端
+
+    };
+
+    const cancelEditing = () => {
+      editing.value = false;
+    };
+    return {formData,editing,editProfile,saveProfile,cancelEditing}
   },
   components:{
 
@@ -50,7 +72,18 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.el-descriptions {
+.profile {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profile-form {
+  width: 100%;
+}
+
+.profile-actions {
+  text-align: right;
   margin-top: 20px;
 }
 </style>
