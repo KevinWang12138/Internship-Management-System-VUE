@@ -532,3 +532,13 @@ export function UpdateTeacherInformation(data:updateTeacherInformation){
         data
     })
 }
+
+export function getCompanyCountResult(id:any){
+    return service({
+        url:"/company/job/count",
+        method:"get",
+        params: {
+            id:id
+        }
+    })
+}

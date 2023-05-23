@@ -7,15 +7,65 @@
     placeholder="Please Input"
     @select="handleSelect"
   />
+
+  <el-row>
+    <el-col :span="6">
+      <el-statistic title="投递人数" :value="totalStudents" />
+    </el-col>
+    <el-col :span="6">
+      <el-statistic title="通过人数" :value="totalStudents" />
+    </el-col>
+    <el-col :span="6">
+      <el-statistic title="未处理简历数量" :value="totalStudents" />
+    </el-col>
+  </el-row>
+
+
+  <el-row>
+    <el-col :span="6">
+      <el-statistic :value="totalStudentsWithExperience">
+        <template #title>
+          <div style="display: inline-flex; align-items: center">
+            男女比例
+          </div>
+        </template>
+        <template #suffix>/{{totalStudents}}</template>
+      </el-statistic>
+    </el-col>
+
+
+    <el-col :span="6">
+      <el-statistic :value="totalStudentsWithExperience">
+        <template #title>
+          <div style="display: inline-flex; align-items: center">
+            拒绝人数占全部通过候选人比例
+          </div>
+        </template>
+        <template #suffix>/{{totalStudents}}</template>
+      </el-statistic>
+    </el-col>
+  </el-row>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref } from "vue";
-import { checkJobApplicationInfo, getChildrenList, getDatesWithDailyWithStudentId, jobList } from "@/request/api";
+import {
+  checkJobApplicationInfo,
+  getChildrenList,
+  getCompanyCountResult,
+  getDatesWithDailyWithStudentId,
+  jobList
+} from "@/request/api";
 
 export default defineComponent({
   name:"CompanyCountView",
   setup(){
+    function getCountResult(id:any){
+      getCompanyCountResult(id).then(res=>{
+
+      })
+    }
+
 
     interface JobItem {
       value: string

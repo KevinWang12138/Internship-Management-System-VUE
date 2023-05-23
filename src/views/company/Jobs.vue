@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import {defineComponent, reactive} from "vue";
-import { checkJobApplicationInfo, jobList } from "@/request/api";
+import { jobList } from "@/request/api";
 const tableData = reactive([
   {
     id: '',
