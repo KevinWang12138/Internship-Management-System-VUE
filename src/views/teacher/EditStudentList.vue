@@ -86,7 +86,7 @@ export default defineComponent({
         ids.push(tableData[i].id)
       }
       changeStudentRelation({ student_id_list:ids, phone: phone.value, info: info.value}).then(res=>{
-        router.push("/teacher/teacherInformation")
+        router.push("/teacher/teacherStudentInformation")
       })
     }
     getChildrenList().then(res=>{

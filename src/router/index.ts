@@ -157,7 +157,7 @@ const router = createRouter({
             father: 'teacher',
             title: "编辑"
           },
-          component: () => import('../views/teacher/EditTeacherInformation.vue'),
+          component: () => import('../views/teacher/EditStudentList.vue'),
         },
         {
           path: "dailyCollection",
