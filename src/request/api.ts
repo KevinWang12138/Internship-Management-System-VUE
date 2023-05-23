@@ -520,3 +520,15 @@ export function getOfferPic(url:any){
         }
     })
 }
+
+interface updateTeacherInformation{
+    phone:string
+    bio:string
+}
+export function UpdateTeacherInformation(data:updateTeacherInformation){
+    return service({
+        url:"/teacher/update/information",
+        method:"post",
+        data
+    })
+}

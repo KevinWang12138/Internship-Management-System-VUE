@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
-import { getTeacherInformation, updateBasicInfo, uploadFile } from "@/request/api";
+import { getTeacherInformation, updateBasicInfo, UpdateTeacherInformation, uploadFile } from "@/request/api";
 import { useRouter } from "vue-router";
 
 const formData = reactive({
@@ -62,7 +62,12 @@ export default defineComponent({
 
     const saveProfile = () => {
       //传递给后端
-
+      UpdateTeacherInformation({
+        bio:formData.bio,
+        phone:formData.phone,
+      }).then(res=>{
+        location.reload()
+      })
     };
 
     const cancelEditing = () => {
