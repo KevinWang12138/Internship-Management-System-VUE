@@ -105,7 +105,7 @@ export default defineComponent({
     const createFilter = (queryString: string) => {
       return (restaurant: StudentItem) => {
         return (
-          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+          restaurant.value.toLowerCase().includes(queryString.toLowerCase())
         )
       }
     }

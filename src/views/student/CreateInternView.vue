@@ -162,7 +162,7 @@
       const createFilter = (queryString: string) => {
         return (companyInfoItem: CompanyInfoItem) => {
           return (
-            companyInfoItem.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+            companyInfoItem.value.toLowerCase().includes(queryString.toLowerCase())
           )
         }
       }

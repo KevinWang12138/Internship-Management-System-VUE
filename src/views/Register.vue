@@ -130,7 +130,7 @@ export default defineComponent({
     const createFilter = (queryString: string) => {
       return (schoolItem: SchoolItem) => {
         return (
-          schoolItem.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+          schoolItem.value.toLowerCase().includes(queryString.toLowerCase())
         )
       }
     }
