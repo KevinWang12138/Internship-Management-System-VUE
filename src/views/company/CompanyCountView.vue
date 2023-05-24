@@ -10,38 +10,38 @@
 
   <el-row>
     <el-col :span="6">
-      <el-statistic title="投递人数" :value="totalStudents" />
+      <el-statistic title="投递人数" :value="total" />
     </el-col>
     <el-col :span="6">
-      <el-statistic title="通过人数" :value="totalStudents" />
+      <el-statistic title="通过人数" :value="pass" />
     </el-col>
     <el-col :span="6">
-      <el-statistic title="未处理简历数量" :value="totalStudents" />
+      <el-statistic title="未处理简历数量" :value="waiting" />
     </el-col>
   </el-row>
 
 
   <el-row>
     <el-col :span="6">
-      <el-statistic :value="totalStudentsWithExperience">
+      <el-statistic :value="boys">
         <template #title>
           <div style="display: inline-flex; align-items: center">
             男女比例
           </div>
         </template>
-        <template #suffix>/{{totalStudents}}</template>
+        <template #suffix>/{{girls}}</template>
       </el-statistic>
     </el-col>
 
 
     <el-col :span="6">
-      <el-statistic :value="totalStudentsWithExperience">
+      <el-statistic :value="refuse">
         <template #title>
           <div style="display: inline-flex; align-items: center">
             拒绝人数占全部通过候选人比例
           </div>
         </template>
-        <template #suffix>/{{totalStudents}}</template>
+        <template #suffix>/{{total}}</template>
       </el-statistic>
     </el-col>
   </el-row>
@@ -60,6 +60,7 @@ import {
 export default defineComponent({
   name:"CompanyCountView",
   setup(){
+
     function getCountResult(id:any){
       getCompanyCountResult(id).then(res=>{
 
@@ -75,6 +76,7 @@ export default defineComponent({
     const state1 = ref('')
 
     const job = ref<JobItem[]>([])
+
     const querySearch = (queryString: string, cb: any) => {
       const results = queryString
         ? job.value.filter(createFilter(queryString))
@@ -97,7 +99,10 @@ export default defineComponent({
         while(jobs.length>0){
           jobs.pop()
         }
-
+        jobs.push({
+          id: "0",
+          value: "全部"
+        })
         for(let i=0;i<res.data.length;i++){
           const name = "id:"+res.data[i].id+" "+res.data[i].name
           jobs.push({
@@ -111,14 +116,35 @@ export default defineComponent({
     }
 
     const handleSelect = (item: JobItem) => {
-      console.log(123)
+      getCompanyCountResult(item.id).then(res=>{
+        total.value = res.data.applicationCount
+        pass.value = res.data.passCount
+        waiting.value = res.data.waitingCount
+        boys.value = res.data.boys
+        girls.value = res.data.girls
+        refuse.value = res.data.refuseCount
+      })
     }
 
     onMounted(() => {
       job.value = loadAll()
     })
+    const total = ref(0)
+    const pass = ref(0)
+    const waiting = ref(0)
+    const  boys = ref(0)
+    const girls=ref(0)
+    const refuse = ref(0)
 
-    return {state1,querySearch,handleSelect}
+    getCompanyCountResult(0).then(res=>{
+      total.value = res.data.applicationCount
+      pass.value = res.data.passCount
+      waiting.value = res.data.waitingCount
+      boys.value = res.data.boys
+      girls.value = res.data.girls
+      refuse.value = res.data.refuseCount
+    })
+    return {state1,querySearch,handleSelect,total,pass,waiting,boys,girls,refuse}
   },
   components:{
 
