@@ -61,11 +61,14 @@ export default defineComponent({
     })
     const drawer = ref(false)
     const theText = ref("")
-    function open(row:any){
+    function open(id:any){
       drawer.value = true
-      theText.value = tableData[row-1].info
-      console.log(row)
-      console.log(tableData)
+      for(let i=0;i<tableData.length;i++){
+        if(tableData[i].id==id){
+          theText.value = tableData[i].info
+          break
+        }
+      }
     }
     const searchKeyword = ref("")
     function search(){
