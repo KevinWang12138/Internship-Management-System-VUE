@@ -103,7 +103,8 @@ export function agreeApplication(id:string){
         method:"get",
         params: {
             id:id,
-            agreed:1
+            agreed:1,
+            reason: "同意申请"
         }
     })
 }
