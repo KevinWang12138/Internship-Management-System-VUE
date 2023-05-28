@@ -23,6 +23,12 @@
     <el-row>
       公司简介：{{theText}}
     </el-row>
+    <el-row v-if="jobName" class="offer">
+      职位名称：{{jobName}}
+    </el-row>
+    <el-row v-if="jobDetail" class="offer">
+      职位信息：{{jobDetail}}
+    </el-row>
     <el-row v-if="imageData" class="offer">
       <span>offer截图:</span>
       <img :src="imageData" alt="Image" class="downloaded-image">
@@ -85,6 +91,8 @@ export default defineComponent({
 
     const drawer = ref(false)
     const theText = ref("")
+    const jobName = ref(null)
+    const jobDetail = ref(null)
     const moreInfo = ref(null)
 
     const imageData = ref<string | null>(null);
@@ -101,6 +109,17 @@ export default defineComponent({
         }else{
           moreInfo.value = null
         }
+        if(res.data.name&&res.data.name!=""){
+          jobName.value = res.data.name
+        }else{
+          jobName.value = null
+        }
+        if(res.data.info&&res.data.info!=""){
+          jobDetail.value = res.data.info
+        }else{
+          jobDetail.value = null
+        }
+
         let url = ''
         for(let i=0;i<tableData.length;i++){
           if(tableData[i].id == id){
@@ -128,7 +147,7 @@ export default defineComponent({
       })
     }
 
-    return {tableData, totalPages, agree, refuse,open,drawer,theText,imageData,moreInfo}
+    return {tableData, totalPages, agree, refuse,open,drawer,theText,imageData,moreInfo,jobDetail,jobName}
   },
   components:{
 
