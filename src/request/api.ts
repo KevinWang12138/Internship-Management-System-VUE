@@ -205,6 +205,7 @@ export function checkJobApplicationInfo(name:any){
 }
 interface jobInfo{
     name:string,
+    department: string,
     info:string,
     count:number
 }

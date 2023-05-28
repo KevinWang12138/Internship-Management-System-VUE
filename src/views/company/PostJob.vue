@@ -3,6 +3,9 @@
     <el-form-item label="职位名称" >
       <el-input v-model="form.name"/>
     </el-form-item>
+    <el-form-item label="部门名称" >
+      <el-input v-model="form.department"/>
+    </el-form-item>
     <el-form-item label="职位说明">
       <el-input v-model="form.desc" type="textarea" />
     </el-form-item>
@@ -22,6 +25,7 @@ import router from "@/router";
 
 let form = reactive({
   name: '',
+  department: '',
   desc: '',
   count: 0
 })
@@ -30,6 +34,7 @@ const onSubmit = () => {
 
   postJob({
     name: form.name,
+    department: form.department,
     info: form.desc,
     count: form.count,
   }).then(res=>{
