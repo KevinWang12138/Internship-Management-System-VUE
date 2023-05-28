@@ -187,10 +187,16 @@ export default defineComponent({
 
 
     const drawer = ref(false)
-    function open(index:any){
+    function open(id:any){
       //获取详细个人信息
-      getStudentBasicInfo(tableData[index-1].studentId).then(res=>{
-        console.log(res)
+      let studentId = ""
+      for(let i=0;i<tableData.length;i++){
+        if(tableData[i].id == id){
+          studentId = tableData[i].studentId
+          break
+        }
+      }
+      getStudentBasicInfo(studentId).then(res=>{
         student.age = res.data.age
         student.gender = res.data.gender
         student.hometown = res.data.hometown
