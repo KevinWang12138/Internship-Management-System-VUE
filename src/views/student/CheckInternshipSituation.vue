@@ -32,7 +32,11 @@ export default defineComponent({
     const text=ref('')
     const isEditing=ref(false)
     function open(data:any){
-      text.value = tableData[data-1].text
+      for(let i=0;i<tableData.length;i++){
+        if(tableData[i].id == data){
+          text.value = tableData[i].text
+        }
+      }
       drawer.value=true
     }
     const tableData = reactive([
