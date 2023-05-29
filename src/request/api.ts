@@ -552,3 +552,13 @@ export function getNewUser(){
         method:"get"
     })
 }
+
+export function refuseNewUser(id:any){
+    return service({
+        url:"/manager/refuse",
+        method:"get",
+        params:{
+            id: id
+        }
+    })
+}

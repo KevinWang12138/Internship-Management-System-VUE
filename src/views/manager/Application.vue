@@ -5,11 +5,17 @@
     <el-table-column prop="role" label="角色" width="200" />
     <el-table-column prop="phone" label="手机号" width="300" />
     <el-table-column prop="major" label="学院/专业" width="200" />
+    <el-table-column fixed="right" label="Operations" width="200">
+      <template #default="{ row }">
+        <el-button link type="primary" size="small" @click="agree(row.id)">同意</el-button>
+        <el-button link type="primary" size="small" @click="refuse(row.id)">拒绝</el-button>
+      </template>
+    </el-table-column>
   </el-table>
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref, toRefs } from "vue";
-import { getNewUser } from "@/request/api";
+import { getNewUser, refuseNewUser } from "@/request/api";
 export default defineComponent({
   name:"ApplicationUser",
   setup(){
@@ -38,7 +44,12 @@ export default defineComponent({
         })
       }
     })
-    return {tableData};
+    function refuse(id:any){
+      refuseNewUser(id).then(res=>{
+        location.reload()
+      })
+    }
+    return {tableData,refuse};
   }
 })
 
