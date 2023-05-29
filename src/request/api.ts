@@ -545,3 +545,10 @@ export function getCompanyCountResult(id:any){
         }
     })
 }
+
+export function getNewUser(){
+    return service({
+        url:"/manager/user",
+        method:"get"
+    })
+}

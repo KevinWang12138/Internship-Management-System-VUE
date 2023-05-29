@@ -12,8 +12,6 @@
     <el-table-column prop="condition" label="审批情况" width="120" />
     <el-table-column prop="moreInfo" label="更多信息" width="200" />
   </el-table>
-  <!--底部的分页-->
-<!--  <el-pagination background layout="prev, pager, next" :total="totalPages"/>-->
 </template>
 
 <script lang="ts">
