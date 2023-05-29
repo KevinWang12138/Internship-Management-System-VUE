@@ -15,7 +15,8 @@
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref, toRefs } from "vue";
-import { getNewUser, refuseNewUser } from "@/request/api";
+import { agreeStudent, agreeTeacher, getNewUser, refuseNewUser } from "@/request/api";
+import { ElMessageBox } from "element-plus";
 export default defineComponent({
   name:"ApplicationUser",
   setup(){
@@ -49,7 +50,49 @@ export default defineComponent({
         location.reload()
       })
     }
-    return {tableData,refuse};
+
+    function agree(id: string) {
+      for(let i=0;i<tableData.length;i++){
+        if(tableData[i].id==id){
+          if(tableData[i].role=="学生"){
+            let inputForm = `
+    <div>
+      <label for="studentId">学号</label>
+      <input type="text" id="studentId" />
+    </div>
+    <div>
+      <label for="grade">年级</label>
+      <input type="text" id="grade" />
+    </div>
+  `;
+
+            ElMessageBox({
+              title: '输入信息',
+              message: inputForm,
+              showCancelButton: true,
+              confirmButtonText: '确认',
+              cancelButtonText: '取消',
+              dangerouslyUseHTMLString: true,
+            }).then(({ value }) => {
+              const studentId = (document.getElementById('studentId') as HTMLInputElement)?.value;
+              const grade = (document.getElementById('grade') as HTMLInputElement)?.value;
+              //同意学生申请
+              agreeStudent(id,grade,studentId).then(res=>{
+                location.reload()
+              })
+            });
+          }else{
+            //同意老师申请
+            agreeTeacher(id).then(res=>{
+              location.reload()
+            })
+          }
+          break;
+        }
+      }
+
+    }
+    return {tableData,refuse,agree};
   }
 })
 

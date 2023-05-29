@@ -562,3 +562,25 @@ export function refuseNewUser(id:any){
         }
     })
 }
+
+export function agreeTeacher(id:any){
+    return service({
+        url:"/manager/agree_teacher",
+        method:"get",
+        params:{
+            id: id
+        }
+    })
+}
+
+export function agreeStudent(id:any,grade:any,studentID:any){
+    return service({
+        url:"/manager/agree_student",
+        method:"get",
+        params:{
+            id: id,
+            grade: grade,
+            studentID: studentID
+        }
+    })
+}
