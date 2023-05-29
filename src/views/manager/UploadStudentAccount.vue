@@ -15,14 +15,14 @@
       <span class="file-name">{{ file }}</span>
       <el-button type="text" @click="removeFile" class="remove-button">移除</el-button>
     </div>
-    <el-button type="primary" :disabled="!file" class="submit-button" @click="submit">开始统计</el-button>
-    <el-dialog title="统计结果" v-model="dialogVisible" width="30%">
+    <el-button type="primary" :disabled="!file" class="submit-button" @click="submit">开始上传</el-button>
+    <el-dialog title="上传结果" v-model="dialogVisible" width="30%">
       <div v-if="loading" class="loading-container">
-        <el-loading text="统计中..." fullscreen></el-loading>
+        <el-loading text="上传中..." fullscreen></el-loading>
       </div>
       <div v-else>
-        <span v-if="result === 'success'" class="success-message">统计成功！</span>
-        <span v-if="result === 'fail'" class="error-message">统计失败：{{ errorMessage }}</span>
+        <span v-if="result === 'success'" class="success-message">上传成功！</span>
+        <span v-if="result === 'fail'" class="error-message">上传失败：{{ errorMessage }}</span>
       </div>
       <div class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">确定</el-button>
@@ -76,10 +76,11 @@ export default {
       simulateBackendProcessing(this.file)
         .then((response) => {
           this.result = "success";
+          location.reload()
         })
         .catch((error) => {
           this.result = "fail";
-          this.errorMessage = error.message || "统计失败，请稍后重试";
+          this.errorMessage = error.message || "上传失败，请稍后重试";
         })
         .finally(() => {
           this.loading = false;
