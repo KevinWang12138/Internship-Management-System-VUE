@@ -13,7 +13,7 @@
       <el-statistic title="投递人数" :value="total" />
     </el-col>
     <el-col :span="6">
-      <el-statistic title="通过人数" :value="pass" />
+      <el-statistic title="入职人数" :value="pass" />
     </el-col>
     <el-col :span="6">
       <el-statistic title="未处理简历数量" :value="waiting" />
@@ -38,7 +38,7 @@
       <el-statistic :value="refuse">
         <template #title>
           <div style="display: inline-flex; align-items: center">
-            拒绝人数占全部通过候选人比例
+            拒绝人数占全部候选人比例
           </div>
         </template>
         <template #suffix>/{{total}}</template>

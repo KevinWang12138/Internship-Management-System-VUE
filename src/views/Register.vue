@@ -27,6 +27,16 @@
         @select="handleSelect"
       />
     </el-form-item>
+    <el-form-item label="专业" prop="major">
+      <el-autocomplete
+        v-model="ruleForm.major"
+        :fetch-suggestions="querySearch1"
+        clearable
+        class="inline-input w-50"
+        placeholder="Please Input"
+        @select="handleSelect1"
+      />
+    </el-form-item>
 
     <el-form-item label="身份" prop="type">
       <el-radio-group v-model="ruleForm.type">
@@ -46,7 +56,14 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref, toRefs } from "vue";
 import type { FormInstance, FormRules } from 'element-plus'
-import { getAllSchool, getChildrenList, getDatesWithDailyWithStudentId, login, register } from "@/request/api";
+import {
+  getAllSchool,
+  getChildrenList,
+  getDatesWithDailyWithStudentId,
+  getMajors,
+  login,
+  register
+} from "@/request/api";
 import { useRouter } from "vue-router";
 import { LoginData } from "@/type/login";
 
@@ -61,6 +78,7 @@ export default defineComponent({
       phone: '',
       password: '',
       school: '',
+      major: '',
       type: '',
     })
 
@@ -77,6 +95,9 @@ export default defineComponent({
       ],
       school: [
         { required: true, message: '请输入学校名称', trigger: 'blur' }
+      ],
+      major: [
+        { required: true, message: '请输入专业名称', trigger: 'blur' }
       ],
       type: [
         { required: true, message: '必须选择一个类型', trigger: 'blur' }
@@ -98,6 +119,7 @@ export default defineComponent({
             phone: ruleForm.phone,
             password: ruleForm.password,
             school: ruleForm.school,
+            major: ruleForm.major,
             role: type
           }).then(res=>{
             router.push("/")
@@ -149,12 +171,53 @@ export default defineComponent({
 
     onMounted(() => {
       school.value = loadAll()
+      major.value = loadAll1()
     })
 
     const handleSelect = (item: SchoolItem) => {
 
     }
-    return {formSize,ruleFormRef,ruleForm,rules,submitForm,state1,handleSelect,querySearch};
+
+
+
+    interface MajorItem {
+      value: string
+      id: string
+    }
+
+
+    const major = ref<MajorItem[]>([])
+    const querySearch1 = (queryString: string, cb: any) => {
+      const results = queryString
+        ? major.value.filter(createFilter(queryString))
+        : major.value
+      // call callback function to return suggestions
+      cb(results)
+    }
+    const createFilter1 = (queryString: string) => {
+      return (majorItem: MajorItem) => {
+        return (
+          majorItem.value.toLowerCase().includes(queryString.toLowerCase())
+        )
+      }
+    }
+    const majors = reactive([
+      {id: '', value: ''},
+    ]);
+    const loadAll1 = () => {
+      getMajors().then(res=>{
+        for(let index=0;index<res.data.length;index++){
+          majors.push({id:res.data[index].id,value:res.data[index].name})
+        }
+      })
+
+      return majors
+    }
+
+    const handleSelect1 = (item: SchoolItem) => {
+
+    }
+    return {formSize,ruleFormRef,ruleForm,rules,submitForm,state1,handleSelect,querySearch,handleSelect1,querySearch1};
   }
 })
 

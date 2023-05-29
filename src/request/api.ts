@@ -161,6 +161,7 @@ interface registerData{
     password:string
     name:string
     school:string
+    major: string
     role:number
 }
 export function register(data:registerData){
@@ -220,7 +221,7 @@ export function postJob(data:jobInfo){
 
 export function getMajors(){
     return service({
-        url:"/manager/major",
+        url:"/teacher/major",
         method:"get",
     })
 }
