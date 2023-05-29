@@ -294,6 +294,16 @@ const router = createRouter({
           component: () => import('../views/manager/CompanyList.vue'),
         },
         {
+          path: "applicationUser",
+          name: "applicationUser",
+          meta:{
+            isShow: true,
+            father: 'manager',
+            title: "审核注册用户"
+          },
+          component: () => import('../views/manager/Application.vue'),
+        },
+        {
           path: "editManagerPassword",
           name: "editManagerPassword",
           meta:{
