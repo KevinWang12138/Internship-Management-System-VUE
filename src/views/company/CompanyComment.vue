@@ -75,8 +75,13 @@ export default defineComponent({
     const id = ref('')
     function open(index:any){
       //获取评价
-      text.value = tableData[index-1].comment
-      id.value = tableData[index-1].id
+      for(let i=0;i<tableData.length;i++){
+        if(tableData[i].id == index){
+          text.value = tableData[i].comment
+          id.value = tableData[i].id
+          break
+        }
+      }
       drawer.value = true
     }
     return {tableData,drawer,text,isEditing,toggleEditing,submit,open}
